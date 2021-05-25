@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { StyledAnchor } from './AppLink.styled';
+
 const AppLink = ({ href, title }) => {
   return (
     <Link href={href}>
-      <a>{title}</a>
+      <StyledAnchor>{title}</StyledAnchor>
     </Link>
   )
 }
