@@ -14,8 +14,7 @@ export default class MyDocument extends Document {
         <Head>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
         </Head>
-        <body className="custom_class">
-          {this.props.customValue}
+        <body>
           <Main />
           <NextScript />
         </body>
