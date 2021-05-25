@@ -8,7 +8,7 @@ const SeccionesEmpresa = () => {
   return (
     <Layout title='Secciones empresa'>
       <h1>Secciones empresa</h1>
-      { isLoading ? <span>Loading...</span> : <SeccionesEmpresaList list={data} />}
+      { isLoading ? <span>Cargando...</span> : <SeccionesEmpresaList list={data} />}
     </Layout>
   )
 }

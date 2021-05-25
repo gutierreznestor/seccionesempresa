@@ -17,3 +17,16 @@ a {
 * {
   box-sizing: border-box;
 }
+
+table, th, td {
+  padding: 3px;
+  border-radius: 5px;
+}
+
+table {
+  background-color: #ffffff;
+}
+
+th {
+  text-align: left;
+}
