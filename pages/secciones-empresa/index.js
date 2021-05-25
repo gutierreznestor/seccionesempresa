@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '../../components/Layout';
 import SeccionesEmpresaList from '../../components/SeccionesEmpresaList';
 import { useSeccionesEmpresa } from '../../lib/swr-hooks';
-import AppLink from '../../components/AppLink';
+import AppLink from '../../components/AppLink/AppLink.component';
 
 const SeccionesEmpresa = () => {
   const { data = [], isLoading } = useSeccionesEmpresa();
