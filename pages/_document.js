@@ -12,7 +12,6 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>Proyecto 1 - Gabriel Gutierrez</title>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
         </Head>
         <body className="custom_class">
