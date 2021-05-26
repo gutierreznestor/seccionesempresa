@@ -1,6 +1,13 @@
 import React from 'react';
+import ButtonTable from './ButtonTable/ButtonTable.component';
 
 const SeccionesEmpresaList = ({ list = [] }) => {
+  const onEdit = (id) => {
+
+  }
+  const onDelete = (id) => {
+
+  }
   return (
     <table>
       <tbody>
@@ -12,6 +19,8 @@ const SeccionesEmpresaList = ({ list = [] }) => {
           <tr key={idSeccionEmpresa}>
             <td>{idSeccionEmpresa}</td>
             <td>{Nombre}</td>
+            <ButtonTable type='Editar' onClick={() => onEdit(idSeccionEmpresa)} />
+            <ButtonTable type='Eliminar' onClick={() => onDelete(idSeccionEmpresa)} />
           </tr>
         ))}
       </tbody>
