@@ -10,8 +10,8 @@ import {
   StyledLabel,
 } from './Form.styled'
 
-const Form = ({ onFormSubmit, config = [], buttonLabel = 'Agregar' }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+const Form = ({ onFormSubmit, config = [], buttonLabel = 'Agregar', defaultValues = {} }) => {
+  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
 
   const onSubmit = data => {
     onFormSubmit(data);
@@ -19,12 +19,18 @@ const Form = ({ onFormSubmit, config = [], buttonLabel = 'Agregar' }) => {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      { config.map(({ label, type, name, placeholder, validations, textValidation }) => (
+      { config.map(({
+        label,
+        type,
+        name,
+        placeholder,
+        validations,
+        textValidation,
+      }) => (
         <StyledInputLabel key={name}>
           <StyledLabel>{label}</StyledLabel>
           <Input
             type={type}
-            name={name}
             placeholder={placeholder}
             {...register(name, { ...validations })}
           />
