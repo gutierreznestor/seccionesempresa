@@ -17,7 +17,7 @@ const SeccionesEmpresaList = ({ list = [], onDelete, onEdit }) => {
           <tr key={idSeccionEmpresa}>
             <td>{idSeccionEmpresa}</td>
             <td>{Nombre}</td>
-            <Link href='secciones-empresa/edit' passHref>
+            <Link href={`secciones-empresa/edit/${idSeccionEmpresa}`} passHref>
               <ButtonTable type='Editar' onClick={() => onEdit(idSeccionEmpresa)} />
             </Link>
             <ButtonTable type='Eliminar' onClick={() => onDelete(idSeccionEmpresa)} />
