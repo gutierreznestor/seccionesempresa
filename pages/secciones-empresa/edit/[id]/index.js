@@ -1,7 +1,8 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
-import NuevaSeccionEmpresa from '../../../components/Form/NuevaSeccionEmpresa.component';
-import Layout from '../../../components/Layout';
+import EditarSeccionEmpresa from '../../../../components/Form/EditarSeccionEmpresa.component';
+import Layout from '../../../../components/Layout';
 
 const EditarSeccionForm = [
   {
@@ -11,12 +12,12 @@ const EditarSeccionForm = [
     placeholder: 'Producción',
     validations: { required: true },
     textValidation: 'Este campo es requerido.',
-    value: 'asdasd',
   },
 ];
 
 const EditarSeccion = () => {
-
+  const { query: { id } } = useRouter();
+  console.log({ id });
   const onSubmit = async (data) => {
     const { Nombre } = data;
     try {
@@ -40,10 +41,10 @@ const EditarSeccion = () => {
   return (
     <Layout title='Editar sección'>
       <h1>Editar sección</h1>
-      <NuevaSeccionEmpresa
+      <EditarSeccionEmpresa
         onFormSubmit={onSubmit}
         config={EditarSeccionForm}
-        defaultValues={{ Nombre: 'Test' }} />
+        defaultValues={{ Nombre: '' }} />
     </Layout>
   )
 }
