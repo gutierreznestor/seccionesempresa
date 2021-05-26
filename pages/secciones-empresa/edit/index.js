@@ -4,7 +4,7 @@ import Router from 'next/router'
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 
-const AgregarSeccionForm = [
+const EditarSeccionForm = [
   {
     label: 'Nombre',
     type: 'text',
@@ -12,10 +12,11 @@ const AgregarSeccionForm = [
     placeholder: 'Producción',
     validations: { required: true },
     textValidation: 'Este campo es requerido.',
+    value: 'asdasd',
   },
 ];
 
-const NuevaSeccion = () => {
+const EditarSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
@@ -38,11 +39,14 @@ const NuevaSeccion = () => {
   }
 
   return (
-    <Layout title='Nueva sección'>
-      <h1>Nueva sección</h1>
-      <Form onFormSubmit={onSubmit} config={AgregarSeccionForm} />
+    <Layout title='Editar sección'>
+      <h1>Editar sección</h1>
+      <Form
+        onFormSubmit={onSubmit}
+        config={EditarSeccionForm}
+        defaultValues={{ Nombre: 'Test' }} />
     </Layout>
   )
 }
 
-export default NuevaSeccion;
+export default EditarSeccion;

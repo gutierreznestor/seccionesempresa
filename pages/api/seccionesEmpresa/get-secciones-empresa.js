@@ -1,10 +1,10 @@
-import { query } from '../../lib/db'
+import { query } from '../../../lib/db'
 
 const handler = async (_, res) => {
   try {
     const results = await query(`
       SELECT * FROM secciones_empresa
-      ORDER BY Nombre
+      ORDER BY idSeccionEmpresa
   `)
 
     return res.json(results)

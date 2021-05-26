@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { StyledMain } from './Layout.styled';
 
 const Layout = ({ children, title }) => (
   <>
@@ -6,9 +7,9 @@ const Layout = ({ children, title }) => (
       <title>{title}</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <main>
+    <StyledMain>
       {children}
-    </main>
+    </StyledMain>
   </>
 )
 

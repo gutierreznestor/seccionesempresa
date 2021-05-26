@@ -1,16 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Router from 'next/router';
+
 import Layout from '../../components/Layout';
 import SeccionesEmpresaList from '../../components/SeccionesEmpresaList';
-import { useSeccionesEmpresa } from '../../lib/swr-hooks';
 import AppLink from '../../components/AppLink/AppLink.component';
+import { deleteSeccionesEmpresa, getSeccionesEmpresa } from '../../services/seccionesEmpresa.service';
 
 const SeccionesEmpresa = () => {
-  const { data = [], isLoading } = useSeccionesEmpresa();
+  const [loading, setLoading] = useState(false);
+  const [list, setList] = useState([]);
+
+  const fetchSeccionesEmpresa = async () => {
+    setLoading(true);
+    const res = await getSeccionesEmpresa();
+    setLoading(false)
+    const data = await res.json()
+    setList(data);
+  }
+
+  useEffect(() => {
+    fetchSeccionesEmpresa();
+  }, []);
+
+  const onDelete = async (id) => {
+    const ok = confirm('¿Quieres eliminar la sección?');
+    if (ok) {
+      setLoading(true);
+      const res = await deleteSeccionesEmpresa(id);
+      const json = await res.json();
+      if (!res.ok) throw Error(json.message)
+      fetchSeccionesEmpresa();
+      Router.push('secciones-empresa');
+    }
+  }
+
+  const onEdit = (id) => {
+
+  }
+
   return (
     <Layout title='Secciones empresa'>
       <h1>Secciones empresa</h1>
       <AppLink href='/secciones-empresa/new' title='Nueva sección' />
-      { isLoading ? <span>Cargando...</span> : <SeccionesEmpresaList list={data} />}
+      { loading ?
+        <span>Cargando...</span> :
+        <SeccionesEmpresaList
+          list={list}
+          onDelete={onDelete}
+          onEdit={onEdit} />}
     </Layout>
   )
 }
