@@ -8,9 +8,14 @@ import {
   ErrorField,
   StyledInputLabel,
   StyledLabel,
-} from './Form.styled'
+} from './NuevaSeccionEmpresa.styled'
 
-const Form = ({ onFormSubmit, config = [], buttonLabel = 'Agregar', defaultValues = {} }) => {
+const NuevaSeccionEmpresa = ({
+  onFormSubmit,
+  config = [],
+  buttonLabel = 'Agregar',
+  defaultValues = {},
+}) => {
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
 
   const onSubmit = data => {
@@ -42,4 +47,4 @@ const Form = ({ onFormSubmit, config = [], buttonLabel = 'Agregar', defaultValue
   )
 }
 
-export default Form
+export default NuevaSeccionEmpresa;

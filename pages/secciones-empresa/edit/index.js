@@ -1,7 +1,6 @@
 import React from 'react';
-import Router from 'next/router'
 
-import Form from '../../../components/Form/Form.component';
+import NuevaSeccionEmpresa from '../../../components/Form/NuevaSeccionEmpresa.component';
 import Layout from '../../../components/Layout';
 
 const EditarSeccionForm = [
@@ -41,7 +40,7 @@ const EditarSeccion = () => {
   return (
     <Layout title='Editar sección'>
       <h1>Editar sección</h1>
-      <Form
+      <NuevaSeccionEmpresa
         onFormSubmit={onSubmit}
         config={EditarSeccionForm}
         defaultValues={{ Nombre: 'Test' }} />
