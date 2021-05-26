@@ -1,8 +1,7 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import Form from '../../../components/Form/Form.component';
-import Input from '../../../components/Input/input.component';
+import Router from 'next/router'
 
+import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 
 const AgregarSeccionForm = [
@@ -18,9 +17,26 @@ const AgregarSeccionForm = [
 
 const NuevaSeccion = () => {
 
-  const onSubmit = data => {
-    console.log({ page: data })
-  };
+  const onSubmit = async (data) => {
+    const { Nombre } = data;
+    try {
+      const res = await fetch('/api/seccionesEmpresa/new-secciones-empresa', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Nombre,
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      Router.push('/')
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
+
   return (
     <Layout title='Nueva sección'>
       <h1>Nueva sección</h1>
