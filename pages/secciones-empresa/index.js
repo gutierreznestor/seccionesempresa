@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Router from 'next/router';
 
 import Layout from '../../components/Layout';
 import SeccionesEmpresaList from '../../components/SeccionesEmpresaList';
@@ -28,7 +29,8 @@ const SeccionesEmpresa = () => {
       const res = await deleteSeccionesEmpresa(id);
       const json = await res.json();
       if (!res.ok) throw Error(json.message)
-      fetchSeccionesEmpresa()
+      fetchSeccionesEmpresa();
+      Router.push('secciones-empresa');
     }
   }
 
