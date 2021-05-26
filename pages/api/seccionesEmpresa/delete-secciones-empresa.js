@@ -1,19 +1,19 @@
 import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
-  const { Nombre } = req.body
+  const { idSeccionEmpresa } = req.body
   try {
-    if (!Nombre) {
+    if (!idSeccionEmpresa) {
       return res
         .status(400)
-        .json({ message: 'Se requiere el Nombre en el cuerpo de la llamada.' })
+        .json({ message: 'Se requiere el id de la sección de empresa.' })
     }
     const results = await query(
       `
-      INSERT INTO secciones_empresa (Nombre) 
-      VALUES (?)
+      DELETE FROM secciones_empresa 
+      WHERE idSeccionEmpresa = ?
       `,
-      [Nombre],
+      [idSeccionEmpresa],
     )
 
     return res.json(results)
