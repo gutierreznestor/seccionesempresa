@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router'
 
-import Form from '../../../components/Form/Form.component';
+import NuevaSeccionEmpresa from '../../../components/Form/NuevaSeccionEmpresa.component';
 import Layout from '../../../components/Layout';
 
 const AgregarSeccionForm = [
@@ -40,7 +40,7 @@ const NuevaSeccion = () => {
   return (
     <Layout title='Nueva sección'>
       <h1>Nueva sección</h1>
-      <Form onFormSubmit={onSubmit} config={AgregarSeccionForm} />
+      <NuevaSeccionEmpresa onFormSubmit={onSubmit} config={AgregarSeccionForm} />
     </Layout>
   )
 }
