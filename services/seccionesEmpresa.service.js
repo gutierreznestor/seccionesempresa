@@ -17,3 +17,10 @@ export const deleteSeccionesEmpresa = async (idSeccionEmpresa) => {
   });
   return res;
 }
+
+export const getSeccionEmpresa = async (id) => {
+  const res = await fetch(`/api/seccionesEmpresa/get-seccion-empresa?id=${id}`, {
+    method: 'GET',
+  });
+  return res;
+}
