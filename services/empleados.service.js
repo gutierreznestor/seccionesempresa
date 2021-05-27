@@ -39,7 +39,7 @@ export const editarEmpleado = async ({ id, Nombre = '' }) => {
   return res;
 }
 
-export const nuevoEmpleado = async ({ Nombre = '' }) => {
+export const nuevoEmpleado = async ({ Nombre, Apellido, idSeccionEmpresa }) => {
   const url = `/api/empleados/new-empleado`;
   const res = await fetch(url, {
     method: 'POST',
@@ -48,6 +48,8 @@ export const nuevoEmpleado = async ({ Nombre = '' }) => {
     },
     body: JSON.stringify({
       Nombre,
+      Apellido,
+      idSeccionEmpresa,
     }),
   });
   return res;
