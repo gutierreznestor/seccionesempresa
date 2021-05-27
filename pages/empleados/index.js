@@ -10,7 +10,7 @@ const Empleados = () => {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
 
-  const fetchEmpelados = async () => {
+  const fetchEmpleados = async () => {
     setLoading(true);
     const res = await getEmpleados();
     setLoading(false)
@@ -19,7 +19,7 @@ const Empleados = () => {
   }
 
   useEffect(() => {
-    fetchEmpelados();
+    fetchEmpleados();
   }, []);
 
   const onDelete = async (id) => {
@@ -29,7 +29,7 @@ const Empleados = () => {
       const res = await deleteEmpleado(id);
       const json = await res.json();
       if (!res.ok) throw Error(json.message)
-      fetchEmpelados();
+      fetchEmpleados();
       Router.push('empleados');
     }
   }

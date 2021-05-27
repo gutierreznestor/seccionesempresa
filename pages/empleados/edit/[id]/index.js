@@ -58,7 +58,7 @@ const EditarSeccion = () => {
       const res = await editarSeccionEmpresa({ id, Nombre })
       const json = await res.json()
       if (!res.ok) throw Error(json.message);
-      Router.push('/empelados')
+      Router.push('/empleados')
     } catch (e) {
       throw Error(e.message)
     }
@@ -72,6 +72,7 @@ const EditarSeccion = () => {
         <Form
           onFormSubmit={onSubmit}
           config={EditarSeccionForm}
+          buttonLabel='Editar'
           defaultValues={{ ...values }} />
       }
     </Layout>

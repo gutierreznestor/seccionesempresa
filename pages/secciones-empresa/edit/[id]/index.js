@@ -55,6 +55,7 @@ const EditarSeccion = () => {
         <Form
           onFormSubmit={onSubmit}
           config={EditarSeccionForm}
+          buttonLabel='Editar'
           defaultValues={{ ...values }} />
       }
     </Layout>
