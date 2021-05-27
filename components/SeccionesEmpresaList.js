@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import AppLink from './AppLink/AppLink.component';
 
 import ButtonTable from './ButtonTable/ButtonTable.component';
 

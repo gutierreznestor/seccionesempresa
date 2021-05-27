@@ -18,7 +18,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(500).json({ message: e.message })
+    res.status(400).json({ message: 'No existe el id de la sección de empresa.' })
   }
 }
 
