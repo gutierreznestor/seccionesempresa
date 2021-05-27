@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StyledAnchor = styled.a`
   display: block;
-  width: 120px;
+  min-width: 100px;
   padding: 5px;
   margin: 10px 0;
   border-radius: 5px;
