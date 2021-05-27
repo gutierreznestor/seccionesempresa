@@ -38,3 +38,17 @@ export const editarSeccionEmpresa = async ({ id, Nombre = '' }) => {
   });
   return res;
 }
+
+export const nuevaSeccionEmpresa = async ({ Nombre = '' }) => {
+  const url = `/api/seccionesEmpresa/new-secciones-empresa`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      Nombre,
+    }),
+  });
+  return res;
+}
