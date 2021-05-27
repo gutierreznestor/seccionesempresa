@@ -25,7 +25,7 @@ export const getEmpleado = async (id) => {
   return res;
 }
 
-export const editarEmpleado = async ({ id, Nombre = '' }) => {
+export const editarEmpleado = async ({ id, Nombre = '', Apellido = '', idSeccionEmpresa = '' }) => {
   const url = `/api/empleados/edit-empleado?id=${id}`;
   const res = await fetch(url, {
     method: 'PATCH',
@@ -34,6 +34,8 @@ export const editarEmpleado = async ({ id, Nombre = '' }) => {
     },
     body: JSON.stringify({
       Nombre,
+      Apellido,
+      idSeccionEmpresa,
     }),
   });
   return res;

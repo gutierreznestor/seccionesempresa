@@ -6,6 +6,7 @@ import Layout from '../../../../components/Layout';
 import { getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
 import { editarEmpleado, getEmpleado } from '../../../../services/empleados.service';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
+import Message from '../../../../components/Message/Message.component';
 
 const EditarSeccionForm = [
   {
@@ -60,7 +61,7 @@ const EditarSeccion = () => {
   }, [id])
 
   const onSubmit = async (data) => {
-    const { Nombre } = data;
+    const { Nombre, Apellido, idSeccionEmpresa } = data;
     try {
       const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa })
       const json = await res.json()
@@ -97,7 +98,7 @@ const EditarSeccion = () => {
             config={EditarSeccionForm}
             buttonLabel='Editar'
             defaultValues={{ ...values }} />
-          { showSeccionEmpresa && seccionEmpresa ? <span>{seccionEmpresa}</span> : null}
+          { showSeccionEmpresa && seccionEmpresa ? <Message>{seccionEmpresa}</Message> : null}
         </>
       }
     </Layout>
