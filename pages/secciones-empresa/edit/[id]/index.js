@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 import EditarSeccionEmpresa from '../../../../components/Form/EditarSeccionEmpresa.component';
 import Layout from '../../../../components/Layout';
-import { getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
+import { editarSeccionEmpresa, getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
 
 const EditarSeccionForm = [
   {
@@ -38,18 +38,10 @@ const EditarSeccion = () => {
   const onSubmit = async (data) => {
     const { Nombre } = data;
     try {
-      const res = await fetch('/api/seccionesEmpresa/new-secciones-empresa', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Nombre,
-        }),
-      })
+      const res = await editarSeccionEmpresa({ id, Nombre })
       const json = await res.json()
-      if (!res.ok) throw Error(json.message)
-      Router.push('/')
+      if (!res.ok) throw Error(json.message);
+      Router.push('/secciones-empresa')
     } catch (e) {
       throw Error(e.message)
     }
