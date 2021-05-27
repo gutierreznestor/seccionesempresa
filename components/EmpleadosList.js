@@ -4,7 +4,7 @@ import Link from 'next/link';
 import ButtonTable from './ButtonTable/ButtonTable.component';
 import { StyledTable } from './EmpleadosList.styled';
 
-const EmpleadosList = ({ list = [], onDelete }) => {
+const EmpleadosList = ({ list = [], onDelete, readonly }) => {
   return (
     <StyledTable>
       <tbody>
@@ -28,10 +28,15 @@ const EmpleadosList = ({ list = [], onDelete }) => {
             <td>{idEmpleado}</td>
             <td>{Nombre}</td>
             <td>{Apellido}</td>
-            <Link href={`empleados/edit/${idEmpleado}`} passHref>
-              <ButtonTable type='Editar' />
-            </Link>
-            <ButtonTable type='Eliminar' onClick={() => onDelete(idEmpleado)} />
+            { !readonly && (
+              <>
+                <Link href={`empleados/edit/${idEmpleado}`} passHref>
+                  <ButtonTable type='Editar' />
+                </Link>
+                <ButtonTable type='Eliminar' onClick={() => onDelete(idEmpleado)} />
+              </>
+            )
+            }
           </tr>
         ))}
       </tbody>
