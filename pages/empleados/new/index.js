@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Router from 'next/router'
 
+import { nuevoEmpleado } from '../../../services/empleados.service';
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
-import { nuevoEmpleado } from '../../../services/empleados.service';
+import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 
 const NuevoEmpleadoForm = [
   {
@@ -33,6 +34,7 @@ const NuevoEmpleadoForm = [
 ];
 
 const NuevaSeccion = () => {
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;
@@ -42,13 +44,14 @@ const NuevaSeccion = () => {
       if (!res.ok) throw Error(json.message)
       Router.push('/empleados')
     } catch (e) {
-      throw Error(e.message)
+      setErrorMessage(e.message);
     }
   }
 
   return (
     <Layout title='Nuevo empleado'>
       <h1>Nuevo empleado</h1>
+      { errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoEmpleadoForm} />
     </Layout>
   )
