@@ -18,7 +18,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(500).json({ message: e.message })
+    res.status(400).json({ message: 'No se puede eliminar una sección vinculada a un empleado.' })
   }
 }
 

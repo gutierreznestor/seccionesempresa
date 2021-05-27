@@ -22,6 +22,9 @@ const Empleados = () => {
 
   useEffect(() => {
     fetchEmpleados();
+    return () => {
+      setErrorMessage('');
+    }
   }, []);
 
   const onDelete = async (id) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Router from 'next/router'
 
 import { nuevoEmpleado } from '../../../services/empleados.service';
@@ -35,6 +35,12 @@ const NuevoEmpleadoForm = [
 
 const NuevaSeccion = () => {
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    return () => {
+      setErrorMessage('');
+    }
+  }, [])
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;

@@ -54,6 +54,9 @@ const EditarSeccion = () => {
     if (id) {
       getData(id);
     }
+    return () => {
+      setErrorMessage('');
+    }
   }, [id])
 
   const onSubmit = async (data) => {

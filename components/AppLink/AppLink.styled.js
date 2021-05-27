@@ -6,7 +6,7 @@ export const StyledAnchor = styled.a`
   padding: 5px;
   margin: 10px 0;
   border-radius: 5px;
-  background-color: #248ddb;
+  background-color: #40c51f;
   color: #fff;
   &:hover {
     cursor: pointer;

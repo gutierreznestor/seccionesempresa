@@ -9,7 +9,7 @@ const handler = async (_, res) => {
       FROM empleados AS emp
       INNER JOIN secciones_empresa AS se ON 
         (se.idSeccionEmpresa = emp.idSeccionEmpresa)
-      ORDER BY se.Nombre, emp.Apellido
+      ORDER BY emp.idEmpleado DESC
     `);
 
     return res.json(results)
