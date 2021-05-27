@@ -10,10 +10,10 @@ const EmpleadosList = ({ list = [], onDelete, readonly }) => {
       <tbody>
         <tr>
           <th>id</th>
-          <th>Sección</th>
-          <th>id</th>
           <th>Nombre</th>
           <th>Apellido</th>
+          <th>id</th>
+          <th>Sección</th>
         </tr>
         {list.map(({
           idEmpleado,
@@ -23,11 +23,11 @@ const EmpleadosList = ({ list = [], onDelete, readonly }) => {
           Seccion
         }) => (
           <tr key={idEmpleado}>
-            <td>{idSeccionEmpresa}</td>
-            <td>{Seccion}</td>
             <td>{idEmpleado}</td>
             <td>{Nombre}</td>
             <td>{Apellido}</td>
+            <td>{idSeccionEmpresa}</td>
+            <td>{Seccion}</td>
             { !readonly && (
               <>
                 <Link href={`empleados/edit/${idEmpleado}`} passHref>
