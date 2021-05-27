@@ -3,7 +3,6 @@ import Router from 'next/router'
 
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
-import { nuevaSeccionEmpresa } from '../../../services/seccionesEmpresa.service';
 import { nuevoEmpleado } from '../../../services/empleados.service';
 
 const NuevoEmpleadoForm = [
