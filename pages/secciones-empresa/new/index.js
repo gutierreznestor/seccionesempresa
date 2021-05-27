@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router'
 
-import NuevaSeccionEmpresa from '../../../components/Form/NuevaSeccionEmpresa.component';
+import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 import { nuevaSeccionEmpresa } from '../../../services/seccionesEmpresa.service';
 
@@ -33,7 +33,7 @@ const NuevaSeccion = () => {
   return (
     <Layout title='Nueva sección'>
       <h1>Nueva sección</h1>
-      <NuevaSeccionEmpresa onFormSubmit={onSubmit} config={AgregarSeccionForm} />
+      <Form onFormSubmit={onSubmit} config={AgregarSeccionForm} />
     </Layout>
   )
 }

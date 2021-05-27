@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
 
-import EditarSeccionEmpresa from '../../../../components/Form/EditarSeccionEmpresa.component';
+import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
 import { editarSeccionEmpresa, getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
 
@@ -52,7 +52,7 @@ const EditarSeccion = () => {
       <h1>Editar sección</h1>
       { loading ?
         <span>Cargando...</span> :
-        <EditarSeccionEmpresa
+        <Form
           onFormSubmit={onSubmit}
           config={EditarSeccionForm}
           defaultValues={{ ...values }} />

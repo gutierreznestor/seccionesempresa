@@ -8,12 +8,12 @@ import {
   ErrorField,
   StyledInputLabel,
   StyledLabel,
-} from './NuevaSeccionEmpresa.styled'
+} from './Form.styled'
 
-const EditarSeccionEmpresa = ({
+const Form = ({
   onFormSubmit,
   config = [],
-  buttonLabel = 'Editar',
+  buttonLabel = 'Agregar',
   defaultValues = {},
 }) => {
   const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: { ...defaultValues } });
@@ -47,4 +47,4 @@ const EditarSeccionEmpresa = ({
   )
 }
 
-export default EditarSeccionEmpresa;
+export default Form;
