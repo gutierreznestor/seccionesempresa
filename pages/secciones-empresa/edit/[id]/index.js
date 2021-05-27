@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import EditarSeccionEmpresa from '../../../../components/Form/EditarSeccionEmpresa.component';
 import Layout from '../../../../components/Layout';
+import { getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
 
 const EditarSeccionForm = [
   {
@@ -17,7 +18,23 @@ const EditarSeccionForm = [
 
 const EditarSeccion = () => {
   const { query: { id } } = useRouter();
-  console.log({ id });
+  const [values, setValues] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const getData = async (id) => {
+    setLoading(true);
+    const res = await getSeccionEmpresa(id);
+    const data = await res.json();
+    setValues(data ? data[0] : {});
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    if (id) {
+      getData(id);
+    }
+  }, [id])
+
   const onSubmit = async (data) => {
     const { Nombre } = data;
     try {
@@ -41,10 +58,13 @@ const EditarSeccion = () => {
   return (
     <Layout title='Editar sección'>
       <h1>Editar sección</h1>
-      <EditarSeccionEmpresa
-        onFormSubmit={onSubmit}
-        config={EditarSeccionForm}
-        defaultValues={{ Nombre: '' }} />
+      { loading ?
+        <span>Cargando...</span> :
+        <EditarSeccionEmpresa
+          onFormSubmit={onSubmit}
+          config={EditarSeccionForm}
+          defaultValues={{ ...values }} />
+      }
     </Layout>
   )
 }

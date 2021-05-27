@@ -16,7 +16,7 @@ const EditarSeccionEmpresa = ({
   buttonLabel = 'Editar',
   defaultValues = {},
 }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
+  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: { ...defaultValues } });
 
   const onSubmit = data => {
     onFormSubmit(data);
