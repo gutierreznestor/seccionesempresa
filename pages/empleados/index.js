@@ -4,7 +4,7 @@ import Router from 'next/router';
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import EmpleadosList from '../../components/EmpleadosList';
-import { deleteEmpleado, getEmpleados } from '../../services/empleados.service';
+import { deleteEmpleado, editarEmpleado, getEmpleados } from '../../services/empleados.service';
 
 const Empleados = () => {
   const [loading, setLoading] = useState(false);
@@ -34,8 +34,16 @@ const Empleados = () => {
     }
   }
 
-  const onEdit = (id) => {
-
+  const onEdit = async (data) => {
+    const { Nombre, Apellido, idSeccionEmpresa } = data;
+    try {
+      const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa })
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message);
+      Router.push('/empleados')
+    } catch (e) {
+      throw Error(e.message)
+    }
   }
 
   return (

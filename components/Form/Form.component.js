@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Input from '../Input/input.component';
@@ -15,12 +15,20 @@ const Form = ({
   config = [],
   buttonLabel = 'Agregar',
   defaultValues = {},
+  watcher = '',
+  watching = () => { },
 }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: { ...defaultValues } });
+  const { register, handleSubmit, formState: { errors }, watch } = useForm({ defaultValues: { ...defaultValues } });
 
   const onSubmit = data => {
     onFormSubmit(data);
   }
+
+  const field = watch(watcher);
+
+  useEffect(() => {
+    watching(field)
+  }, [field])
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>

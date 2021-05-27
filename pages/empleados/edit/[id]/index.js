@@ -4,7 +4,7 @@ import Router, { useRouter } from 'next/router';
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
 import { editarSeccionEmpresa, getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
-import { getEmpleado } from '../../../../services/empleados.service';
+import { editarEmpleado, getEmpleado } from '../../../../services/empleados.service';
 
 const EditarSeccionForm = [
   {
@@ -37,6 +37,8 @@ const EditarSeccion = () => {
   const { query: { id } } = useRouter();
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
+  const [seccionEmpresa, setSeccionEmpresa] = useState('');
+  const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
 
   const getData = async (id) => {
     setLoading(true);
@@ -55,12 +57,24 @@ const EditarSeccion = () => {
   const onSubmit = async (data) => {
     const { Nombre } = data;
     try {
-      const res = await editarSeccionEmpresa({ id, Nombre })
+      const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa })
       const json = await res.json()
       if (!res.ok) throw Error(json.message);
       Router.push('/empleados')
     } catch (e) {
       throw Error(e.message)
+    }
+  }
+  const watchingField = async (value) => {
+    const res = await getSeccionEmpresa(value)
+    const seccion = await res.json();
+    if (seccion) {
+      if (seccion.length) {
+        setSeccionEmpresa(seccion[0].Nombre);
+      } else {
+        setSeccionEmpresa('El id ingresado no existe.');
+      }
+      setShowSeccionEmpresa(true);
     }
   }
 
@@ -69,11 +83,16 @@ const EditarSeccion = () => {
       <h1>Editar empleado</h1>
       { loading ?
         <span>Cargando...</span> :
-        <Form
-          onFormSubmit={onSubmit}
-          config={EditarSeccionForm}
-          buttonLabel='Editar'
-          defaultValues={{ ...values }} />
+        <>
+          <Form
+            watcher='idSeccionEmpresa'
+            watching={watchingField}
+            onFormSubmit={onSubmit}
+            config={EditarSeccionForm}
+            buttonLabel='Editar'
+            defaultValues={{ ...values }} />
+          { showSeccionEmpresa && seccionEmpresa ? <span>{seccionEmpresa}</span> : null}
+        </>
       }
     </Layout>
   )
