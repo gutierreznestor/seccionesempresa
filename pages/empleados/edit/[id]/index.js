@@ -3,8 +3,9 @@ import Router, { useRouter } from 'next/router';
 
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
-import { editarSeccionEmpresa, getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
+import { getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
 import { editarEmpleado, getEmpleado } from '../../../../services/empleados.service';
+import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 
 const EditarSeccionForm = [
   {
@@ -39,6 +40,7 @@ const EditarSeccion = () => {
   const [loading, setLoading] = useState(false);
   const [seccionEmpresa, setSeccionEmpresa] = useState('');
   const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const getData = async (id) => {
     setLoading(true);
@@ -59,10 +61,10 @@ const EditarSeccion = () => {
     try {
       const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa })
       const json = await res.json()
-      if (!res.ok) throw Error(json.message);
+      if (!res.ok) return setErrorMessage(json.message);
       Router.push('/empleados')
     } catch (e) {
-      throw Error(e.message)
+      setErrorMessage(e.message);
     }
   }
   const watchingField = async (value) => {
@@ -81,6 +83,7 @@ const EditarSeccion = () => {
   return (
     <Layout title='Editar empleado'>
       <h1>Editar empleado</h1>
+      { errorMessage && <ErrorMessage message={errorMessage} />}
       { loading ?
         <span>Cargando...</span> :
         <>
