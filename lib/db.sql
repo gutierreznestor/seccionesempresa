@@ -63,7 +63,8 @@ CREATE TABLE IF NOT EXISTS usuarios (
 INSERT INTO usuarios (Usuario, Nombre, Apellido, Password) VALUES
   ('admin', 'Facundo', 'Lisandro', 'admin'),
   ('auditor', 'Stella', 'Ramos', 'auditor'),
-  ('supervisor', 'Agustina', 'Taborda', 'supervisor');
+  ('supervisor', 'Agustina', 'Taborda', 'supervisor'),
+  ('test', 'Paulo', 'Ayala', 'test');
 
 CREATE TABLE IF NOT EXISTS perfiles (
   Actualizado TIMESTAMP NOT NULL 
@@ -77,11 +78,12 @@ CREATE TABLE IF NOT EXISTS perfiles (
 INSERT INTO perfiles (Nombre) VALUES
   ('admin'),
   ('auditor'),
-  ('supervisor');
+  ('supervisor'),
+  ('SIN ASIGNAR');
 
 CREATE TABLE IF NOT EXISTS usuarios_tiene_perfiles (
   Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  idPerfil INT NOT NULL,
+  idPerfil INT NOT NULL DEFAULT 4,
   idUsuario INT NOT NULL,
   idUsuarioPerfil INT AUTO_INCREMENT PRIMARY KEY
 );
@@ -98,3 +100,6 @@ INSERT INTO usuarios_tiene_perfiles (idUsuario, idPerfil) VALUES
   (1, 1),
   (2, 2),
   (3, 3);
+
+INSERT INTO usuarios_tiene_perfiles (idUsuario) VALUES
+  (4);
