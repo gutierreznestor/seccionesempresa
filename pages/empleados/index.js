@@ -3,7 +3,7 @@ import Router from 'next/router';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
-import EmpleadosList from '../../components/EmpleadosList';
+import EmpleadosList from '../../components/EmpleadosList/EmpleadosList.component';
 import { deleteEmpleado, getEmpleados } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 
@@ -42,9 +42,9 @@ const Empleados = () => {
   return (
     <Layout title='Empleados'>
       <h1>Empleados</h1>
-      { errorMessage && <ErrorMessage message={errorMessage} />}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <AppLink href='/empleados/new' title='Nuevo empleado' />
-      { loading ?
+      {loading ?
         <span>Cargando...</span> :
         <EmpleadosList
           list={list}

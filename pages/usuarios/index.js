@@ -3,7 +3,7 @@ import Router from 'next/router';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
-import EmpleadosList from '../../components/EmpleadosList';
+import EmpleadosList from '../../components/EmpleadosList/EmpleadosList.component';
 import { deleteUsuario, getUsuarios } from '../../services/usuarios.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 
