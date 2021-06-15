@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage.component';
 import Layout from '../components/Layout'
 import SeccionesEmpresaList from '../components/SeccionesEmpresaList';
-import EmpleadosList from '../components/EmpleadosList';
+import EmpleadosList from '../components/EmpleadosList/EmpleadosList.component';
 import { getSeccionesEmpresa } from '../services/seccionesEmpresa.service';
 import { getEmpleados } from '../services/empleados.service';
 
@@ -39,14 +39,14 @@ const Home = () => {
 
   return (
     <Layout title="Home">
-      { errorMessage && <ErrorMessage message={errorMessage} />}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <h2>Secciones empresa</h2>
-      { loading ?
+      {loading ?
         <span>Cargando...</span> :
         <SeccionesEmpresaList list={seccionesList} readonly />
       }
       <h2>Empleados</h2>
-      { loading ?
+      {loading ?
         <span>Cargando...</span> :
         <EmpleadosList list={empleadosList} readonly />
       }
