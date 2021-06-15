@@ -3,7 +3,7 @@ import Router from 'next/router';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
-import EmpleadosList from '../../components/EmpleadosList/EmpleadosList.component';
+import UsuariosList from '../../components/UsuariosList/UsuariosList.component';
 import { deleteUsuario, getUsuarios } from '../../services/usuarios.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 
@@ -15,8 +15,8 @@ const Usuarios = () => {
   const fetchUsuarios = async () => {
     setLoading(true);
     const res = await getUsuarios();
-    setLoading(false)
-    const data = await res.json()
+    setLoading(false);
+    const data = await res.json();
     setList(data);
   }
 
@@ -46,7 +46,7 @@ const Usuarios = () => {
       <AppLink href='/usuarios/new' title='Nuevo usuario' />
       {loading ?
         <span>Cargando...</span> :
-        <EmpleadosList
+        <UsuariosList
           list={list}
           onDelete={onDelete}
         />}
