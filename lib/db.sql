@@ -56,13 +56,14 @@ CREATE TABLE IF NOT EXISTS usuarios (
   Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   idUsuario INT AUTO_INCREMENT PRIMARY KEY,
   Nombre VARCHAR(50) NOT NULL,
-  Usuario VARCHAR(50) NOT NULL
+  Usuario VARCHAR(50) UNIQUE NOT NULL,
+  Password VARCHAR(50) NOT NULL
 );
 
-INSERT INTO usuarios (Usuario, Nombre, Apellido) VALUES
-  ('admin', 'Facundo', 'Lisandro'),
-  ('auditor', 'Stella', 'Ramos'),
-  ('supervisor', 'Agustina', 'Taborda');
+INSERT INTO usuarios (Usuario, Nombre, Apellido, Password) VALUES
+  ('admin', 'Facundo', 'Lisandro', 'admin'),
+  ('auditor', 'Stella', 'Ramos', 'auditor'),
+  ('supervisor', 'Agustina', 'Taborda', 'supervisor');
 
 CREATE TABLE IF NOT EXISTS perfiles (
   Actualizado TIMESTAMP NOT NULL 
