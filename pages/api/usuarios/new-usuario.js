@@ -1,16 +1,17 @@
 import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
-  const { Usuario, Nombre, Apellido, Password } = req.body
+  const { Usuario, Nombre, Apellido, Password } = req.body;
+  console.log({ Usuario, Nombre, Apellido, Password });
   try {
-    if (!Usuario || !Nombre || !Apellido || !Password) {
+    if (!Usuario?.trim() || !Nombre?.trim() || !Apellido?.trim() || !Password?.trim()) {
       return res
         .status(400)
         .json({ message: 'Complete todos los campos.' })
     }
     const results = await query(
       `
-      INSERT INTO usuarios (Usuario. Nombre, Apellido, Password) 
+      INSERT INTO usuarios (Usuario, Nombre, Apellido, Password) 
       VALUES (?, ?, ?, ?);
       `,
       [Usuario, Nombre, Apellido, Password],
