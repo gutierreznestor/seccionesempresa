@@ -47,3 +47,53 @@ INSERT INTO empleados (Nombre, Apellido, idSeccionEmpresa) VALUES
   ('Paula', 'Sanchez', 3),
   ('Maximiliano', 'Ortiz', 2),
   ('Diana', 'Lamas', 3);
+
+CREATE TABLE IF NOT EXISTS usuarios (
+  Actualizado TIMESTAMP NOT NULL 
+    DEFAULT CURRENT_TIMESTAMP 
+    ON UPDATE CURRENT_TIMESTAMP,
+  Apellido VARCHAR(50) NOT NULL,
+  Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+  Nombre VARCHAR(50) NOT NULL,
+  Usuario VARCHAR(50) NOT NULL
+);
+
+INSERT INTO usuarios (Usuario, Nombre, Apellido) VALUES
+  ('admin', 'Facundo', 'Lisandro'),
+  ('auditor', 'Stella', 'Ramos'),
+  ('supervisor', 'Agustina', 'Taborda');
+
+CREATE TABLE IF NOT EXISTS perfiles (
+  Actualizado TIMESTAMP NOT NULL 
+    DEFAULT CURRENT_TIMESTAMP 
+    ON UPDATE CURRENT_TIMESTAMP,
+  Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  idPerfil INT AUTO_INCREMENT PRIMARY KEY,
+  Nombre VARCHAR(50) NOT NULL
+);
+
+INSERT INTO perfiles (Nombre) VALUES
+  ('admin'),
+  ('auditor'),
+  ('supervisor');
+
+CREATE TABLE IF NOT EXISTS usuarios_tiene_perfiles (
+  Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  idPerfil INT NOT NULL,
+  idUsuario INT NOT NULL,
+  idUsuarioPerfil INT AUTO_INCREMENT PRIMARY KEY
+);
+
+ALTER TABLE usuarios_tiene_perfiles 
+  ADD FOREIGN KEY (idUsuario)
+  REFERENCES usuarios(idUsuario);
+
+ALTER TABLE usuarios_tiene_perfiles 
+  ADD FOREIGN KEY (idPerfil)
+  REFERENCES perfiles(idPerfil);
+
+INSERT INTO usuarios_tiene_perfiles (idUsuario, idPerfil) VALUES
+  (1, 1),
+  (2, 2),
+  (3, 3);
