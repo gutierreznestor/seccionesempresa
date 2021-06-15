@@ -3,6 +3,7 @@ import Router from 'next/router'
 
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
+import { nuevaSeccionEmpresa } from '../../../services/seccionesEmpresa.service';
 
 const AgregarSeccionForm = [
   {
@@ -20,15 +21,7 @@ const NuevaSeccion = () => {
   const onSubmit = async (data) => {
     const { Nombre } = data;
     try {
-      const res = await fetch('/api/seccionesEmpresa/new-secciones-empresa', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Nombre,
-        }),
-      })
+      const res = await nuevaSeccionEmpresa({ Nombre })
       const json = await res.json()
       if (!res.ok) throw Error(json.message)
       Router.push('/')
