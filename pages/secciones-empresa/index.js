@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 
-import Layout from '../../components/Layout';
+import Layout from '../../components/Layout'
 import SeccionesEmpresaList from '../../components/SeccionesEmpresaList/SeccionesEmpresaList.component'
 import AppLink from '../../components/AppLink/AppLink.component';
 import { deleteSeccionesEmpresa, getSeccionesEmpresa } from '../../services/seccionesEmpresa.service';

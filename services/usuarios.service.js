@@ -25,7 +25,7 @@ export const getUsuario = async (id) => {
   return res;
 }
 
-export const editarUsuario = async ({ id, Nombre = '', Apellido = '' }) => {
+export const editarUsuario = async ({ id, Nombre = '', Apellido = '', Usuario = '' }) => {
   const url = `/api/usuarios/edit-usuario?id=${id}`;
   const res = await fetch(url, {
     method: 'PATCH',
@@ -35,6 +35,7 @@ export const editarUsuario = async ({ id, Nombre = '', Apellido = '' }) => {
     body: JSON.stringify({
       Nombre,
       Apellido,
+      Usuario,
     }),
   });
   return res;
