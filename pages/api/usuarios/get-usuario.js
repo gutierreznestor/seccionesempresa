@@ -7,9 +7,9 @@ const handler = async (req, res) => {
       SELECT DISTINCT usuarios.Nombre, usuarios.Apellido, 
         up.idUsuarioPerfil, usuarios.Usuario, perfiles.Nombre AS Perfil 
       FROM usuarios
-      INNER JOIN usuarios_tiene_perfiles AS up ON 
+      LEFT JOIN usuarios_tiene_perfiles AS up ON 
         (up.idUsuario = usuarios.idUsuario)
-      INNER JOIN perfiles ON
+      LEFT JOIN perfiles ON
         (perfiles.idPerfil = up.idPerfil)
       WHERE usuarios.idUsuario=?
       `,
