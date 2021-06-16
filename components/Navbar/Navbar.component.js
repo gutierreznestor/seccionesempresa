@@ -20,6 +20,10 @@ const links = [
     label: 'Usuarios',
     url: '/usuarios',
   },
+  {
+    label: 'Perfiles',
+    url: '/perfiles',
+  },
 ];
 
 const Navbar = () => {
