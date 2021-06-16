@@ -7,7 +7,7 @@ const handler = async (req, res) => {
     if (!Password) {
       return res
         .status(400)
-        .json({ message: 'Se requiere el Password en el cuerpo de la llamada.' })
+        .json({ message: 'Se requiere el Password.' })
     }
     const results = await query(
       `

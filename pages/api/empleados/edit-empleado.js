@@ -7,7 +7,7 @@ const handler = async (req, res) => {
     if (!Nombre) {
       return res
         .status(400)
-        .json({ message: 'Se requiere el Nombre en el cuerpo de la llamada.' })
+        .json({ message: 'Se requiere el Nombre.' })
     }
     const results = await query(
       `
