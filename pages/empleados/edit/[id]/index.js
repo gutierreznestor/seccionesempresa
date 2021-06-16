@@ -43,15 +43,15 @@ const EditarSeccion = () => {
   const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const getData = async (id) => {
-    setLoading(true);
-    const res = await getEmpleado(id);
-    const data = await res.json();
-    setValues(data ? data[0] : {});
-    setLoading(false);
-  }
 
   useEffect(() => {
+    const getData = async (id) => {
+      setLoading(true);
+      const res = await getEmpleado(id);
+      const data = await res.json();
+      setValues(data ? data[0] : {});
+      setLoading(false);
+    }
     if (id) {
       getData(id);
     }
@@ -87,8 +87,8 @@ const EditarSeccion = () => {
   return (
     <Layout title='Editar empleado'>
       <h1>Editar empleado</h1>
-      { errorMessage && <ErrorMessage message={errorMessage} />}
-      { loading ?
+      {errorMessage && <ErrorMessage message={errorMessage} />}
+      {loading ?
         <span>Cargando...</span> :
         <>
           <Form
@@ -97,8 +97,9 @@ const EditarSeccion = () => {
             onFormSubmit={onSubmit}
             config={EditarSeccionForm}
             buttonLabel='Editar'
-            defaultValues={{ ...values }} />
-          { showSeccionEmpresa && seccionEmpresa ? <Message>{seccionEmpresa}</Message> : null}
+            defaultValues={{ ...values }}>
+            {showSeccionEmpresa && seccionEmpresa ? <Message>Sección: {seccionEmpresa}</Message> : null}
+          </Form>
         </>
       }
     </Layout>
