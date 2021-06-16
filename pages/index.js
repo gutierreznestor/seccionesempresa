@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage.component';
 import Layout from '../components/Layout'
-import SeccionesEmpresaList from '../components/SeccionesEmpresaList';
+import SeccionesEmpresaList from '../components/SeccionesEmpresaList/SeccionesEmpresaList.component'
 import EmpleadosList from '../components/EmpleadosList/EmpleadosList.component';
 import { getSeccionesEmpresa } from '../services/seccionesEmpresa.service';
 import { getEmpleados } from '../services/empleados.service';
