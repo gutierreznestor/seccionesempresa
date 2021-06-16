@@ -11,7 +11,7 @@ const handler = async (req, res) => {
         (up.idUsuario = usuarios.idUsuario)
       INNER JOIN perfiles ON
         (perfiles.idPerfil = up.idPerfil)
-      WHERE idUsuario=?
+      WHERE usuarios.idUsuario=?
       `,
       [id],
     );
