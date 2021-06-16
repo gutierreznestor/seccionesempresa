@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import ButtonTable from './ButtonTable/ButtonTable.component';
+import ButtonTable from '../ButtonTable/ButtonTable.component';
 
 const SeccionesEmpresaList = ({ list = [], onDelete, onEdit, readonly }) => {
 
