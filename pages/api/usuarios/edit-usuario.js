@@ -2,7 +2,7 @@ import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
   const { id } = req.query;
-  const { Nombre, Apellido } = req.body;
+  const { Nombre, Apellido, Usuario } = req.body;
   try {
     if (!Nombre) {
       return res
@@ -12,10 +12,10 @@ const handler = async (req, res) => {
     const results = await query(
       `
       UPDATE usuarios
-      SET Nombre = ?, Apellido = ?
+      SET Nombre = ?, Apellido = ?, Usuario = ?
       WHERE idUsuario= ?
       `,
-      [Nombre, Apellido, id],
+      [Nombre, Apellido, Usuario, id],
     )
 
     return res.json(results)
