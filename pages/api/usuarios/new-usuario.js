@@ -2,7 +2,6 @@ import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
   const { Usuario, Nombre, Apellido, Password } = req.body;
-  console.log({ Usuario, Nombre, Apellido, Password });
   try {
     if (!Usuario?.trim() || !Nombre?.trim() || !Apellido?.trim() || !Password?.trim()) {
       return res
