@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Router from 'next/router';
 
 import Layout from '../../components/Layout';
 import Form from '../../components/Form/Form.component';
 import { login } from '../../services/auth.service';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 
 const LoginForm = [
   {
@@ -25,8 +26,10 @@ const LoginForm = [
 ];
 
 const Registro = () => {
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
+    setErrorMessage('');
     const { Usuario, Password } = data;
     try {
       const res = await login({ Usuario, Password })
@@ -34,14 +37,16 @@ const Registro = () => {
       if (!res.ok) throw Error(json.message)
       Router.push('/')
     } catch (e) {
-      console.log(e.message);
+      setErrorMessage(e.message);
     }
   }
 
   return (
     <Layout title="Login" hideNavbar>
-      <h1>Inicio de sesión</h1>
-      <Form onFormSubmit={onSubmit} config={LoginForm} />
+      <h1>Iniciar sesión</h1>
+      <Form onFormSubmit={onSubmit} config={LoginForm}>
+        {errorMessage && <ErrorMessage message={errorMessage} />}
+      </Form>
     </Layout>
   )
 }
