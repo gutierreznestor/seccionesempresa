@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   idUsuario INT AUTO_INCREMENT PRIMARY KEY,
   Nombre VARCHAR(50) NOT NULL,
   Usuario VARCHAR(50) UNIQUE NOT NULL,
-  Password VARCHAR(50) NOT NULL
+  Password VARCHAR(64) NOT NULL
 );
 
 INSERT INTO usuarios (Usuario, Nombre, Apellido, Password) VALUES
