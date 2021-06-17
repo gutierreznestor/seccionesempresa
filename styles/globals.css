@@ -21,6 +21,7 @@ a {
 table, th, td {
   padding: 3px;
   border-radius: 5px;
+  min-width: 60px;
 }
 
 table {
