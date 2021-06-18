@@ -17,12 +17,12 @@ const PerfilesList = ({ list = [], onDelete, onEdit, readonly }) => {
             <td>{idPerfil}</td>
             <td>{Nombre}</td>
             {!readonly && (
-              <>
+              <td>
                 <Link href={`perfiles/edit/${idPerfil}`} passHref>
                   <ButtonTable type='Editar' onClick={() => onEdit(idPerfil)} />
                 </Link>
                 <ButtonTable type='Eliminar' onClick={() => onDelete(idPerfil)} />
-              </>
+              </td>
             )
 
             }

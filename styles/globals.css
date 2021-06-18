@@ -31,3 +31,11 @@ table {
 th {
   text-align: left;
 }
+
+button {
+  padding: 3px;
+  margin: 0 2px;
+  border-radius: 5px;
+  min-width: 40px;
+  border: 1px solid #ccc;
+}

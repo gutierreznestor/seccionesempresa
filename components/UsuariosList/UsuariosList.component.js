@@ -13,6 +13,7 @@ const UsuariosList = ({ list = [], onDelete, readonly }) => {
           <th>Usuario</th>
           <th>Nombre</th>
           <th>Apellido</th>
+          <th></th>
         </tr>
         {list.map(({
           idUsuario,
@@ -26,12 +27,12 @@ const UsuariosList = ({ list = [], onDelete, readonly }) => {
             <td>{Nombre}</td>
             <td>{Apellido}</td>
             {!readonly && (
-              <>
-                <Link href={`usuarios/edit/${idUsuario}`} passHref>
-                  <ButtonTable type='Editar' />
+              <td>
+                <Link href={`usuarios/${idUsuario}`} passHref>
+                  <ButtonTable type='Ver' />
                 </Link>
                 <ButtonTable type='Eliminar' onClick={() => onDelete(idUsuario)} />
-              </>
+              </td>
             )
             }
           </tr>

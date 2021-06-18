@@ -29,12 +29,12 @@ const EmpleadosList = ({ list = [], onDelete, readonly }) => {
             <td>{idSeccionEmpresa}</td>
             <td>{Seccion}</td>
             {!readonly && (
-              <>
+              <td>
                 <Link href={`empleados/edit/${idEmpleado}`} passHref>
                   <ButtonTable type='Editar' />
                 </Link>
                 <ButtonTable type='Eliminar' onClick={() => onDelete(idEmpleado)} />
-              </>
+              </td>
             )
             }
           </tr>
