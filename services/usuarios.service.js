@@ -57,3 +57,10 @@ export const nuevoUsuario = async ({ Usuario, Nombre, Apellido, Password }) => {
   });
   return res;
 }
+
+export const getPerfilesUsuario = async (id) => {
+  const res = await fetch(`/api/usuarios/get-perfiles-usuario?id=${id}`, {
+    method: 'GET',
+  });
+  return res;
+}
