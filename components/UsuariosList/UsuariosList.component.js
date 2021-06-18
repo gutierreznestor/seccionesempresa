@@ -10,16 +10,19 @@ const UsuariosList = ({ list = [], onDelete, readonly }) => {
       <tbody>
         <tr>
           <th>id</th>
+          <th>Usuario</th>
           <th>Nombre</th>
           <th>Apellido</th>
         </tr>
         {list.map(({
           idUsuario,
+          Usuario,
           Nombre,
           Apellido,
         }) => (
           <tr key={idUsuario}>
             <td>{idUsuario}</td>
+            <td>{Usuario}</td>
             <td>{Nombre}</td>
             <td>{Apellido}</td>
             {!readonly && (
