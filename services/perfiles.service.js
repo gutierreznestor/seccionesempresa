@@ -2,7 +2,7 @@ export const getPerfiles = async () => {
   const res = await fetch('/api/perfiles/get-perfiles', {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
 
 export const deletePerfiles = async (id) => {
@@ -15,14 +15,14 @@ export const deletePerfiles = async (id) => {
       id,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const getPerfil = async (id) => {
   const res = await fetch(`/api/perfiles/get-perfil?id=${id}`, {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
 
 export const editarPerfil = async ({ id, Nombre = '' }) => {
@@ -36,7 +36,7 @@ export const editarPerfil = async ({ id, Nombre = '' }) => {
       Nombre,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const nuevoPerfil = async ({ Nombre = '' }) => {
@@ -50,5 +50,5 @@ export const nuevoPerfil = async ({ Nombre = '' }) => {
       Nombre,
     }),
   });
-  return res;
+  return await res.json();
 }

@@ -2,7 +2,7 @@ export const getEmpleados = async () => {
   const res = await fetch('/api/empleados/get-empleados', {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
 
 export const deleteEmpleado = async (idEmpleado) => {
@@ -15,14 +15,14 @@ export const deleteEmpleado = async (idEmpleado) => {
       idEmpleado,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const getEmpleado = async (id) => {
   const res = await fetch(`/api/empleados/get-empleado?id=${id}`, {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
 
 export const editarEmpleado = async ({ id, Nombre = '', Apellido = '', idSeccionEmpresa = '' }) => {
@@ -38,7 +38,7 @@ export const editarEmpleado = async ({ id, Nombre = '', Apellido = '', idSeccion
       idSeccionEmpresa,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const nuevoEmpleado = async ({ Nombre, Apellido, idSeccionEmpresa }) => {
@@ -54,5 +54,5 @@ export const nuevoEmpleado = async ({ Nombre, Apellido, idSeccionEmpresa }) => {
       idSeccionEmpresa,
     }),
   });
-  return res;
+  return await res.json();
 }

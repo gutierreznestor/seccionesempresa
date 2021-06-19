@@ -10,5 +10,5 @@ export const login = async ({ Usuario, Password }) => {
       Password,
     }),
   });
-  return res;
+  return await res.json();
 }

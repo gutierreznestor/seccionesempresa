@@ -2,7 +2,7 @@ export const getUsuarios = async () => {
   const res = await fetch('/api/usuarios/get-usuarios', {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
 
 export const deleteUsuario = async (id) => {
@@ -15,14 +15,14 @@ export const deleteUsuario = async (id) => {
       id,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const getUsuario = async (id) => {
   const res = await fetch(`/api/usuarios/get-usuario?id=${id}`, {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
 
 export const editarUsuario = async ({ id, Nombre = '', Apellido = '', Usuario = '' }) => {
@@ -38,7 +38,7 @@ export const editarUsuario = async ({ id, Nombre = '', Apellido = '', Usuario = 
       Usuario,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const nuevoUsuario = async ({ Usuario, Nombre, Apellido, Password }) => {
@@ -55,12 +55,12 @@ export const nuevoUsuario = async ({ Usuario, Nombre, Apellido, Password }) => {
       Password,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const getPerfilesUsuario = async (id) => {
   const res = await fetch(`/api/usuarios/get-perfiles-usuario?id=${id}`, {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
