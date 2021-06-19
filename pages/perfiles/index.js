@@ -14,9 +14,9 @@ const Perfiles = () => {
 
   const fetchPerfiles = async () => {
     setLoading(true);
-    const res = await getPerfiles();
-    setLoading(false)
-    const data = await res.json()
+    const data = await getPerfiles();
+    setLoading(false);
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setList(data);
   }
 
@@ -32,16 +32,11 @@ const Perfiles = () => {
     const ok = confirm('¿Quieres eliminar el perfil?');
     if (ok) {
       setLoading(true);
-      try {
-        const res = await deletePerfiles(id);
-        setLoading(false);
-        const json = await res.json();
-        if (!res.ok) return setErrorMessage(json.message);
-        fetchPerfiles();
-        Router.push('perfiles');
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
+      const data = await deletePerfiles(id);
+      setLoading(false);
+      if (data.errorMessage) return setErrorMessage(data.errorMessage);
+      fetchPerfiles();
+      Router.push('perfiles');
     }
   }
 

@@ -23,8 +23,7 @@ const EditarPerfil = () => {
 
   const getData = async (id) => {
     setLoading(true);
-    const res = await getPerfil(id);
-    const data = await res.json();
+    const data = await getPerfil(id);
     setValues(data ? data[0] : {});
     setLoading(false);
   }
@@ -37,14 +36,9 @@ const EditarPerfil = () => {
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    try {
-      const res = await editarPerfil({ id, Nombre })
-      const json = await res.json()
-      if (!res.ok) throw Error(json.message);
-      Router.push('/perfiles')
-    } catch (e) {
-      throw Error(e.message)
-    }
+    const data = await editarPerfil({ id, Nombre })
+    if (data.errorMessage) return;
+    Router.push('/perfiles')
   }
 
   return (

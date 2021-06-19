@@ -15,17 +15,17 @@ const Home = () => {
 
   const fetchSeccionesEmpresa = async () => {
     setLoading(true);
-    const res = await getSeccionesEmpresa();
+    const data = await getSeccionesEmpresa();
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setLoading(false)
-    const data = await res.json()
     setSeccionesList(data);
   }
 
   const fetchEmpleados = async () => {
     setLoading(true);
-    const res = await getEmpleados();
+    const data = await getEmpleados();
     setLoading(false)
-    const data = await res.json()
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setEmpleadosList(data);
   }
 
@@ -43,12 +43,12 @@ const Home = () => {
       <h2>Secciones empresa</h2>
       {loading ?
         <span>Cargando...</span> :
-        <SeccionesEmpresaList list={seccionesList} readonly />
+        !errorMessage && <SeccionesEmpresaList list={seccionesList} readonly />
       }
       <h2>Empleados</h2>
       {loading ?
         <span>Cargando...</span> :
-        <EmpleadosList list={empleadosList} readonly />
+        !errorMessage && <EmpleadosList list={empleadosList} readonly />
       }
     </Layout>
   )

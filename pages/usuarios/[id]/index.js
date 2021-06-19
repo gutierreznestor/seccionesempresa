@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+
 import Layout from '../../../components/Layout';
 import { getUsuario } from '../../../services/usuarios.service';
 import { FieldContainer } from './ViewUser.styled';
+import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 
 const ListItem = ({ title, description }) => (
   <FieldContainer>
@@ -18,33 +20,35 @@ const ViewUser = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const getData = async (id) => {
+    setErrorMessage('');
     setLoading(true);
     const res = await getUsuario(id);
-    const data = await res.json();
-    setValues(data ? data[0] : {});
+    if (!res.errorMessage {
+      console.log({ res });
+      setErrorMessage(res.errorMessage);
+    } else {
+      console.log({ res });
+      setValues({ ...res[0] });
+    }
     setLoading(false);
   }
-
-  console.log({ values })
 
   useEffect(() => {
     if (id) {
       getData(id);
     }
-    return () => {
-      setErrorMessage('');
-    }
-  }, [id])
+  }, [id]);
+
   return (
     <Layout title="Datos usuario">
       <div>
         <h1>Datos de usuario</h1>
+        {errorMessage && <ErrorMessage message={errorMessage} />}
         {loading ? 'Cargando...' :
-          <>
-            <ListItem title="Nombre" description={values.Nombre} />
-            <ListItem title="Apellido" description={values.Apellido} />
-            <ListItem title="Usuario" description={values.Usuario} />
-            <ListItem title="Perfil" description={values.Perfil} />
+          !errorMessage && <>
+            <ListItem title="Nombre" description={values?.Nombre} />
+            <ListItem title="Apellido" description={values?.Apellido} />
+            <ListItem title="Usuario" description={values?.Usuario} />
           </>
         }
       </div>

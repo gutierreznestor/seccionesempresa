@@ -14,9 +14,9 @@ const SeccionesEmpresa = () => {
 
   const fetchSeccionesEmpresa = async () => {
     setLoading(true);
-    const res = await getSeccionesEmpresa();
+    const data = await getSeccionesEmpresa();
     setLoading(false)
-    const data = await res.json()
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setList(data);
   }
 
@@ -32,21 +32,12 @@ const SeccionesEmpresa = () => {
     const ok = confirm('¿Quieres eliminar la sección?');
     if (ok) {
       setLoading(true);
-      try {
-        const res = await deleteSeccionesEmpresa(id);
-        setLoading(false);
-        const json = await res.json();
-        if (!res.ok) return setErrorMessage(json.message);
-        fetchSeccionesEmpresa();
-        Router.push('secciones-empresa');
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
+      const data = await deleteSeccionesEmpresa(id);
+      setLoading(false);
+      if (data.errorMessage) return setErrorMessage(data.errorMessage);
+      fetchSeccionesEmpresa();
+      Router.push('secciones-empresa');
     }
-  }
-
-  const onEdit = (id) => {
-
   }
 
   return (
@@ -58,8 +49,8 @@ const SeccionesEmpresa = () => {
         <span>Cargando...</span> :
         <SeccionesEmpresaList
           list={list}
-          onDelete={onDelete}
-          onEdit={onEdit} />}
+          onDelete={onDelete} />
+      }
     </Layout>
   )
 }

@@ -4,6 +4,7 @@ import Router, { useRouter } from 'next/router';
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
 import { editarSeccionEmpresa, getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
+import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 
 const EditarSeccionForm = [
   {
@@ -20,11 +21,11 @@ const EditarSeccion = () => {
   const { query: { id } } = useRouter();
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const getData = async (id) => {
     setLoading(true);
-    const res = await getSeccionEmpresa(id);
-    const data = await res.json();
+    const data = await getSeccionEmpresa(id);
     setValues(data ? data[0] : {});
     setLoading(false);
   }
@@ -37,26 +38,25 @@ const EditarSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    try {
-      const res = await editarSeccionEmpresa({ id, Nombre })
-      const json = await res.json()
-      if (!res.ok) throw Error(json.message);
+    const res = await editarSeccionEmpresa({ id, Nombre })
+    if (res.errorMessage) {
+      setErrorMessage(res.errorMessage);
+    } else {
       Router.push('/secciones-empresa')
-    } catch (e) {
-      throw Error(e.message)
     }
   }
 
   return (
     <Layout title='Editar sección'>
       <h1>Editar sección</h1>
-      { loading ?
+      {loading ?
         <span>Cargando...</span> :
-        <Form
-          onFormSubmit={onSubmit}
-          config={EditarSeccionForm}
-          buttonLabel='Editar'
-          defaultValues={{ ...values }} />
+        errorMessage ? <ErrorMessage message={errorMessage} /> :
+          <Form
+            onFormSubmit={onSubmit}
+            config={EditarSeccionForm}
+            buttonLabel='Editar'
+            defaultValues={{ ...values }} />
       }
     </Layout>
   )

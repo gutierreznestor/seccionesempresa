@@ -14,9 +14,9 @@ const Usuarios = () => {
 
   const fetchUsuarios = async () => {
     setLoading(true);
-    const res = await getUsuarios();
+    const data = await getUsuarios();
     setLoading(false);
-    const data = await res.json();
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setList(data);
   }
 
@@ -31,9 +31,8 @@ const Usuarios = () => {
     const ok = confirm('¿Quieres eliminar al usuario?');
     if (ok) {
       setLoading(true);
-      const res = await deleteUsuario(id);
-      const json = await res.json();
-      if (!res.ok) setErrorMessage(json.message);
+      const data = await deleteUsuario(id);
+      if (data.errorMessage) return setErrorMessage(data.errorMessage);
       fetchUsuarios();
       Router.push('usuarios');
     }

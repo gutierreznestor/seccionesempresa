@@ -44,20 +44,15 @@ const NuevaSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    try {
-      const res = await nuevoEmpleado({ Nombre, Apellido, idSeccionEmpresa })
-      const json = await res.json()
-      if (!res.ok) throw Error(json.message)
-      Router.push('/empleados')
-    } catch (e) {
-      setErrorMessage(e.message);
-    }
+    const data = await nuevoEmpleado({ Nombre, Apellido, idSeccionEmpresa })
+    if (data.errorMessage) return setErrorMessage(data.errorMessage);
+    Router.push('/empleados')
   }
 
   return (
     <Layout title='Nuevo empleado'>
       <h1>Nuevo empleado</h1>
-      { errorMessage && <ErrorMessage message={errorMessage} />}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoEmpleadoForm} />
     </Layout>
   )

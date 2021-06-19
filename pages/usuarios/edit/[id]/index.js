@@ -41,8 +41,7 @@ const EditUser = () => {
 
   const getData = async (id) => {
     setLoading(true);
-    const res = await getUsuario(id);
-    const data = await res.json();
+    const data = await getUsuario(id);
     setValues(data ? data[0] : {});
     setLoading(false);
   }
@@ -58,14 +57,9 @@ const EditUser = () => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, Usuario } = data;
-    try {
-      const res = await editarUsuario({ id, Nombre, Apellido, Usuario })
-      const json = await res.json()
-      if (!res.ok) return setErrorMessage(json.message);
-      Router.push('/usuarios')
-    } catch (e) {
-      setErrorMessage(e.message);
-    }
+    const data = await editarUsuario({ id, Nombre, Apellido, Usuario })
+    if (data.errorMessage) return setErrorMessage(data.errorMessage);
+    Router.push('/usuarios')
   }
 
   return (

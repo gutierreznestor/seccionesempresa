@@ -47,8 +47,7 @@ const EditarSeccion = () => {
   useEffect(() => {
     const getData = async (id) => {
       setLoading(true);
-      const res = await getEmpleado(id);
-      const data = await res.json();
+      const data = await getEmpleado(id);
       setValues(data ? data[0] : {});
       setLoading(false);
     }
@@ -62,26 +61,18 @@ const EditarSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    try {
-      const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa })
-      const json = await res.json()
-      if (!res.ok) return setErrorMessage(json.message);
-      Router.push('/empleados')
-    } catch (e) {
-      setErrorMessage(e.message);
-    }
+    const data = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa });
+    if (data.errorMessage) return setErrorMessage(data.errorMessage);
+    Router.push('/empleados')
   }
   const watchingField = async (value) => {
-    const res = await getSeccionEmpresa(value)
-    const seccion = await res.json();
-    if (seccion) {
-      if (seccion.length) {
-        setSeccionEmpresa(seccion[0].Nombre);
-      } else {
-        setSeccionEmpresa('El id ingresado no existe.');
-      }
-      setShowSeccionEmpresa(true);
+    const data = await getSeccionEmpresa(value);
+    if (data.length) {
+      setSeccionEmpresa(data[0].Nombre);
+    } else {
+      setSeccionEmpresa('El id ingresado no existe.');
     }
+    setShowSeccionEmpresa(true);
   }
 
   return (

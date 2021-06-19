@@ -14,9 +14,9 @@ const Empleados = () => {
 
   const fetchEmpleados = async () => {
     setLoading(true);
-    const res = await getEmpleados();
-    setLoading(false)
-    const data = await res.json()
+    const data = await getEmpleados();
+    setLoading(false);
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setList(data);
   }
 
@@ -31,9 +31,8 @@ const Empleados = () => {
     const ok = confirm('¿Quieres eliminar al empleado?');
     if (ok) {
       setLoading(true);
-      const res = await deleteEmpleado(id);
-      const json = await res.json();
-      if (!res.ok) setErrorMessage(json.message);
+      const data = await deleteEmpleado(id);
+      if (data.errorMessage) return setErrorMessage(data.errorMessage);
       fetchEmpleados();
       Router.push('empleados');
     }

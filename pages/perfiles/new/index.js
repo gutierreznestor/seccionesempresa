@@ -20,14 +20,9 @@ const NuevoPerfil = () => {
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    try {
-      const res = await nuevoPerfil({ Nombre })
-      const json = await res.json()
-      if (!res.ok) throw Error(json.message)
-      Router.push('/perfiles')
-    } catch (e) {
-      throw Error(e.message)
-    }
+    const data = await nuevoPerfil({ Nombre })
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
+    Router.push('/perfiles')
   }
 
   return (

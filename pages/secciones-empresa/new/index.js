@@ -20,14 +20,11 @@ const NuevaSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    try {
-      const res = await nuevaSeccionEmpresa({ Nombre })
-      const json = await res.json()
-      if (!res.ok) throw Error(json.message)
-      Router.push('/')
-    } catch (e) {
-      throw Error(e.message)
+    const res = await nuevaSeccionEmpresa({ Nombre })
+    if (res.errorMessage) {
+      return;
     }
+    Router.push('/')
   }
 
   return (
