@@ -4,13 +4,8 @@ const handler = async (req, res) => {
   try {
     const { id } = req.query;
     const results = await query(`
-      SELECT DISTINCT usuarios.Nombre, usuarios.Apellido, 
-        up.idUsuarioPerfil, usuarios.Usuario, perfiles.Nombre AS Perfil 
-      FROM usuarios
-      LEFT JOIN usuarios_tiene_perfiles AS up ON 
-        (up.idUsuario = usuarios.idUsuario)
-      LEFT JOIN perfiles ON
-        (perfiles.idPerfil = up.idPerfil)
+      SELECT DISTINCT usuarios.Nombre, usuarios.Apellido, usuarios.Usuario
+      FROM usuarios      
       WHERE usuarios.idUsuario=?
       `,
       [id],
