@@ -31,8 +31,8 @@ const Registro = () => {
   const onSubmit = async (data) => {
     setErrorMessage('');
     const { Usuario, Password } = data;
-    const data = await login({ Usuario, Password })
-    if (data.errorMessage) return setErrorMessage(data.errorMessage);
+    const res = await login({ Usuario, Password })
+    if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/')
   }
 
