@@ -7,7 +7,7 @@ const handler = async (req, res) => {
     if (!Nombre) {
       return res
         .status(400)
-        .json({ message: 'Se requiere el Nombre.' })
+        .json({ errorMessage: 'Se requiere el Nombre.' })
     }
     const results = await query(
       `
@@ -20,7 +20,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ message: 'No se pudo editar el usuario.' })
+    res.status(400).json({ errorMessage: 'No se pudo editar el usuario.' })
   }
 }
 

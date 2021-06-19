@@ -9,7 +9,7 @@ const handler = async (_, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(500).json({ message: e.message })
+    res.status(500).json({ errorMessage: e.message })
   }
 }
 

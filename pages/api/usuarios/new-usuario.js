@@ -7,7 +7,7 @@ const handler = async (req, res) => {
     if (!Usuario?.trim() || !Nombre?.trim() || !Apellido?.trim() || !Password?.trim()) {
       return res
         .status(400)
-        .json({ message: 'Complete todos los campos.' })
+        .json({ errorMessage: 'Complete todos los campos.' })
     }
     const hashPassword = await hash(Password, 10);
     const results = await query(
@@ -20,7 +20,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ message: 'Hubo un error al agregar un usuario.' })
+    res.status(400).json({ errorMessage: 'Hubo un error al agregar un usuario.' })
   }
 }
 

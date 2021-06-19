@@ -6,7 +6,7 @@ const handler = async (req, res) => {
     if (!id) {
       return res
         .status(400)
-        .json({ message: 'Se requiere el id del perfil.' })
+        .json({ errorMessage: 'Se requiere el id del perfil.' })
     }
     const results = await query(
       `
@@ -18,7 +18,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ message: 'No se puede eliminar un perfil vinculado a un usuario.' })
+    res.status(400).json({ errorMessage: 'No se puede eliminar un perfil vinculado a un usuario.' })
   }
 }
 

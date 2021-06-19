@@ -7,7 +7,7 @@ const handler = async (req, res) => {
     if (!Password) {
       return res
         .status(400)
-        .json({ message: 'Se requiere el Password.' })
+        .json({ errorMessage: 'Se requiere el Password.' })
     }
     const results = await query(
       `
@@ -20,7 +20,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ message: 'No se pudo editar el password.' })
+    res.status(400).json({ errorMessage: 'No se pudo editar el password.' })
   }
 }
 
