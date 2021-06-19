@@ -7,7 +7,7 @@ const handler = async (req, res) => {
   if (!Usuario?.trim() || !Password?.trim()) {
     return res
       .status(400)
-      .json({ message: 'Complete todos los campos.' })
+      .json({ errorMessage: 'Complete todos los campos.' })
   }
 
   console.log({ Usuario, Password });
@@ -21,7 +21,7 @@ const handler = async (req, res) => {
   );
 
   if (!results?.length) {
-    return res.status(401).json({ message: 'El usuario o la contraseña son inválidas.' });
+    return res.status(401).json({ errorMessage: 'El usuario o la contraseña son inválidas.' });
   };
   console.log({ results });
   const user = results[0];
@@ -29,17 +29,17 @@ const handler = async (req, res) => {
   compare(Password, user.Password, function (err, result) {
     console.log({ result });
     if (result) {
-      return res.status(201).json({ message: 'Inicio de sesión correcto.' });
+      return res.status(201).json({ errorMessage: 'Inicio de sesión correcto.' });
     } else {
-      return res.status(401).json({ message: 'El usuario o la contraseña son inválidas.' });
+      return res.status(401).json({ errorMessage: 'El usuario o la contraseña son inválidas.' });
     }
-    return res.json({ message: result })
+    return res.json({ errorMessage: result })
     if (!err && result) {
       const claims = { sub: person.id, myPersonEmail: person.email };
       const jwt = sign(claims, secret, { expiresIn: '1h' });
       res.json({ authToken: jwt });
     } else {
-      res.json({ message: 'Ups, something went wrong!' });
+      res.json({ errorMessage: 'Ups, something went wrong!' });
     }
   });
 }
