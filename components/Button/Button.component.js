@@ -2,12 +2,12 @@ import React from 'react';
 
 import { StyledButton } from './Button.styled';
 
-const Button = ({ label = 'button', type = 'button' }) => {
+const Button = React.forwardRef(({ label = 'button', type = 'button' }, ref) => {
   return (
-    <StyledButton type={type}>
+    <StyledButton type={type} ref={ref}>
       {label}
     </StyledButton>
   )
-}
+});
 
 export default Button;
