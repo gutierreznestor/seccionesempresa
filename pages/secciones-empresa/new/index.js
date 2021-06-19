@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Router from 'next/router'
 
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
+import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component'
 import { nuevaSeccionEmpresa } from '../../../services/seccionesEmpresa.service';
 
 const AgregarSeccionForm = [
@@ -17,12 +18,13 @@ const AgregarSeccionForm = [
 ];
 
 const NuevaSeccion = () => {
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
     const res = await nuevaSeccionEmpresa({ Nombre })
     if (res.errorMessage) {
-      return;
+      return setErrorMessage(res.errorMessage);
     }
     Router.push('/')
   }
@@ -30,6 +32,7 @@ const NuevaSeccion = () => {
   return (
     <Layout title='Nueva sección'>
       <h1>Nueva sección</h1>
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={AgregarSeccionForm} />
     </Layout>
   )

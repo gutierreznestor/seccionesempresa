@@ -52,8 +52,8 @@ const NuevoUsuario = () => {
 
   const onSubmit = async (data) => {
     const { Usuario, Nombre, Apellido, Password } = data;
-    const data = await nuevoUsuario({ Usuario, Nombre, Apellido, Password })
-    if (data.errorMessage) return setErrorMessage(data.errorMessage);
+    const res = await nuevoUsuario({ Usuario, Nombre, Apellido, Password })
+    if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/usuarios')
   }
 

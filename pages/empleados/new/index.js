@@ -44,8 +44,8 @@ const NuevaSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    const data = await nuevoEmpleado({ Nombre, Apellido, idSeccionEmpresa })
-    if (data.errorMessage) return setErrorMessage(data.errorMessage);
+    const res = await nuevoEmpleado({ Nombre, Apellido, idSeccionEmpresa })
+    if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/empleados')
   }
 

@@ -23,14 +23,11 @@ const ViewUser = () => {
     setErrorMessage('');
     setLoading(true);
     const res = await getUsuario(id);
-    if (!res.errorMessage {
-      console.log({ res });
-      setErrorMessage(res.errorMessage);
-    } else {
-      console.log({ res });
-      setValues({ ...res[0] });
-    }
     setLoading(false);
+    if (res.errorMessage) {
+      return setErrorMessage(res.errorMessage);
+    }
+    setValues({ ...res[0] });
   }
 
   useEffect(() => {

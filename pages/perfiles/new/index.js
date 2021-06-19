@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Router from 'next/router'
 
 import Form from '../../../components/Form/Form.component';
+import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import Layout from '../../../components/Layout';
 import { nuevoPerfil } from '../../../services/perfiles.service';
 
@@ -17,17 +18,20 @@ const NuevoPerfilForm = [
 ];
 
 const NuevoPerfil = () => {
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
+    setErrorMessage('');
     const { Nombre } = data;
-    const data = await nuevoPerfil({ Nombre })
-    if (data.errorMessage) return setErrorMessage(data.errorMessage)
+    const res = await nuevoPerfil({ Nombre })
+    if (res.errorMessage) return setErrorMessage(res.errorMessage)
     Router.push('/perfiles')
   }
 
   return (
     <Layout title='Nuevo Perfil'>
       <h1>Nuevo Perfil</h1>
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoPerfilForm} />
     </Layout>
   )

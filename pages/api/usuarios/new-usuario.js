@@ -20,7 +20,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ errorMessage: 'Hubo un error al agregar un usuario.' })
+    res.status(400).json({ errorMessage: e.message })
   }
 }
 
