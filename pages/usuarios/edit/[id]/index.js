@@ -57,8 +57,8 @@ const EditUser = () => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, Usuario } = data;
-    const data = await editarUsuario({ id, Nombre, Apellido, Usuario })
-    if (data.errorMessage) return setErrorMessage(data.errorMessage);
+    const res = await editarUsuario({ id, Nombre, Apellido, Usuario })
+    if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/usuarios')
   }
 

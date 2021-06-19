@@ -61,10 +61,11 @@ const EditarSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    const data = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa });
-    if (data.errorMessage) return setErrorMessage(data.errorMessage);
+    const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa });
+    if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/empleados')
   }
+
   const watchingField = async (value) => {
     const data = await getSeccionEmpresa(value);
     if (data.length) {

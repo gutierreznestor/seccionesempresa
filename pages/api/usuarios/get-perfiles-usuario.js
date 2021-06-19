@@ -3,7 +3,6 @@ import { query } from '../../../lib/db'
 const handler = async (req, res) => {
   try {
     const { id } = req.query;
-    console.log({ id });
     const results = await query(`
       SELECT perfiles.idPerfil, perfiles.Nombre AS Perfil, IF (usuarios.idUsuario IS NOT NULL, 'Sí', 'No') AS TienePerfil 
       FROM perfiles
