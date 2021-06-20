@@ -6,7 +6,7 @@ const handler = async (req, res) => {
     if (!idEmpleado) {
       return res
         .status(400)
-        .json({ message: 'Se requiere el id del empleado.' })
+        .json({ errorMessage: 'Se requiere el id del empleado.' })
     }
     const results = await query(
       `
@@ -18,7 +18,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(500).json({ message: e.message })
+    res.status(500).json({ errorMessage: e.message })
   }
 }
 

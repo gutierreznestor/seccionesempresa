@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import ButtonTable from './ButtonTable/ButtonTable.component';
+import ButtonTable from '../ButtonTable/ButtonTable.component';
 import { StyledTable } from './EmpleadosList.styled';
 
 const EmpleadosList = ({ list = [], onDelete, readonly }) => {
@@ -28,13 +28,13 @@ const EmpleadosList = ({ list = [], onDelete, readonly }) => {
             <td>{Apellido}</td>
             <td>{idSeccionEmpresa}</td>
             <td>{Seccion}</td>
-            { !readonly && (
-              <>
+            {!readonly && (
+              <td>
                 <Link href={`empleados/edit/${idEmpleado}`} passHref>
                   <ButtonTable type='Editar' />
                 </Link>
                 <ButtonTable type='Eliminar' onClick={() => onDelete(idEmpleado)} />
-              </>
+              </td>
             )
             }
           </tr>

@@ -6,7 +6,7 @@ const handler = async (req, res) => {
     if (!idSeccionEmpresa) {
       return res
         .status(400)
-        .json({ message: 'Se requiere el id de la sección de empresa.' })
+        .json({ errorMessage: 'Se requiere el id de la sección de empresa.' })
     }
     const results = await query(
       `
@@ -18,7 +18,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ message: 'No se puede eliminar una sección vinculada a un empleado.' })
+    res.status(400).json({ errorMessage: 'No se puede eliminar una sección vinculada a un empleado.' })
   }
 }
 

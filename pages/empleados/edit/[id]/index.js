@@ -43,15 +43,14 @@ const EditarSeccion = () => {
   const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const getData = async (id) => {
-    setLoading(true);
-    const res = await getEmpleado(id);
-    const data = await res.json();
-    setValues(data ? data[0] : {});
-    setLoading(false);
-  }
 
   useEffect(() => {
+    const getData = async (id) => {
+      setLoading(true);
+      const data = await getEmpleado(id);
+      setValues(data ? data[0] : {});
+      setLoading(false);
+    }
     if (id) {
       getData(id);
     }
@@ -62,33 +61,26 @@ const EditarSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    try {
-      const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa })
-      const json = await res.json()
-      if (!res.ok) return setErrorMessage(json.message);
-      Router.push('/empleados')
-    } catch (e) {
-      setErrorMessage(e.message);
-    }
+    const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa });
+    if (res.errorMessage) return setErrorMessage(res.errorMessage);
+    Router.push('/empleados')
   }
+
   const watchingField = async (value) => {
-    const res = await getSeccionEmpresa(value)
-    const seccion = await res.json();
-    if (seccion) {
-      if (seccion.length) {
-        setSeccionEmpresa(seccion[0].Nombre);
-      } else {
-        setSeccionEmpresa('El id ingresado no existe.');
-      }
-      setShowSeccionEmpresa(true);
+    const data = await getSeccionEmpresa(value);
+    if (data.length) {
+      setSeccionEmpresa(data[0].Nombre);
+    } else {
+      setSeccionEmpresa('El id ingresado no existe.');
     }
+    setShowSeccionEmpresa(true);
   }
 
   return (
     <Layout title='Editar empleado'>
       <h1>Editar empleado</h1>
-      { errorMessage && <ErrorMessage message={errorMessage} />}
-      { loading ?
+      {errorMessage && <ErrorMessage message={errorMessage} />}
+      {loading ?
         <span>Cargando...</span> :
         <>
           <Form
@@ -97,8 +89,9 @@ const EditarSeccion = () => {
             onFormSubmit={onSubmit}
             config={EditarSeccionForm}
             buttonLabel='Editar'
-            defaultValues={{ ...values }} />
-          { showSeccionEmpresa && seccionEmpresa ? <Message>{seccionEmpresa}</Message> : null}
+            defaultValues={{ ...values }}>
+            {showSeccionEmpresa && seccionEmpresa ? <Message>Sección: {seccionEmpresa}</Message> : null}
+          </Form>
         </>
       }
     </Layout>

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage.component';
 import Layout from '../components/Layout'
-import SeccionesEmpresaList from '../components/SeccionesEmpresaList';
-import EmpleadosList from '../components/EmpleadosList';
+import SeccionesEmpresaList from '../components/SeccionesEmpresaList/SeccionesEmpresaList.component'
+import EmpleadosList from '../components/EmpleadosList/EmpleadosList.component';
 import { getSeccionesEmpresa } from '../services/seccionesEmpresa.service';
 import { getEmpleados } from '../services/empleados.service';
 
@@ -15,17 +15,17 @@ const Home = () => {
 
   const fetchSeccionesEmpresa = async () => {
     setLoading(true);
-    const res = await getSeccionesEmpresa();
+    const data = await getSeccionesEmpresa();
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setLoading(false)
-    const data = await res.json()
     setSeccionesList(data);
   }
 
   const fetchEmpleados = async () => {
     setLoading(true);
-    const res = await getEmpleados();
+    const data = await getEmpleados();
     setLoading(false)
-    const data = await res.json()
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setEmpleadosList(data);
   }
 
@@ -39,16 +39,16 @@ const Home = () => {
 
   return (
     <Layout title="Home">
-      { errorMessage && <ErrorMessage message={errorMessage} />}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <h2>Secciones empresa</h2>
-      { loading ?
+      {loading ?
         <span>Cargando...</span> :
-        <SeccionesEmpresaList list={seccionesList} readonly />
+        !errorMessage && <SeccionesEmpresaList list={seccionesList} readonly />
       }
       <h2>Empleados</h2>
-      { loading ?
+      {loading ?
         <span>Cargando...</span> :
-        <EmpleadosList list={empleadosList} readonly />
+        !errorMessage && <EmpleadosList list={empleadosList} readonly />
       }
     </Layout>
   )

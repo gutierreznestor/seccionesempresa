@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
-import ButtonTable from './ButtonTable/ButtonTable.component';
+import ButtonTable from '../ButtonTable/ButtonTable.component';
 
-const SeccionesEmpresaList = ({ list = [], onDelete, onEdit, readonly }) => {
+const SeccionesEmpresaList = ({ list = [], onDelete, readonly }) => {
 
   return (
     <table>
@@ -16,13 +16,13 @@ const SeccionesEmpresaList = ({ list = [], onDelete, onEdit, readonly }) => {
           <tr key={idSeccionEmpresa}>
             <td>{idSeccionEmpresa}</td>
             <td>{Nombre}</td>
-            { !readonly && (
-              <>
+            {!readonly && (
+              <td>
                 <Link href={`secciones-empresa/edit/${idSeccionEmpresa}`} passHref>
-                  <ButtonTable type='Editar' onClick={() => onEdit(idSeccionEmpresa)} />
+                  <ButtonTable type='Editar' />
                 </Link>
                 <ButtonTable type='Eliminar' onClick={() => onDelete(idSeccionEmpresa)} />
-              </>
+              </td>
             )
 
             }

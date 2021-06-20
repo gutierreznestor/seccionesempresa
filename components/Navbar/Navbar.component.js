@@ -16,6 +16,18 @@ const links = [
     label: 'Empleados',
     url: '/empleados',
   },
+  {
+    label: 'Usuarios',
+    url: '/usuarios',
+  },
+  {
+    label: 'Perfiles',
+    url: '/perfiles',
+  },
+  {
+    label: 'Auditoria',
+    url: '/auditoria',
+  },
 ];
 
 const Navbar = () => {

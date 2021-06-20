@@ -3,7 +3,7 @@ import Router from 'next/router';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
-import EmpleadosList from '../../components/EmpleadosList';
+import EmpleadosList from '../../components/EmpleadosList/EmpleadosList.component';
 import { deleteEmpleado, getEmpleados } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 
@@ -14,9 +14,9 @@ const Empleados = () => {
 
   const fetchEmpleados = async () => {
     setLoading(true);
-    const res = await getEmpleados();
-    setLoading(false)
-    const data = await res.json()
+    const data = await getEmpleados();
+    setLoading(false);
+    if (data.errorMessage) return setErrorMessage(data.errorMessage)
     setList(data);
   }
 
@@ -31,9 +31,8 @@ const Empleados = () => {
     const ok = confirm('¿Quieres eliminar al empleado?');
     if (ok) {
       setLoading(true);
-      const res = await deleteEmpleado(id);
-      const json = await res.json();
-      if (!res.ok) setErrorMessage(json.message);
+      const data = await deleteEmpleado(id);
+      if (data.errorMessage) return setErrorMessage(data.errorMessage);
       fetchEmpleados();
       Router.push('empleados');
     }
@@ -42,9 +41,9 @@ const Empleados = () => {
   return (
     <Layout title='Empleados'>
       <h1>Empleados</h1>
-      { errorMessage && <ErrorMessage message={errorMessage} />}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <AppLink href='/empleados/new' title='Nuevo empleado' />
-      { loading ?
+      {loading ?
         <span>Cargando...</span> :
         <EmpleadosList
           list={list}

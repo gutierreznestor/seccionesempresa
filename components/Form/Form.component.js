@@ -17,6 +17,7 @@ const Form = ({
   defaultValues = {},
   watcher = '',
   watching = () => { },
+  children,
 }) => {
   const { register, handleSubmit, formState: { errors }, watch } = useForm({ defaultValues: { ...defaultValues } });
 
@@ -32,7 +33,7 @@ const Form = ({
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      { config.map(({
+      {config.map(({
         label,
         type,
         name,
@@ -50,6 +51,7 @@ const Form = ({
           {errors[name] && <ErrorField>{textValidation}</ErrorField>}
         </StyledInputLabel>
       ))}
+      {children}
       <Button type="submit" label={buttonLabel} />
     </StyledForm>
   )

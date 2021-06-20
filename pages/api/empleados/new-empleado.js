@@ -6,7 +6,7 @@ const handler = async (req, res) => {
     if (!Nombre) {
       return res
         .status(400)
-        .json({ message: 'Complete todos los campos.' })
+        .json({ errorMessage: 'Complete todos los campos.' })
     }
     const results = await query(
       `
@@ -18,7 +18,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ message: 'No existe el id de la sección de empresa.' })
+    res.status(400).json({ errorMessage: e.message })
   }
 }
 

@@ -2,7 +2,7 @@ export const getSeccionesEmpresa = async () => {
   const res = await fetch('/api/seccionesEmpresa/get-secciones-empresa', {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
 
 export const deleteSeccionesEmpresa = async (idSeccionEmpresa) => {
@@ -15,14 +15,14 @@ export const deleteSeccionesEmpresa = async (idSeccionEmpresa) => {
       idSeccionEmpresa,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const getSeccionEmpresa = async (id) => {
   const res = await fetch(`/api/seccionesEmpresa/get-seccion-empresa?id=${id}`, {
     method: 'GET',
   });
-  return res;
+  return await res.json();
 }
 
 export const editarSeccionEmpresa = async ({ id, Nombre = '' }) => {
@@ -36,7 +36,7 @@ export const editarSeccionEmpresa = async ({ id, Nombre = '' }) => {
       Nombre,
     }),
   });
-  return res;
+  return await res.json();
 }
 
 export const nuevaSeccionEmpresa = async ({ Nombre = '' }) => {
@@ -50,5 +50,5 @@ export const nuevaSeccionEmpresa = async ({ Nombre = '' }) => {
       Nombre,
     }),
   });
-  return res;
+  return await res.json();
 }
