@@ -19,15 +19,15 @@ const LogsEmpleadosList = ({ list = [] }) => {
             <th>Descripción</th>
           </tr>
           {list.map(({
-            idLogUsuario,
+            idLogEmpleado,
             Creado,
             idUsuario,
             Usuario,
             Operacion,
             Descripcion
           }) => (
-            <tr key={idLogUsuario}>
-              <td>{idLogUsuario}</td>
+            <tr key={idLogEmpleado}>
+              <td>{idLogEmpleado}</td>
               <td>{new Date(Creado).toLocaleString()}</td>
               <td>{idUsuario}</td>
               <td>{Usuario}</td>
