@@ -8,6 +8,8 @@ const ButtonTable = forwardRef(({ type = 'Ver', onClick }, ref) => {
     'Eliminar': <StyledDeleteButton title='Eliminar' onClick={onClick} >Eliminar</StyledDeleteButton>,
     'Editar': <StyledEditButton title='Editar' onClick={onClick} >Editar</StyledEditButton>,
     'Ver': <StyledEditButton title='Ver' onClick={onClick} >Ver</StyledEditButton>,
+    'Agregar': <StyledEditButton title='Agregar' onClick={onClick} >Agregar</StyledEditButton>,
+    'Quitar': <StyledDeleteButton title='Quitar' onClick={onClick} >Quitar</StyledDeleteButton>,
   }
   return buttons[type];
 });
