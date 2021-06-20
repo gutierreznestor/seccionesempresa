@@ -6,8 +6,29 @@ export const getLogsUsuarios = async () => {
 }
 
 export const addLogUsuario = async ({ idUsuario, Operacion, Descripcion }) => {
-  const url = `/api/logsUsuarios/add-log-usuario`;
-  const res = await fetch(url, {
+  const res = await fetch('/api/logsUsuarios/add-log-usuario', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      idUsuario,
+      Operacion,
+      Descripcion,
+    }),
+  });
+  return await res.json();
+}
+
+export const getLogsEmpleados = async () => {
+  const res = await fetch('/api/logsEmpleados/get-logs-empleados', {
+    method: 'GET',
+  });
+  return await res.json();
+}
+
+export const addLogEmpleado = async ({ idUsuario, Operacion, Descripcion }) => {
+  const res = await fetch('/api/logsEmpleados/add-log-empleado', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
