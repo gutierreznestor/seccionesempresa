@@ -18,7 +18,8 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ errorMessage: e.message })
+    const message = e.message.includes('ER_NO_REFERENCED_ROW_2') ? `El id de la sección de empresa no existe` : 'No se pudo agregar el empleado.';
+    res.status(400).json({ errorMessage: message })
   }
 }
 
