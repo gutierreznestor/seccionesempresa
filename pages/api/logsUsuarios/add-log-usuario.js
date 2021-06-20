@@ -13,7 +13,7 @@ const handler = async (req, res) => {
       INSERT INTO logs_usuarios(idUsuario, Operacion, Descripcion) 
       VALUES (?, ?, ?);
       `,
-      [idUsuario, idPerfil],
+      [idUsuario, Operacion, Descripcion],
     );
 
     return res.json(results)
