@@ -87,7 +87,7 @@ const EditUser = () => {
   }
 
   const onDelete = async ({ idPerfil }) => {
-    const res = await deletePerfilUsuario({ idUsuario: id.toString(), idPerfil: idPerfil.toString() })
+    const res = await deletePerfilUsuario({ user: 2, idUsuario: id.toString(), idPerfil: idPerfil.toString() })
     setLoading(false);
     if (res.errorMessage) {
       return setErrorMessage(res.errorMessage);
