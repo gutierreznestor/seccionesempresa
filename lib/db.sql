@@ -115,3 +115,16 @@ CREATE TABLE IF NOT EXISTS logs_usuarios (
 ALTER TABLE logs_usuarios 
   ADD FOREIGN KEY (idUsuario)
   REFERENCES usuarios(idUsuario);
+
+
+CREATE TABLE IF NOT EXISTS logs_empleados (
+  Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  idLogEmpleado INT AUTO_INCREMENT PRIMARY KEY,
+  idUsuario INT NOT NULL,
+  Operacion VARCHAR(50) NOT NULL,
+  Descripcion VARCHAR(200) NOT NULL
+);
+
+ALTER TABLE logs_empleados 
+  ADD FOREIGN KEY (idUsuario)
+  REFERENCES usuarios(idUsuario);
