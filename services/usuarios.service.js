@@ -1,5 +1,6 @@
 import { addLogUsuario } from './logs.service';
 import { Operaciones } from '../constants';
+import { getPerfil } from './perfiles.service';
 
 export const getUsuarios = async () => {
   const res = await fetch('/api/usuarios/get-usuarios', {
@@ -8,7 +9,9 @@ export const getUsuarios = async () => {
   return await res.json();
 }
 
-export const deleteUsuario = async (id) => {
+export const deleteUsuario = async ({ idUsuario, id }) => {
+  const user = await getUsuario(id);
+  const { Apellido, Nombre, Usuario } = user[0];
   const res = await fetch('/api/usuarios/delete-usuario', {
     method: 'DELETE',
     headers: {
@@ -18,6 +21,7 @@ export const deleteUsuario = async (id) => {
       id,
     }),
   });
+  await addLogUsuario({ idUsuario, Operacion: Operaciones.Delete, Descripcion: `${Apellido}, ${Nombre} (${Usuario})` });
   return await res.json();
 }
 
@@ -41,6 +45,7 @@ export const editarUsuario = async ({ id, Nombre = '', Apellido = '', Usuario = 
       Usuario,
     }),
   });
+  await addLogUsuario({ idUsuario: id, Operacion: Operaciones.Update, Descripcion: `${Apellido}, ${Nombre} (${Usuario})` });
   return await res.json();
 }
 
@@ -58,7 +63,7 @@ export const nuevoUsuario = async ({ idUsuario, Usuario, Nombre, Apellido, Passw
       Password,
     }),
   });
-  await addLogUsuario({ idUsuario, Operacion: Operaciones.Create, Descripcion: `${Apellido}, ${Nombre}` })
+  await addLogUsuario({ idUsuario, Operacion: Operaciones.Create, Descripcion: `${Apellido}, ${Nombre}` });
   return await res.json();
 }
 
@@ -81,6 +86,8 @@ export const addPerfilUsuario = async ({ idUsuario, idPerfil }) => {
   if (hasProfile.length) {
     return { errorMessage: 'No se puede agregar el mismo perfil.' }
   }
+  const perfil = await getPerfil(idPerfil);
+  const usuario = await getUsuario(idUsuario);
   const res = await fetch('/api/usuarios/add-perfil-usuario', {
     method: 'POST',
     headers: {
@@ -91,6 +98,7 @@ export const addPerfilUsuario = async ({ idUsuario, idPerfil }) => {
       idPerfil,
     }),
   });
+  await addLogUsuario({ idUsuario, Operacion: Operaciones.Update, Descripcion: `Nuevo perfil de ${usuario[0]?.Usuario}: ${perfil[0]?.Nombre}` });
   return await res.json();
 }
 

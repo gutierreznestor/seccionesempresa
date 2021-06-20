@@ -10,7 +10,7 @@ const handler = async (req, res) => {
     }
     const results = await query(
       `
-      INSERT INTO logs_usuarios(idUsuario, Operacion, Descripcion) 
+      INSERT INTO logs_empleados(idUsuario, Operacion, Descripcion) 
       VALUES (?, ?, ?);
       `,
       [idUsuario, Operacion, Descripcion],

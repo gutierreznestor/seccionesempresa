@@ -31,7 +31,7 @@ const Empleados = () => {
     const ok = confirm('¿Quieres eliminar al empleado?');
     if (ok) {
       setLoading(true);
-      const data = await deleteEmpleado(id);
+      const data = await deleteEmpleado({ idUsuario: 1, idEmpleado: id });
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
       fetchEmpleados();
       Router.push('empleados');
