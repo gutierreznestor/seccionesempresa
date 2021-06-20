@@ -1,3 +1,6 @@
+import { addLogUsuario } from './logs.service';
+import { Operaciones } from '../constants';
+
 export const getUsuarios = async () => {
   const res = await fetch('/api/usuarios/get-usuarios', {
     method: 'GET',
@@ -41,7 +44,7 @@ export const editarUsuario = async ({ id, Nombre = '', Apellido = '', Usuario = 
   return await res.json();
 }
 
-export const nuevoUsuario = async ({ Usuario, Nombre, Apellido, Password }) => {
+export const nuevoUsuario = async ({ idUsuario, Usuario, Nombre, Apellido, Password }) => {
   const url = `/api/usuarios/new-usuario`;
   const res = await fetch(url, {
     method: 'POST',
@@ -55,6 +58,7 @@ export const nuevoUsuario = async ({ Usuario, Nombre, Apellido, Password }) => {
       Password,
     }),
   });
+  await addLogUsuario({ idUsuario, Operacion: Operaciones.Create, Descripcion: `${Apellido}, ${Nombre}` })
   return await res.json();
 }
 
