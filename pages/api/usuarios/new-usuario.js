@@ -18,9 +18,12 @@ const handler = async (req, res) => {
       [Usuario, Nombre, Apellido, hashPassword],
     );
 
-    return res.json(results)
+    return res.json({
+      insertId: results.insertId,
+    })
   } catch (e) {
-    res.status(400).json({ errorMessage: e.message })
+    const message = e.message.includes('ER_DUP_ENTRY') ? `Ya existe el usuario ${Usuario}.` : 'No se pudo agregar el usuario.';
+    res.status(400).json({ errorMessage: message })
   }
 }
 
