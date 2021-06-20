@@ -103,3 +103,15 @@ INSERT INTO usuarios_tiene_perfiles (idUsuario, idPerfil) VALUES
 
 INSERT INTO usuarios_tiene_perfiles (idUsuario) VALUES
   (4);
+
+CREATE TABLE IF NOT EXISTS logs_usuarios (
+  Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  idLogUsuario INT AUTO_INCREMENT PRIMARY KEY,
+  idUsuario INT NOT NULL,
+  Operacion VARCHAR(50) NOT NULL,
+  Descripcion VARCHAR(200) NOT NULL
+);
+
+ALTER TABLE logs_usuarios 
+  ADD FOREIGN KEY (idUsuario)
+  REFERENCES usuarios(idUsuario);
