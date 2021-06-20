@@ -31,9 +31,9 @@ const Usuarios = () => {
     const ok = confirm('¿Quieres eliminar al usuario?');
     if (ok) {
       setLoading(true);
-      const data = await deleteUsuario(id);
-      if (data.errorMessage) return setErrorMessage(data.errorMessage);
+      const data = await deleteUsuario({ idUsuario: 1, id });
       fetchUsuarios();
+      if (data.errorMessage) return setErrorMessage(data.errorMessage);
       Router.push('usuarios');
     }
   }

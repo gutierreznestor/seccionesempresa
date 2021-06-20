@@ -3,7 +3,7 @@ import { query } from '../../../lib/db';
 const handler = async (req, res) => {
   const { idUsuario, Operacion, Descripcion } = req.body;
   try {
-    if (!idUsuario?.trim() || !Operacion?.trim() || !Descripcion?.trim()) {
+    if (!idUsuario?.toString().trim() || !Operacion?.trim() || !Descripcion?.trim()) {
       return res
         .status(400)
         .json({ errorMessage: 'Complete todos los campos.' })

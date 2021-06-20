@@ -8,7 +8,9 @@ export const getUsuarios = async () => {
   return await res.json();
 }
 
-export const deleteUsuario = async (id) => {
+export const deleteUsuario = async ({ idUsuario, id }) => {
+  const user = await getUsuario(id);
+  const { Apellido, Nombre, Usuario } = user[0];
   const res = await fetch('/api/usuarios/delete-usuario', {
     method: 'DELETE',
     headers: {
@@ -18,6 +20,7 @@ export const deleteUsuario = async (id) => {
       id,
     }),
   });
+  await addLogUsuario({ idUsuario, Operacion: Operaciones.Delete, Descripcion: `${Apellido}, ${Nombre} (${Usuario})` });
   return await res.json();
 }
 
@@ -58,7 +61,7 @@ export const nuevoUsuario = async ({ idUsuario, Usuario, Nombre, Apellido, Passw
       Password,
     }),
   });
-  await addLogUsuario({ idUsuario, Operacion: Operaciones.Create, Descripcion: `${Apellido}, ${Nombre}` })
+  await addLogUsuario({ idUsuario, Operacion: Operaciones.Create, Descripcion: `${Apellido}, ${Nombre}` });
   return await res.json();
 }
 
