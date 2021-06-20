@@ -48,17 +48,12 @@ const ViewUser = () => {
       if (res.errorMessage) {
         return setErrorMessage(res.errorMessage);
       }
-      console.log(res)
       setPerfiles(res);
     }
     if (id) {
       getProfile(id);
     }
   }, [id]);
-
-  const onEdit = ({ idPerfil }) => {
-    console.log({ idPerfil, idUsuario: id });
-  }
 
   return (
     <Layout title="Datos usuario">
@@ -71,7 +66,7 @@ const ViewUser = () => {
           <ListItem title="Usuario" description={values?.Usuario} />
         </>
       }
-      <PerfilesUsuarioList list={perfiles} onEdit={onEdit} readonly />
+      <PerfilesUsuarioList list={perfiles} readonly />
       <AppLink
         href={`/usuarios/edit/${id}`}
         title='Editar usuario' />
