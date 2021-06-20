@@ -28,7 +28,7 @@ const LogsUsuariosList = ({ list = [] }) => {
           }) => (
             <tr key={idLogUsuario}>
               <td>{idLogUsuario}</td>
-              <td>{Creado}</td>
+              <td>{new Date(Creado).toLocaleString()}</td>
               <td>{idUsuario}</td>
               <td>{Usuario}</td>
               <td>{Operacion}</td>
