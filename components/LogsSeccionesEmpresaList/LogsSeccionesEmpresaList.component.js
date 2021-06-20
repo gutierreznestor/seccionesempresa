@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyledTable } from './LogsEmpleadosList.styled';
+import { StyledTable } from './LogsSeccionesEmpresaList.styled';
 
 const LogsSeccionesEmpresaList = ({ list = [] }) => {
   return (

@@ -7,6 +7,7 @@ const Auditoria = () => {
     <Layout title="Auditoría">
       <AppLink href='/auditoria/usuarios' title="Usuarios" />
       <AppLink href='/auditoria/empleados' title="Empleados" />
+      <AppLink href='/auditoria/seccionesEmpresa' title="Secciones empresa" />
     </Layout>
   )
 }
