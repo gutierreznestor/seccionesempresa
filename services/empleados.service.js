@@ -1,3 +1,6 @@
+import { addLogEmpleado } from "./logs.service";
+import { Operaciones } from '../constants';
+
 export const getEmpleados = async () => {
   const res = await fetch('/api/empleados/get-empleados', {
     method: 'GET',
@@ -5,7 +8,9 @@ export const getEmpleados = async () => {
   return await res.json();
 }
 
-export const deleteEmpleado = async (idEmpleado) => {
+export const deleteEmpleado = async ({ idUsuario, idEmpleado }) => {
+  const empleado = await getEmpleado(idEmpleado);
+  const { Nombre, Apellido } = empleado[0];
   const res = await fetch('/api/empleados/delete-empleado', {
     method: 'DELETE',
     headers: {
@@ -15,6 +20,7 @@ export const deleteEmpleado = async (idEmpleado) => {
       idEmpleado,
     }),
   });
+  await addLogEmpleado({ idUsuario, Operacion: Operaciones.Delete, Descripcion: `${Apellido}, ${Nombre}` });
   return await res.json();
 }
 
