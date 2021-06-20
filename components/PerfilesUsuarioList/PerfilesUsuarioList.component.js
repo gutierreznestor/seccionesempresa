@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ButtonTable from '../ButtonTable/ButtonTable.component';
 
 const PerfilesUsuarioList = ({ list = [], onDelete, onEdit, readonly }) => {
+
+  const [activeProfiles, setActiveProfiles] = useState(list);
+
+  useEffect(() => {
+    if (readonly) {
+      setActiveProfiles(list?.filter(perfil => perfil.TienePerfil !== 'No'));
+    } else {
+      setActiveProfiles(list);
+    }
+  }, [list, readonly]);
 
   return (
     <>
@@ -12,19 +22,25 @@ const PerfilesUsuarioList = ({ list = [], onDelete, onEdit, readonly }) => {
           <tr>
             <th>id</th>
             <th>Perfil</th>
-            <th>Tiene perfil</th>
           </tr>
-          {list.map(({ idPerfil, Perfil, idUsuario, TienePerfil }) => (
+          {activeProfiles.map(({ idPerfil, Perfil, idUsuario, TienePerfil }) => (
             <tr key={idPerfil}>
               <td>{idPerfil}</td>
               <td>{Perfil}</td>
-              <td>{TienePerfil === 'No' ? TienePerfil : <strong>{TienePerfil}</strong>}</td>
-              {!readonly && (
-                <td>
-                  <ButtonTable type='Editar' onClick={() => onEdit({ idPerfil })} />
-                  <ButtonTable type='Eliminar' onClick={() => onDelete(idPerfil)} />
-                </td>
-              )}
+              {!readonly ?
+                TienePerfil === 'No' ?
+                  <>
+                    <td>
+                      <ButtonTable type='Agregar' ti onClick={() => onEdit({ idPerfil, idUsuario })} />
+                    </td>
+                  </> :
+                  <>
+                    <td>
+                      <ButtonTable type='Quitar' ti onClick={() => onEdit({ idPerfil, idUsuario })} />
+                    </td>
+                  </>
+                : null
+              }
             </tr>
           ))}
         </tbody>
