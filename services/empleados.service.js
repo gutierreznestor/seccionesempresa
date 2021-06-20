@@ -1,4 +1,5 @@
 import { addLogEmpleado } from "./logs.service";
+import { getSeccionEmpresa } from './seccionesEmpresa.service';
 import { Operaciones } from '../constants';
 
 export const getEmpleados = async () => {
@@ -32,8 +33,8 @@ export const getEmpleado = async (id) => {
 }
 
 export const editarEmpleado = async ({ id, Nombre = '', Apellido = '', idSeccionEmpresa = '' }) => {
-  const url = `/api/empleados/edit-empleado?id=${id}`;
-  const res = await fetch(url, {
+  const seccionEmpresa = await getSeccionEmpresa(idSeccionEmpresa);
+  const res = await fetch(`/api/empleados/edit-empleado?id=${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -44,6 +45,13 @@ export const editarEmpleado = async ({ id, Nombre = '', Apellido = '', idSeccion
       idSeccionEmpresa,
     }),
   });
+  if (seccionEmpresa[0]?.Nombre) {
+    await addLogEmpleado({
+      idUsuario: id,
+      Operacion: Operaciones.Update,
+      Descripcion: `${Apellido}, ${Nombre}. ${seccionEmpresa[0]?.Nombre}`
+    });
+  }
   return await res.json();
 }
 
