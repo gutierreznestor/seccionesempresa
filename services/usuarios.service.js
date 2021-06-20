@@ -102,7 +102,9 @@ export const addPerfilUsuario = async ({ idUsuario, idPerfil }) => {
   return await res.json();
 }
 
-export const deletePerfilUsuario = async ({ idUsuario, idPerfil }) => {
+export const deletePerfilUsuario = async ({ user, idUsuario, idPerfil }) => {
+  const perfil = await getPerfil(idPerfil);
+  const usuario = await getUsuario(idUsuario);
   const res = await fetch('/api/usuarios/delete-perfil-usuario', {
     method: 'POST',
     headers: {
@@ -113,5 +115,6 @@ export const deletePerfilUsuario = async ({ idUsuario, idPerfil }) => {
       idPerfil,
     }),
   });
+  await addLogUsuario({ idUsuario: user, Operacion: Operaciones.Delete, Descripcion: `Perfil eliminado de ${usuario[0]?.Usuario}: ${perfil[0]?.Nombre}` });
   return await res.json();
 }

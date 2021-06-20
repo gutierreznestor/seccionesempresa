@@ -55,7 +55,8 @@ export const editarEmpleado = async ({ id, Nombre = '', Apellido = '', idSeccion
   return await res.json();
 }
 
-export const nuevoEmpleado = async ({ Nombre, Apellido, idSeccionEmpresa }) => {
+export const nuevoEmpleado = async ({ user, Nombre, Apellido, idSeccionEmpresa }) => {
+  const seccionEmpresa = await getSeccionEmpresa(idSeccionEmpresa);
   const url = `/api/empleados/new-empleado`;
   const res = await fetch(url, {
     method: 'POST',
@@ -68,5 +69,12 @@ export const nuevoEmpleado = async ({ Nombre, Apellido, idSeccionEmpresa }) => {
       idSeccionEmpresa,
     }),
   });
+  if (seccionEmpresa[0]?.Nombre) {
+    await addLogEmpleado({
+      idUsuario: user,
+      Operacion: Operaciones.Delete,
+      Descripcion: `${Apellido}, ${Nombre}. ${seccionEmpresa[0]?.Nombre}`
+    });
+  }
   return await res.json();
 }

@@ -22,7 +22,7 @@ const NuevaSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    const res = await nuevaSeccionEmpresa({ Nombre })
+    const res = await nuevaSeccionEmpresa({ user: 4, Nombre })
     if (res.errorMessage) {
       return setErrorMessage(res.errorMessage);
     }
