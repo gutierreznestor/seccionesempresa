@@ -3,7 +3,7 @@ import Router, { useRouter } from 'next/router';
 
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
-import { editarUsuario, getPerfilesUsuario, getUsuario } from '../../../../services/usuarios.service';
+import { addPerfilUsuario, editarUsuario, getPerfilesUsuario, getUsuario } from '../../../../services/usuarios.service';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import PerfilesUsuarioList from '../../../../components/PerfilesUsuarioList/PerfilesUsuarioList.component';
 
@@ -51,23 +51,20 @@ const EditUser = () => {
     if (id) {
       getData(id);
     }
-    return () => {
-      setErrorMessage('');
-    }
   }, [id]);
 
-  useEffect(() => {
-    const getProfile = async (id) => {
-      setErrorMessage('');
-      setLoading(true);
-      const res = await getPerfilesUsuario(id);
-      setLoading(false);
-      if (res.errorMessage) {
-        return setErrorMessage(res.errorMessage);
-      }
-      console.log(res)
-      setPerfiles(res);
+  const getProfile = async (id) => {
+    setErrorMessage('');
+    setLoading(true);
+    const res = await getPerfilesUsuario(id);
+    setLoading(false);
+    if (res.errorMessage) {
+      return setErrorMessage(res.errorMessage);
     }
+    setPerfiles(res);
+  }
+
+  useEffect(() => {
     if (id) {
       getProfile(id);
     }
@@ -80,8 +77,13 @@ const EditUser = () => {
     Router.push('/usuarios')
   }
 
-  const onEdit = ({ idPerfil }) => {
-    console.log({ idPerfil, idUsuario: id });
+  const onEdit = async ({ idPerfil }) => {
+    const res = await addPerfilUsuario({ idUsuario: id.toString(), idPerfil: idPerfil.toString() })
+    setLoading(false);
+    if (res.errorMessage) {
+      return setErrorMessage(res.errorMessage);
+    }
+    getProfile(id);
   }
 
   return (
