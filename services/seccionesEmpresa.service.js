@@ -1,3 +1,6 @@
+import { Operaciones } from "../constants";
+import { addLogSeccionEmpresa } from "./logs.service";
+
 export const getSeccionesEmpresa = async () => {
   const res = await fetch('/api/seccionesEmpresa/get-secciones-empresa', {
     method: 'GET',
@@ -39,7 +42,7 @@ export const editarSeccionEmpresa = async ({ id, Nombre = '' }) => {
   return await res.json();
 }
 
-export const nuevaSeccionEmpresa = async ({ Nombre = '' }) => {
+export const nuevaSeccionEmpresa = async ({ user = '', Nombre = '' }) => {
   const url = `/api/seccionesEmpresa/new-secciones-empresa`;
   const res = await fetch(url, {
     method: 'POST',
@@ -50,5 +53,13 @@ export const nuevaSeccionEmpresa = async ({ Nombre = '' }) => {
       Nombre,
     }),
   });
+  const resAddLog = await addLogSeccionEmpresa({
+    user,
+    Operacion: Operaciones.Create,
+    Descripcion: `Nueva sección: ${Nombre}`
+  });
+  if (resAddLog.errorMessage) {
+    return { errorMessage: resAddLog.errorMessage };
+  }
   return await res.json();
 }
