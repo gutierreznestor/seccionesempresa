@@ -10,7 +10,6 @@ const handler = async (req, res) => {
       .json({ errorMessage: 'Complete todos los campos.' })
   }
 
-  console.log({ Usuario, Password });
 
   const results = await query(
     `
@@ -23,16 +22,12 @@ const handler = async (req, res) => {
   if (!results?.length) {
     return res.status(401).json({ errorMessage: 'El usuario o la contraseña son inválidas.' });
   };
-  console.log({ results });
   const user = results[0];
-  console.log({ user });
   compare(Password, user.Password, function (err, result) {
-    console.log({ result });
-    if (result) {
-      return res.status(201).json({ errorMessage: 'Inicio de sesión correcto.' });
-    } else {
+    if (!result) {
       return res.status(401).json({ errorMessage: 'El usuario o la contraseña son inválidas.' });
     }
+    return res.status(201).json({ errorMessage: 'Inicio de sesión correcto.' });
     return res.json({ errorMessage: result })
     if (!err && result) {
       const claims = { sub: person.id, myPersonEmail: person.email };

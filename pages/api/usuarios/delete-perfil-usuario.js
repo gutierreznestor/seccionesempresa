@@ -3,7 +3,6 @@ import { query } from '../../../lib/db';
 
 const handler = async (req, res) => {
   const { idUsuario, idPerfil } = req.body;
-  console.log({ idUsuario, idPerfil });
   try {
     if (!idUsuario?.trim() || !idPerfil?.trim()) {
       return res
