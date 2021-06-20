@@ -41,3 +41,25 @@ export const addLogEmpleado = async ({ idUsuario, Operacion, Descripcion }) => {
   });
   return await res.json();
 }
+
+export const getLogsSeccionesEmpresa = async () => {
+  const res = await fetch('/api/logsSeccionesEmpresa/get-logs-secciones-empresa', {
+    method: 'GET',
+  });
+  return await res.json();
+}
+
+export const addLogSeccionEmpresa = async ({ idUsuario, Operacion, Descripcion }) => {
+  const res = await fetch('/api/logsSeccionesEmpresa/add-log-seccion-empresa', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      idUsuario,
+      Operacion,
+      Descripcion,
+    }),
+  });
+  return await res.json();
+}
