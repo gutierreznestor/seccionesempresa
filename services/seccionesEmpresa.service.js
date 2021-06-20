@@ -28,7 +28,7 @@ export const getSeccionEmpresa = async (id) => {
   return await res.json();
 }
 
-export const editarSeccionEmpresa = async ({ id, Nombre = '' }) => {
+export const editarSeccionEmpresa = async ({ user = '', id, Nombre = '' }) => {
   const url = `/api/seccionesEmpresa/edit-secciones-empresa?id=${id}`;
   const res = await fetch(url, {
     method: 'PATCH',
@@ -38,6 +38,11 @@ export const editarSeccionEmpresa = async ({ id, Nombre = '' }) => {
     body: JSON.stringify({
       Nombre,
     }),
+  });
+  await addLogSeccionEmpresa({
+    user,
+    Operacion: Operaciones.Update,
+    Descripcion: Nombre,
   });
   return await res.json();
 }
@@ -56,7 +61,7 @@ export const nuevaSeccionEmpresa = async ({ user = '', Nombre = '' }) => {
   const resAddLog = await addLogSeccionEmpresa({
     user,
     Operacion: Operaciones.Create,
-    Descripcion: `Nueva sección: ${Nombre}`
+    Descripcion: Nombre,
   });
   if (resAddLog.errorMessage) {
     return { errorMessage: resAddLog.errorMessage };

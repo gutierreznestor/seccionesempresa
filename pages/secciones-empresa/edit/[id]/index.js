@@ -38,7 +38,7 @@ const EditarSeccion = () => {
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    const res = await editarSeccionEmpresa({ id, Nombre })
+    const res = await editarSeccionEmpresa({ user: 9, id, Nombre })
     if (res.errorMessage) {
       setErrorMessage(res.errorMessage);
     } else {
