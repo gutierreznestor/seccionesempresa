@@ -89,3 +89,17 @@ export const addPerfilUsuario = async ({ idUsuario, idPerfil }) => {
   });
   return await res.json();
 }
+
+export const deletePerfilUsuario = async ({ idUsuario, idPerfil }) => {
+  const res = await fetch('/api/usuarios/delete-perfil-usuario', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      idUsuario,
+      idPerfil,
+    }),
+  });
+  return await res.json();
+}

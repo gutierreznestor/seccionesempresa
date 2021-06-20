@@ -36,7 +36,7 @@ const PerfilesUsuarioList = ({ list = [], onDelete, onEdit, readonly }) => {
                   </> :
                   <>
                     <td>
-                      <ButtonTable type='Quitar' ti onClick={() => onEdit({ idPerfil, idUsuario })} />
+                      <ButtonTable type='Quitar' ti onClick={() => onDelete({ idPerfil, idUsuario })} />
                     </td>
                   </>
                 : null

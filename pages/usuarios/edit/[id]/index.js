@@ -3,7 +3,7 @@ import Router, { useRouter } from 'next/router';
 
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
-import { addPerfilUsuario, editarUsuario, getPerfilesUsuario, getUsuario } from '../../../../services/usuarios.service';
+import { addPerfilUsuario, deletePerfilUsuario, editarUsuario, getPerfilesUsuario, getUsuario } from '../../../../services/usuarios.service';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import PerfilesUsuarioList from '../../../../components/PerfilesUsuarioList/PerfilesUsuarioList.component';
 
@@ -86,6 +86,15 @@ const EditUser = () => {
     getProfile(id);
   }
 
+  const onDelete = async ({ idPerfil }) => {
+    const res = await deletePerfilUsuario({ idUsuario: id.toString(), idPerfil: idPerfil.toString() })
+    setLoading(false);
+    if (res.errorMessage) {
+      return setErrorMessage(res.errorMessage);
+    }
+    getProfile(id);
+  }
+
   return (
     <Layout title='Editar usuario'>
       <h1>Editar usuario</h1>
@@ -100,7 +109,7 @@ const EditUser = () => {
             defaultValues={{ ...values }} />
         </>
       }
-      <PerfilesUsuarioList list={perfiles} onEdit={onEdit} />
+      <PerfilesUsuarioList list={perfiles} onEdit={onEdit} onDelete={onDelete} />
     </Layout>
   )
 }
