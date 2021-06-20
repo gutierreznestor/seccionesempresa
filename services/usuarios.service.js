@@ -44,6 +44,7 @@ export const editarUsuario = async ({ id, Nombre = '', Apellido = '', Usuario = 
       Usuario,
     }),
   });
+  await addLogUsuario({ idUsuario: id, Operacion: Operaciones.Update, Descripcion: `${Apellido}, ${Nombre} (${Usuario})` });
   return await res.json();
 }
 
