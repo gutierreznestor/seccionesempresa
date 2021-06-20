@@ -64,3 +64,28 @@ export const getPerfilesUsuario = async (id) => {
   });
   return await res.json();
 }
+
+export const getPerfilUsuario = async (idUsuario, idPerfil) => {
+  const res = await fetch(`/api/usuarios/get-perfil-usuario?idUsuario=${idUsuario}&idPerfil=${idPerfil}`, {
+    method: 'GET',
+  });
+  return await res.json();
+}
+
+export const addPerfilUsuario = async ({ idUsuario, idPerfil }) => {
+  const hasProfile = await getPerfilUsuario(idUsuario, idPerfil);
+  if (hasProfile.length) {
+    return { errorMessage: 'No se puede agregar el mismo perfil.' }
+  }
+  const res = await fetch('/api/usuarios/add-perfil-usuario', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      idUsuario,
+      idPerfil,
+    }),
+  });
+  return await res.json();
+}
