@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { getLogsUsuarios } from '../../../services/logs.service';
+import { getLogsEmpleados } from '../../../services/logs.service';
 
 import Layout from '../../../components/Layout';
 import LogsEmpleadosList from '../../../components/LogsEmpleadosList/LogsEmpleadosList.component';
@@ -13,7 +13,7 @@ const AuditoriaEmpleados = () => {
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
-      const data = await getLogsUsuarios();
+      const data = await getLogsEmpleados();
       if (data.errorMessage) return setErrorMessage(data.errorMessage)
       setLoading(false)
       setLogsUsuarios(data);
