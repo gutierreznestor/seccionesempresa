@@ -24,6 +24,10 @@ const links = [
     label: 'Perfiles',
     url: '/perfiles',
   },
+  {
+    label: 'Auditoria',
+    url: '/auditoria',
+  },
 ];
 
 const Navbar = () => {
