@@ -4,14 +4,12 @@ const handler = async (req, res) => {
   try {
     const { id } = req.query;
     const results = await query(`
-      SELECT perfiles.idPerfil, perfiles.Nombre AS Perfil, IF (usuarios.idUsuario IS NOT NULL, 'Sí', 'No') AS TienePerfil 
+      SELECT perfiles.idPerfil, perfiles.Nombre AS Perfil, IF(up.idUsuarioPerfil IS NULL, 'No', 'Sí') AS TienePerfil
       FROM perfiles
       LEFT JOIN usuarios_tiene_perfiles as up ON 
-        (up.idPerfil = perfiles.idPerfil)
-      LEFT JOIN usuarios ON 
-      (usuarios.idUsuario = up.idUsuario AND usuarios.idUsuario=?)
+        (up.idPerfil = perfiles.idPerfil AND up.idUsuario=?)
       WHERE 1
-      GROUP BY perfiles.idPerfil    
+      GROUP BY perfiles.idPerfil   
       `,
       [id],
     );
