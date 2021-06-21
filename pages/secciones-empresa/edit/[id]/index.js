@@ -66,7 +66,7 @@ export default EditarSeccion;
 
 EditarSeccion.getInitialProps = async (ctx) => {
   const cookie = ctx.req?.headers.cookie;
-  const respSE = await fetch(`http://localhost:3000/api/secciones-empresa/get-seccion-empresa?id=${ctx.query.id}`, {
+  const respSE = await fetch(`http://localhost:3000/api/secciones-empresa/get-seccion-empresa?id=${ctx.req?.query.id}`, {
     headers: {
       cookie,
     }
