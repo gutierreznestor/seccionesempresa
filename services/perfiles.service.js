@@ -34,7 +34,7 @@ export const getPerfil = async (id) => {
   return await res.json();
 }
 
-export const editarPerfil = async ({ id, Nombre = '' }) => {
+export const editarPerfil = async ({ user, id, Nombre = '' }) => {
   const url = `/api/perfiles/edit-perfil?id=${id}`;
   const res = await fetch(url, {
     method: 'PATCH',
@@ -45,6 +45,10 @@ export const editarPerfil = async ({ id, Nombre = '' }) => {
       Nombre,
     }),
   });
+  const resAddLog = await addLogPerfil({ user, Operacion: Operaciones.Update, Descripcion: Nombre });
+  if (resAddLog.errorMessage) {
+    return { errorMessage: resAddLog.errorMessage };
+  }
   return await res.json();
 }
 

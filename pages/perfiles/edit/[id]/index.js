@@ -36,8 +36,8 @@ const EditarPerfil = () => {
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    const data = await editarPerfil({ id, Nombre })
-    if (data.errorMessage) return;
+    const res = await editarPerfil({ user: 9, id, Nombre })
+    if (res.errorMessage) return;
     Router.push('/perfiles')
   }
 
