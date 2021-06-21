@@ -46,7 +46,7 @@ Empleados.getInitialProps = async (ctx) => {
   })
   const listEmpleados = await resp.json();
   let user = null;
-  verify(ctx.req.cookies.auth, 'secret', async (err, decoded) => {
+  verify(cookie, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
