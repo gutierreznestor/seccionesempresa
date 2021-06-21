@@ -129,7 +129,6 @@ ALTER TABLE logs_empleados
   ADD FOREIGN KEY (idUsuario)
   REFERENCES usuarios(idUsuario);
 
-
 CREATE TABLE IF NOT EXISTS logs_secciones_empresa (
   Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   idLogSeccionEmpresa INT AUTO_INCREMENT PRIMARY KEY,
@@ -139,5 +138,17 @@ CREATE TABLE IF NOT EXISTS logs_secciones_empresa (
 );
 
 ALTER TABLE logs_secciones_empresa 
+  ADD FOREIGN KEY (idUsuario)
+  REFERENCES usuarios(idUsuario);
+
+CREATE TABLE IF NOT EXISTS logs_perfiles (
+  Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  idLogPerfil INT AUTO_INCREMENT PRIMARY KEY,
+  idUsuario INT NOT NULL,
+  Operacion VARCHAR(50) NOT NULL,
+  Descripcion VARCHAR(200) NOT NULL
+);
+
+ALTER TABLE logs_perfiles 
   ADD FOREIGN KEY (idUsuario)
   REFERENCES usuarios(idUsuario);
