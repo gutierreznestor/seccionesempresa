@@ -19,15 +19,15 @@ const LogsPerfilesList = ({ list = [] }) => {
             <th>Descripción</th>
           </tr>
           {list.map(({
-            idLogEmpleado,
+            idLogPerfil,
             Creado,
             idUsuario,
             Usuario,
             Operacion,
             Descripcion
           }) => (
-            <tr key={idLogEmpleado}>
-              <td>{idLogEmpleado}</td>
+            <tr key={idLogPerfil}>
+              <td>{idLogPerfil}</td>
               <td>{new Date(Creado).toLocaleString()}</td>
               <td>{idUsuario}</td>
               <td>{Usuario}</td>
