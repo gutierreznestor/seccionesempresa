@@ -25,7 +25,7 @@ const links = [
     url: '/perfiles',
   },
   {
-    label: 'Auditoria',
+    label: 'Auditoría',
     url: '/auditoria',
   },
 ];

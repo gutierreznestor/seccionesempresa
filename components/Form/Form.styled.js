@@ -7,6 +7,7 @@ export const StyledForm = styled.form`
   align-items: center;
   background-color: #f2f2f2;
   width: 400px;
+  margin-bottom: 20px;
 `;
 
 export const ErrorField = styled.span`

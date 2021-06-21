@@ -32,7 +32,7 @@ const Perfiles = () => {
     const ok = confirm('¿Quieres eliminar el perfil?');
     if (ok) {
       setLoading(true);
-      const data = await deletePerfiles(id);
+      const data = await deletePerfiles({ user: 3, id });
       setLoading(false);
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
       fetchPerfiles();

@@ -63,3 +63,25 @@ export const addLogSeccionEmpresa = async ({ user, Operacion, Descripcion }) => 
   });
   return await res.json();
 }
+
+export const getLogsPerfiles = async () => {
+  const res = await fetch('/api/logsPerfiles/get-logs-perfiles', {
+    method: 'GET',
+  });
+  return await res.json();
+}
+
+export const addLogPerfil = async ({ user, Operacion, Descripcion }) => {
+  const res = await fetch('/api/logsPerfiles/add-log-perfil', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      idUsuario: user,
+      Operacion,
+      Descripcion,
+    }),
+  });
+  return await res.json();
+}
