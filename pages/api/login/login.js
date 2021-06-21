@@ -1,8 +1,8 @@
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
+import cookie from 'cookie';
 
 import { query } from '../../../lib/db';
-import { getPerfilesUsuario } from '../../../services/usuarios.service';
 
 const handler = async (req, res) => {
   const { Usuario, Password } = req.body;
@@ -49,14 +49,21 @@ const handler = async (req, res) => {
         }
         const claims = { user: userPayload };
         const jwt = sign(claims, 'secret', { expiresIn: '7d' });
-        res.json({ authToken: jwt });
+        res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== 'development',
+          sameSite: 'strict',
+          maxAge: 604800,
+          path: '/',
+        }));
+        res.json({ message: 'Bienvenido nuevamente.' });
       } else {
-        res.json({ errorMessage: 'Ups, something went wrong!' });
+        res.json({ errorMessage: 'Algo salió mal.' });
       };
     });
   } catch (error) {
     res.json({ errorMessage: error.message });
   }
-}
+};
 
-export default handler
+export default handler;
