@@ -3,13 +3,10 @@ import fetch from 'isomorphic-unfetch';
 
 export const customHttps = async (url, method = 'GET', ctx) => {
   const cookie = ctx.req?.headers.cookie;
-  const resp = await fetch(
-    {
-      url,
-      method,
-    },
+  const resp = await fetch(url,
     {
       headers: {
+        method,
         cookie,
       }
     });
@@ -26,5 +23,5 @@ export const customHttps = async (url, method = 'GET', ctx) => {
     ctx.res.end();
     return;
   }
-  return await res.json();
+  return await resp.json();
 }
