@@ -23,7 +23,7 @@ const NuevoPerfil = () => {
   const onSubmit = async (data) => {
     setErrorMessage('');
     const { Nombre } = data;
-    const res = await nuevoPerfil({ Nombre })
+    const res = await nuevoPerfil({ user: 1, Nombre })
     if (res.errorMessage) return setErrorMessage(res.errorMessage)
     Router.push('/perfiles')
   }

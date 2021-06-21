@@ -1,3 +1,6 @@
+import { Operaciones } from "../constants";
+import { addLogPerfil } from "./logs.service";
+
 export const getPerfiles = async () => {
   const res = await fetch('/api/perfiles/get-perfiles', {
     method: 'GET',
@@ -6,6 +9,8 @@ export const getPerfiles = async () => {
 }
 
 export const deletePerfiles = async (id) => {
+  const perfil = await getPerfil(id);
+  const { Nombre } = perfil[0];
   const res = await fetch('/api/perfiles/delete-perfil', {
     method: 'DELETE',
     headers: {
@@ -15,6 +20,10 @@ export const deletePerfiles = async (id) => {
       id,
     }),
   });
+  const resAddLog = await addLogPerfil({ idUsuario, Operacion: Operaciones.Create, Descripcion: Nombre });
+  if (resAddLog.errorMessage) {
+    return { errorMessage: resAddLog.errorMessage };
+  }
   return await res.json();
 }
 
@@ -39,7 +48,7 @@ export const editarPerfil = async ({ id, Nombre = '' }) => {
   return await res.json();
 }
 
-export const nuevoPerfil = async ({ Nombre = '' }) => {
+export const nuevoPerfil = async ({ user = '', Nombre = '' }) => {
   const url = `/api/perfiles/new-perfil`;
   const res = await fetch(url, {
     method: 'POST',
@@ -50,5 +59,13 @@ export const nuevoPerfil = async ({ Nombre = '' }) => {
       Nombre,
     }),
   });
+  const resAddLog = await addLogPerfil({
+    user,
+    Operacion: Operaciones.Create,
+    Descripcion: Nombre,
+  });
+  if (resAddLog.errorMessage) {
+    return { errorMessage: resAddLog.errorMessage };
+  }
   return await res.json();
 }
