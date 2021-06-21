@@ -8,7 +8,7 @@ export const getPerfiles = async () => {
   return await res.json();
 }
 
-export const deletePerfiles = async (id) => {
+export const deletePerfiles = async ({ user, id }) => {
   const perfil = await getPerfil(id);
   const { Nombre } = perfil[0];
   const res = await fetch('/api/perfiles/delete-perfil', {
@@ -20,7 +20,7 @@ export const deletePerfiles = async (id) => {
       id,
     }),
   });
-  const resAddLog = await addLogPerfil({ idUsuario, Operacion: Operaciones.Create, Descripcion: Nombre });
+  const resAddLog = await addLogPerfil({ user, Operacion: Operaciones.Delete, Descripcion: Nombre });
   if (resAddLog.errorMessage) {
     return { errorMessage: resAddLog.errorMessage };
   }
