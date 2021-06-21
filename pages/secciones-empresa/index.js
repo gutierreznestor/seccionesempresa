@@ -7,25 +7,10 @@ import AppLink from '../../components/AppLink/AppLink.component';
 import { deleteSeccionesEmpresa, getSeccionesEmpresa } from '../../services/seccionesEmpresa.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 
-const SeccionesEmpresa = () => {
+const SeccionesEmpresa = ({ listSecciones }) => {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-
-  const fetchSeccionesEmpresa = async () => {
-    setLoading(true);
-    const data = await getSeccionesEmpresa();
-    setLoading(false)
-    if (data.errorMessage) return setErrorMessage(data.errorMessage)
-    setList(data);
-  }
-
-  useEffect(() => {
-    fetchSeccionesEmpresa();
-    return () => {
-      setErrorMessage('');
-    }
-  }, []);
 
   const onDelete = async (id) => {
     setErrorMessage('');
@@ -35,7 +20,6 @@ const SeccionesEmpresa = () => {
       const data = await deleteSeccionesEmpresa(id);
       setLoading(false);
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
-      fetchSeccionesEmpresa();
       Router.push('secciones-empresa');
     }
   }
@@ -48,11 +32,22 @@ const SeccionesEmpresa = () => {
       {loading ?
         <span>Cargando...</span> :
         <SeccionesEmpresaList
-          list={list}
+          list={listSecciones}
           onDelete={onDelete} />
       }
     </Layout>
   )
+}
+
+SeccionesEmpresa.getInitialProps = async (ctx) => {
+  const cookie = ctx.req?.headers.cookie;
+  const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
+    headers: {
+      cookie,
+    }
+  })
+  const listSecciones = await respSE.json();
+  return { listSecciones };
 }
 
 export default SeccionesEmpresa;
