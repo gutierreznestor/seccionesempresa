@@ -16,5 +16,5 @@ const handler = async (_, res) => {
 
 export default authenticated(
   handler,
-  ['supervisor', 'admin', 'auditor'],
+  ['admin', 'supervisor', 'auditor'],
 );
