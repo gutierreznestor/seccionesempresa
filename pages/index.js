@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import fetch from 'isomorphic-unfetch';
 
 import ErrorMessage from '../components/ErrorMessage/ErrorMessage.component';
 import Layout from '../components/Layout'
@@ -7,31 +8,9 @@ import EmpleadosList from '../components/EmpleadosList/EmpleadosList.component';
 import { getSeccionesEmpresa } from '../services/seccionesEmpresa.service';
 import { getEmpleados } from '../services/empleados.service';
 
-const Home = () => {
-  const [loading, setLoading] = useState(false);
-  const [seccionesList, setSeccionesList] = useState([]);
-  const [empleadosList, setEmpleadosList] = useState([]);
+const Home = ({ listSecciones, listEmpleados }) => {
   const [errorMessage, setErrorMessage] = useState('');
-
   useEffect(() => {
-    const fetchSeccionesEmpresa = async () => {
-      setLoading(true);
-      const data = await getSeccionesEmpresa();
-      if (data.errorMessage) return setErrorMessage(data.errorMessage)
-      setLoading(false)
-      setSeccionesList(data);
-    }
-
-    const fetchEmpleados = async () => {
-      setLoading(true);
-      const data = await getEmpleados();
-      setLoading(false)
-      if (data.errorMessage) return setErrorMessage(data.errorMessage)
-      setEmpleadosList(data);
-    }
-
-    fetchSeccionesEmpresa();
-    fetchEmpleados();
     return () => {
       setErrorMessage('');
     }
@@ -41,17 +20,32 @@ const Home = () => {
     <Layout title="Home">
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <h2>Secciones empresa</h2>
-      {loading ?
-        <span>Cargando...</span> :
-        !errorMessage && <SeccionesEmpresaList list={seccionesList} readonly />
+      {
+        !errorMessage && <SeccionesEmpresaList list={listSecciones} readonly />
       }
       <h2>Empleados</h2>
-      {loading ?
-        <span>Cargando...</span> :
-        !errorMessage && <EmpleadosList list={empleadosList} readonly />
+      {
+        !errorMessage && <EmpleadosList list={listEmpleados} readonly />
       }
     </Layout>
   )
+}
+
+Home.getInitialProps = async (ctx) => {
+  const cookie = ctx.req?.headers.cookie;
+  const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
+    headers: {
+      cookie,
+    }
+  })
+  const listSecciones = await respSE.json();
+  const respE = await fetch('http://localhost:3000/api/empleados/get-empleados', {
+    headers: {
+      cookie,
+    }
+  })
+  const listEmpleados = await respE.json();
+  return { listSecciones, listEmpleados };
 }
 
 export default Home;
