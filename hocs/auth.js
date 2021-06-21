@@ -28,6 +28,6 @@ export const authenticated = (fn, allowed) => async (req, res) => {
     }
     return res.status(401).json({ message: 'No estás autenticado.' })
   } catch (err) {
-    res.send(res, 500, 'My custom error!')
+    res.send(res, 500, 'Algo salió mal.')
   }
 }
