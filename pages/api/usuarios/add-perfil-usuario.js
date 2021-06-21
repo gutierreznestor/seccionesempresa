@@ -1,6 +1,4 @@
-import { hash } from 'bcrypt';
 import { query } from '../../../lib/db';
-import { getPerfilesUsuario } from '../../../services/usuarios.service';
 
 const handler = async (req, res) => {
   const { idUsuario, idPerfil } = req.body;
