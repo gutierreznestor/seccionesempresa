@@ -25,7 +25,7 @@ const LoginForm = [
   },
 ];
 
-const Registro = () => {
+const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
@@ -46,4 +46,4 @@ const Registro = () => {
   )
 }
 
-export default Registro
+export default Login;
