@@ -1,31 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Router from 'next/router';
+import React, { useState } from 'react';
+import { verify } from 'jsonwebtoken';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import EmpleadosList from '../../components/EmpleadosList/EmpleadosList.component';
-import { deleteEmpleado, getEmpleados } from '../../services/empleados.service';
+import { deleteEmpleado } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 
-const Empleados = () => {
+const Empleados = ({ listEmpleados }) => {
   const [loading, setLoading] = useState(false);
-  const [list, setList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-
-  const fetchEmpleados = async () => {
-    setLoading(true);
-    const data = await getEmpleados();
-    setLoading(false);
-    if (data.errorMessage) return setErrorMessage(data.errorMessage)
-    setList(data);
-  }
-
-  useEffect(() => {
-    fetchEmpleados();
-    return () => {
-      setErrorMessage('');
-    }
-  }, []);
 
   const onDelete = async (id) => {
     const ok = confirm('¿Quieres eliminar al empleado?');
@@ -33,8 +17,8 @@ const Empleados = () => {
       setLoading(true);
       const data = await deleteEmpleado({ idUsuario: 1, idEmpleado: id });
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
-      fetchEmpleados();
-      Router.push('empleados');
+      // fetchEmpleados();
+      // Router.push('empleados');
     }
   }
 
@@ -46,11 +30,28 @@ const Empleados = () => {
       {loading ?
         <span>Cargando...</span> :
         <EmpleadosList
-          list={list}
+          list={listEmpleados}
           onDelete={onDelete}
         />}
     </Layout>
   )
+}
+
+Empleados.getInitialProps = async (ctx) => {
+  const cookie = ctx.req?.headers.cookie;
+  const resp = await fetch('http://localhost:3000/api/empleados/get-empleados', {
+    headers: {
+      cookie,
+    }
+  })
+  const listEmpleados = await resp.json();
+  let user = null;
+  verify(ctx.req.cookies.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return { listEmpleados, user };
 }
 
 export default Empleados;
