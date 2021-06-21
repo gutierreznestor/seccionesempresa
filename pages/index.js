@@ -13,23 +13,23 @@ const Home = () => {
   const [empleadosList, setEmpleadosList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const fetchSeccionesEmpresa = async () => {
-    setLoading(true);
-    const data = await getSeccionesEmpresa();
-    if (data.errorMessage) return setErrorMessage(data.errorMessage)
-    setLoading(false)
-    setSeccionesList(data);
-  }
-
-  const fetchEmpleados = async () => {
-    setLoading(true);
-    const data = await getEmpleados();
-    setLoading(false)
-    if (data.errorMessage) return setErrorMessage(data.errorMessage)
-    setEmpleadosList(data);
-  }
-
   useEffect(() => {
+    const fetchSeccionesEmpresa = async () => {
+      setLoading(true);
+      const data = await getSeccionesEmpresa();
+      if (data.errorMessage) return setErrorMessage(data.errorMessage)
+      setLoading(false)
+      setSeccionesList(data);
+    }
+
+    const fetchEmpleados = async () => {
+      setLoading(true);
+      const data = await getEmpleados();
+      setLoading(false)
+      if (data.errorMessage) return setErrorMessage(data.errorMessage)
+      setEmpleadosList(data);
+    }
+
     fetchSeccionesEmpresa();
     fetchEmpleados();
     return () => {

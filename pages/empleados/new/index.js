@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Router from 'next/router'
 
 import { nuevoEmpleado } from '../../../services/empleados.service';
+import { getSeccionesEmpresa } from '../../../services/seccionesEmpresa.service';
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
+import SeccionesEmpresaList from '../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
+import Button from '../../../components/Button/Button.component';
 
 const NuevoEmpleadoForm = [
   {
@@ -35,12 +38,22 @@ const NuevoEmpleadoForm = [
 
 const NuevaSeccion = () => {
   const [errorMessage, setErrorMessage] = useState('');
-
+  const [seccionesList, setSeccionesList] = useState([]);
+  const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
   useEffect(() => {
     return () => {
       setErrorMessage('');
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const fetchSeccionesEmpresa = async () => {
+      const data = await getSeccionesEmpresa();
+      if (data.errorMessage) return setErrorMessage(data.errorMessage)
+      setSeccionesList(data);
+    }
+    fetchSeccionesEmpresa();
+  }, []);
 
   const onSubmit = async (data) => {
     setErrorMessage('');
@@ -55,6 +68,8 @@ const NuevaSeccion = () => {
       <h1>Nuevo empleado</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoEmpleadoForm} />
+      <Button label="Ver/Ocultar Secciones" onClick={() => setShowSeccionesEmpresa(prev => !prev)} />
+      {showSeccionesEmpresa && <SeccionesEmpresaList list={seccionesList} readonly />}
     </Layout>
   )
 }
