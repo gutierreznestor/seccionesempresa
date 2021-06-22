@@ -32,9 +32,9 @@ export const getEmpleado = async (id) => {
   return await res.json();
 }
 
-export const editarEmpleado = async ({ id, Nombre = '', Apellido = '', idSeccionEmpresa = '' }) => {
+export const editarEmpleado = async ({ idEmpleado, user, Nombre = '', Apellido = '', idSeccionEmpresa = '' }) => {
   const seccionEmpresa = await getSeccionEmpresa(idSeccionEmpresa);
-  const res = await fetch(`/api/empleados/edit-empleado?id=${id}`, {
+  const res = await fetch(`/api/empleados/edit-empleado?id=${idEmpleado}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export const editarEmpleado = async ({ id, Nombre = '', Apellido = '', idSeccion
   });
   if (seccionEmpresa[0]?.Nombre) {
     await addLogEmpleado({
-      idUsuario: id,
+      idUsuario: user,
       Operacion: Operaciones.Update,
       Descripcion: `${Apellido}, ${Nombre}. ${seccionEmpresa[0]?.Nombre}`
     });
