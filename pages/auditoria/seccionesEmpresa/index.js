@@ -5,6 +5,7 @@ import { verify } from 'jsonwebtoken';
 import Layout from '../../../components/Layout';
 import LogsSeccionesEmpresaList from '../../../components/LogsSeccionesEmpresaList/LogsSeccionesEmpresaList.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
+import parseCookies from '../../../helpers/parseCookies';
 
 const AuditoriaSeccionesEmpresa = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -19,8 +20,8 @@ const AuditoriaSeccionesEmpresa = ({ data }) => {
   )
 }
 
-AuditoriaSeccionesEmpresa.getInitialProps = async (ctx) => {
-  const cookie = ctx.req?.cookies.auth;
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
   const respSE = await fetch(`http://localhost:3000/api/logsSeccionesEmpresa/get-logs-secciones-empresa`, {
     headers: {
       cookie,
@@ -34,7 +35,9 @@ AuditoriaSeccionesEmpresa.getInitialProps = async (ctx) => {
       user = decoded.user;
     }
   });
-  return { data, user };
+  return {
+    props: { data, user },
+  }
 }
 
 export default AuditoriaSeccionesEmpresa;
