@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
+import fetch from 'isomorphic-unfetch';
+import { verify } from 'jsonwebtoken';
 
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
-import { editarPerfil, getPerfil } from '../../../../services/perfiles.service';
+import { editarPerfil } from '../../../../services/perfiles.service';
+import parseCookies from '../../../../helpers/parseCookies';
 
 const EditarPerfilForm = [
   {
@@ -16,27 +19,12 @@ const EditarPerfilForm = [
   },
 ];
 
-const EditarPerfil = () => {
+const EditarPerfil = ({ data, user }) => {
   const { query: { id } } = useRouter();
-  const [values, setValues] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  const getData = async (id) => {
-    setLoading(true);
-    const data = await getPerfil(id);
-    setValues(data ? data[0] : {});
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    if (id) {
-      getData(id);
-    }
-  }, [id])
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    const res = await editarPerfil({ user: 9, id, Nombre })
+    const res = await editarPerfil({ user: user?.idUsuario, id, Nombre })
     if (res.errorMessage) return;
     Router.push('/perfiles')
   }
@@ -44,16 +32,34 @@ const EditarPerfil = () => {
   return (
     <Layout title='Editar perfil'>
       <h1>Editar perfil</h1>
-      {loading ?
-        <span>Cargando...</span> :
-        <Form
-          onFormSubmit={onSubmit}
-          config={EditarPerfilForm}
-          buttonLabel='Editar'
-          defaultValues={{ ...values }} />
-      }
+      <Form
+        onFormSubmit={onSubmit}
+        config={EditarPerfilForm}
+        buttonLabel='Editar'
+        defaultValues={data} />
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const resp = await fetch(`http://localhost:3000/api/perfiles/get-perfil?id=${ctx.query?.id}`, {
+    headers: {
+      cookie,
+    }
+  })
+  let res = await resp.json();
+  let data = res && res.length ? res[0] : {};
+  data.id = ctx.query?.id;
+  let user = null;
+  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { data, user },
+  }
 }
 
 export default EditarPerfil;
