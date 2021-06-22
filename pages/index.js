@@ -6,8 +6,9 @@ import ErrorMessage from '../components/ErrorMessage/ErrorMessage.component';
 import Layout from '../components/Layout'
 import SeccionesEmpresaList from '../components/SeccionesEmpresaList/SeccionesEmpresaList.component'
 import EmpleadosList from '../components/EmpleadosList/EmpleadosList.component';
+import parseCookies from '../helpers/parseCookies';
 
-const Home = ({ listSecciones, listEmpleados }) => {
+const Home = ({ listSecciones, listEmpleados, user }) => {
   const [errorMessage, setErrorMessage] = useState('');
   useEffect(() => {
     return () => {
@@ -30,8 +31,9 @@ const Home = ({ listSecciones, listEmpleados }) => {
   )
 }
 
-Home.getInitialProps = async (ctx) => {
-  const cookie = ctx.req?.headers.cookie;
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  console.log({ cookie })
   const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
     headers: {
       cookie,
@@ -45,12 +47,14 @@ Home.getInitialProps = async (ctx) => {
   });
   const listEmpleados = await respE.json();
   let user = null;
-  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+  verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
-  return { listSecciones, listEmpleados, user };
+  return {
+    props: { listSecciones, listEmpleados, user }
+  };
 }
 
 export default Home;
