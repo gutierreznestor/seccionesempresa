@@ -29,7 +29,7 @@ export const getSeccionEmpresa = async (id) => {
   return await res.json();
 }
 
-export const editarSeccionEmpresa = async ({ user = '', id, Nombre = '' }) => {
+export const editarSeccionEmpresa = async ({ user, id, Nombre = '' }) => {
   const url = `http://localhost:3000/api/secciones-empresa/edit-secciones-empresa?id=${id}`;
   const res = await fetch(url, {
     method: 'PATCH',
@@ -48,7 +48,7 @@ export const editarSeccionEmpresa = async ({ user = '', id, Nombre = '' }) => {
   return await res.json();
 }
 
-export const nuevaSeccionEmpresa = async ({ user = 1, Nombre = '' }) => {
+export const nuevaSeccionEmpresa = async ({ user, Nombre = '' }) => {
   const url = `http://localhost:3000/api/secciones-empresa/new-secciones-empresa`;
   const res = await fetch(url, {
     method: 'POST',
