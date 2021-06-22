@@ -30,7 +30,7 @@ export async function getServerSideProps(ctx) {
   let res = await respSE.json();
   let data = (res && res.length) ? res : [];
   let user = null;
-  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+  verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
