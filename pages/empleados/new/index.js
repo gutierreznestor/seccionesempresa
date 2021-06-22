@@ -9,6 +9,7 @@ import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import SeccionesEmpresaList from '../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
 import Button from '../../../components/Button/Button.component';
+import parseCookies from '../../../helpers/parseCookies';
 
 const NuevoEmpleadoForm = [
   {
@@ -37,7 +38,7 @@ const NuevoEmpleadoForm = [
   },
 ];
 
-const NuevoEmpleado = () => {
+const NuevoEmpleado = ({ user }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [seccionesList, setSeccionesList] = useState([]);
   const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
@@ -59,7 +60,7 @@ const NuevoEmpleado = () => {
   const onSubmit = async (data) => {
     setErrorMessage('');
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    const res = await nuevoEmpleado({ user: '3', Nombre, Apellido, idSeccionEmpresa })
+    const res = await nuevoEmpleado({ user: user.idUsuario, Nombre, Apellido, idSeccionEmpresa })
     if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/empleados')
   }
@@ -75,14 +76,17 @@ const NuevoEmpleado = () => {
   )
 }
 
-NuevoEmpleado.getInitialProps = async (ctx) => {
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
   let user = null;
-  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+  verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
-  return { user };
+  return {
+    props: { user },
+  }
 }
 
 export default NuevoEmpleado;
