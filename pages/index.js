@@ -45,7 +45,7 @@ Home.getInitialProps = async (ctx) => {
   });
   const listEmpleados = await respE.json();
   let user = null;
-  verify(cookie, 'secret', async (err, decoded) => {
+  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
