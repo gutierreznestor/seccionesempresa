@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
+import fetch from 'isomorphic-unfetch';
+import { verify } from 'jsonwebtoken';
 
 import Layout from '../../components/Layout'
 import SeccionesEmpresaList from '../../components/SeccionesEmpresaList/SeccionesEmpresaList.component'
@@ -47,7 +49,13 @@ SeccionesEmpresa.getInitialProps = async (ctx) => {
     }
   })
   const listSecciones = await respSE.json();
-  return { listSecciones };
+  let user = null;
+  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return { listSecciones, user };
 }
 
 export default SeccionesEmpresa;
