@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import Router from 'next/router';
+import { verify } from 'jsonwebtoken';
+import fetch from 'isomorphic-unfetch';
 
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
 import { getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
-import { editarEmpleado, getEmpleado } from '../../../../services/empleados.service';
+import { editarEmpleado } from '../../../../services/empleados.service';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import Message from '../../../../components/Message/Message.component';
 
-const EditarSeccionForm = [
+const EditarEmpleadoForm = [
   {
     label: 'Nombre',
     type: 'text',
@@ -35,33 +37,16 @@ const EditarSeccionForm = [
   },
 ];
 
-const EditarSeccion = () => {
-  const { query: { id } } = useRouter();
-  const [values, setValues] = useState({});
+const EditarEmpleado = ({ data, user }) => {
+  const [values, setValues] = useState(data);
   const [loading, setLoading] = useState(false);
   const [seccionEmpresa, setSeccionEmpresa] = useState('');
   const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-
-  useEffect(() => {
-    const getData = async (id) => {
-      setLoading(true);
-      const data = await getEmpleado(id);
-      setValues(data ? data[0] : {});
-      setLoading(false);
-    }
-    if (id) {
-      getData(id);
-    }
-    return () => {
-      setErrorMessage('');
-    }
-  }, [id])
-
-  const onSubmit = async (data) => {
-    const { Nombre, Apellido, idSeccionEmpresa } = data;
-    const res = await editarEmpleado({ id, Nombre, Apellido, idSeccionEmpresa });
+  const onSubmit = async (formData) => {
+    const { Nombre, Apellido, idSeccionEmpresa } = formData;
+    const res = await editarEmpleado({ idEmpleado: data.id, user: user?.idUsuario, Nombre, Apellido, idSeccionEmpresa });
     if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/empleados')
   }
@@ -87,7 +72,7 @@ const EditarSeccion = () => {
             watcher='idSeccionEmpresa'
             watching={watchingField}
             onFormSubmit={onSubmit}
-            config={EditarSeccionForm}
+            config={EditarEmpleadoForm}
             buttonLabel='Editar'
             defaultValues={{ ...values }}>
             {showSeccionEmpresa && seccionEmpresa ? <Message>Sección: {seccionEmpresa}</Message> : null}
@@ -98,4 +83,23 @@ const EditarSeccion = () => {
   )
 }
 
-export default EditarSeccion;
+EditarEmpleado.getInitialProps = async (ctx) => {
+  const cookie = ctx.req?.cookies.auth;
+  const resp = await fetch(`http://localhost:3000/api/empleados/get-empleado?id=${ctx.query?.id}`, {
+    headers: {
+      cookie,
+    }
+  })
+  let res = await resp.json();
+  let data = res && res.length ? res[0] : {};
+  data.id = ctx.query?.id;
+  let user = null;
+  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return { data, user };
+}
+
+export default EditarEmpleado;
