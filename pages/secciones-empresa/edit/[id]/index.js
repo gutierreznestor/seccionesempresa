@@ -76,8 +76,7 @@ EditarSeccion.getInitialProps = async (ctx) => {
   let data = res && res.length ? res[0] : {};
   data.id = ctx.query?.id;
   let user = null;
-  verify(cookie, 'secret', async (err, decoded) => {
-    console.log({ decoded });
+  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
