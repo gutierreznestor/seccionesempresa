@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Router from 'next/router'
+import Router from 'next/router';
+import { verify } from 'jsonwebtoken';
 
 import { nuevoEmpleado } from '../../../services/empleados.service';
 import { getSeccionesEmpresa } from '../../../services/seccionesEmpresa.service';
@@ -36,7 +37,7 @@ const NuevoEmpleadoForm = [
   },
 ];
 
-const NuevaSeccion = () => {
+const NuevoEmpleado = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [seccionesList, setSeccionesList] = useState([]);
   const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
@@ -74,4 +75,14 @@ const NuevaSeccion = () => {
   )
 }
 
-export default NuevaSeccion;
+NuevoEmpleado.getInitialProps = async (ctx) => {
+  let user = null;
+  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return { user };
+}
+
+export default NuevoEmpleado;
