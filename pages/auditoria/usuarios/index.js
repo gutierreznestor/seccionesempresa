@@ -1,34 +1,45 @@
 import React, { useState, useEffect } from 'react';
+import fetch from 'isomorphic-unfetch';
+import { verify } from 'jsonwebtoken';
 
 import { getLogsUsuarios } from '../../../services/logs.service';
 
 import Layout from '../../../components/Layout';
 import LogsUsuariosList from '../../../components/LogsUsuariosList/LogsUsuariosList.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
+import parseCookies from '../../../helpers/parseCookies';
 
-const AuditoriaUsuarios = () => {
-  const [loading, setLoading] = useState(false);
+const AuditoriaUsuarios = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState('');
-  const [logsUsuarios, setLogsUsuarios] = useState([]);
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      const data = await getLogsUsuarios();
-      if (data.errorMessage) return setErrorMessage(data.errorMessage)
-      setLoading(false)
-      setLogsUsuarios(data);
-    }
-    getData();
-  }, []);
+
   return (
     <Layout title="Auditoría Usuarios">
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      {loading ?
-        <span>Cargando...</span> :
-        !errorMessage && <LogsUsuariosList list={logsUsuarios} />
+      {
+        !errorMessage && <LogsUsuariosList list={data} />
       }
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const respSE = await fetch(`http://localhost:3000/api/logsUsuarios/get-logs-usuarios`, {
+    headers: {
+      cookie,
+    }
+  })
+  let res = await respSE.json();
+  let data = (res && res.length) ? res : [];
+  let user = null;
+  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { data, user },
+  }
 }
 
 export default AuditoriaUsuarios;

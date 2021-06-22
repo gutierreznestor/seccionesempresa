@@ -33,7 +33,6 @@ const Home = ({ listSecciones, listEmpleados, user }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
-  console.log({ cookie })
   const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
     headers: {
       cookie,

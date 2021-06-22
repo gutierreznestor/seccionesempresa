@@ -35,7 +35,6 @@ export const getEmpleado = async (id) => {
 
 export const editarEmpleado = async ({ idEmpleado, user, Nombre = '', Apellido = '', idSeccionEmpresa }) => {
   const seccionEmpresa = await getSeccionEmpresa(idSeccionEmpresa);
-  console.log({ seccionEmpresa });
   const res = await fetch(`http://localhost:3000/api/empleados/edit-empleado?id=${idEmpleado}`, {
     method: 'PATCH',
     headers: {
