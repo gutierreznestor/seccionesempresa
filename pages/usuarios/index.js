@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Router from 'next/router';
+import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
 
 import Layout from '../../components/Layout';
