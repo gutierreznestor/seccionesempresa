@@ -4,7 +4,7 @@ const handler = async (req, res) => {
   try {
     const { id } = req.query;
     const results = await query(`
-      SELECT Nombre, Descripcion 
+      SELECT idSeccionEmpresa, Nombre, Descripcion 
       FROM secciones_empresa
       WHERE idSeccionEmpresa=?
       `,
