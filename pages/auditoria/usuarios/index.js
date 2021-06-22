@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
-
-import { getLogsUsuarios } from '../../../services/logs.service';
 
 import Layout from '../../../components/Layout';
 import LogsUsuariosList from '../../../components/LogsUsuariosList/LogsUsuariosList.component';
