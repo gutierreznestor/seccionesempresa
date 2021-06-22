@@ -40,11 +40,10 @@ const NuevaSeccion = ({ user }) => {
 
 NuevaSeccion.getInitialProps = async (ctx) => {
   let user = null;
-  verify(ctx.req.cookies.auth, 'secret', async (err, decoded) => {
+  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
-
   });
   return { user };
 }
