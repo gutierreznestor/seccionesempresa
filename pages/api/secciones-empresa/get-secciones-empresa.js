@@ -1,4 +1,3 @@
-import { authenticated } from '../../../hocs/auth'
 import { query } from '../../../lib/db'
 
 const handler = async (_, res) => {
@@ -14,7 +13,4 @@ const handler = async (_, res) => {
   }
 }
 
-export default authenticated(
-  handler,
-  ['admin', 'supervisor', 'auditor'],
-);
+export default handler;
