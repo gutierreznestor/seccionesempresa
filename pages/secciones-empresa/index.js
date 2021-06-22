@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
+import parseCookies from '../../helpers/parseCookies';
 
 import Layout from '../../components/Layout'
 import SeccionesEmpresaList from '../../components/SeccionesEmpresaList/SeccionesEmpresaList.component'
@@ -41,8 +42,8 @@ const SeccionesEmpresa = ({ listSecciones }) => {
   )
 }
 
-SeccionesEmpresa.getInitialProps = async (ctx) => {
-  const cookie = ctx.req?.headers.cookie;
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
   const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
     headers: {
       cookie,
@@ -50,12 +51,14 @@ SeccionesEmpresa.getInitialProps = async (ctx) => {
   })
   const listSecciones = await respSE.json();
   let user = null;
-  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+  verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
-  return { listSecciones, user };
+  return {
+    props: { listSecciones, user },
+  }
 }
 
 export default SeccionesEmpresa;
