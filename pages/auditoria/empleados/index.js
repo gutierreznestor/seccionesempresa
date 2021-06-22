@@ -5,6 +5,7 @@ import { verify } from 'jsonwebtoken';
 import Layout from '../../../components/Layout';
 import LogsEmpleadosList from '../../../components/LogsEmpleadosList/LogsEmpleadosList.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
+import parseCookies from '../../../helpers/parseCookies';
 
 const AuditoriaEmpleados = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -18,8 +19,8 @@ const AuditoriaEmpleados = ({ data }) => {
   )
 }
 
-AuditoriaEmpleados.getInitialProps = async (ctx) => {
-  const cookie = ctx.req?.cookies.auth;
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
   const respSE = await fetch(`http://localhost:3000/api/logsEmpleados/get-logs-empleados`, {
     headers: {
       cookie,
@@ -33,7 +34,9 @@ AuditoriaEmpleados.getInitialProps = async (ctx) => {
       user = decoded.user;
     }
   });
-  return { data, user };
+  return {
+    props: { data, user },
+  }
 }
 
 export default AuditoriaEmpleados;
