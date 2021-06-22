@@ -9,6 +9,7 @@ import { getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service
 import { editarEmpleado } from '../../../../services/empleados.service';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import Message from '../../../../components/Message/Message.component';
+import parseCookies from '../../../../helpers/parseCookies';
 
 const EditarEmpleadoForm = [
   {
@@ -38,8 +39,6 @@ const EditarEmpleadoForm = [
 ];
 
 const EditarEmpleado = ({ data, user }) => {
-  const [values, setValues] = useState(data);
-  const [loading, setLoading] = useState(false);
   const [seccionEmpresa, setSeccionEmpresa] = useState('');
   const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -65,26 +64,21 @@ const EditarEmpleado = ({ data, user }) => {
     <Layout title='Editar empleado'>
       <h1>Editar empleado</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      {loading ?
-        <span>Cargando...</span> :
-        <>
-          <Form
-            watcher='idSeccionEmpresa'
-            watching={watchingField}
-            onFormSubmit={onSubmit}
-            config={EditarEmpleadoForm}
-            buttonLabel='Editar'
-            defaultValues={{ ...values }}>
-            {showSeccionEmpresa && seccionEmpresa ? <Message>Sección: {seccionEmpresa}</Message> : null}
-          </Form>
-        </>
-      }
+      <Form
+        watcher='idSeccionEmpresa'
+        watching={watchingField}
+        onFormSubmit={onSubmit}
+        config={EditarEmpleadoForm}
+        buttonLabel='Editar'
+        defaultValues={data}>
+        {showSeccionEmpresa && seccionEmpresa ? <Message>Sección: {seccionEmpresa}</Message> : null}
+      </Form>
     </Layout>
   )
 }
 
-EditarEmpleado.getInitialProps = async (ctx) => {
-  const cookie = ctx.req?.cookies.auth;
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
   const resp = await fetch(`http://localhost:3000/api/empleados/get-empleado?id=${ctx.query?.id}`, {
     headers: {
       cookie,
@@ -99,7 +93,9 @@ EditarEmpleado.getInitialProps = async (ctx) => {
       user = decoded.user;
     }
   });
-  return { data, user };
+  return {
+    props: { data, user },
+  }
 }
 
 export default EditarEmpleado;
