@@ -32,7 +32,7 @@ const NuevoPerfil = ({ user }) => {
   }
 
   return (
-    <Layout title='Nuevo Perfil'>
+    <Layout title='Nuevo Perfil' user={user}>
       <h1>Nuevo Perfil</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoPerfilForm} />

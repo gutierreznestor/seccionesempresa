@@ -33,7 +33,7 @@ const NuevaSeccion = ({ user }) => {
   }
 
   return (
-    <Layout title='Nueva sección'>
+    <Layout title='Nueva sección' user={user}>
       <h1>Nueva sección</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={AgregarSeccionForm} />

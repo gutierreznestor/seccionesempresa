@@ -11,7 +11,7 @@ import { deleteSeccionesEmpresa } from '../../services/seccionesEmpresa.service'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import { redirectToLogin } from '../../helpers/redirectToLogin';
 
-const SeccionesEmpresa = ({ data }) => {
+const SeccionesEmpresa = ({ data, user }) => {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
@@ -29,7 +29,7 @@ const SeccionesEmpresa = ({ data }) => {
   }
 
   return (
-    <Layout title='Secciones empresa'>
+    <Layout title='Secciones empresa' user={user}>
       <h1>Secciones empresa</h1>
       <AppLink href='/secciones-empresa/new' title='Nueva sección' />
       {errorMessage && <ErrorMessage message={errorMessage} />}

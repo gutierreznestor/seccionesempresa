@@ -61,7 +61,7 @@ const NuevoUsuario = ({ user }) => {
   }
 
   return (
-    <Layout title='Nuevo usuario'>
+    <Layout title='Nuevo usuario' user={user}>
       <h1>Nuevo usuario</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoUsuarioForm} />

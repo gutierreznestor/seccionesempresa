@@ -12,7 +12,7 @@ const AuditoriaPerfiles = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   return (
-    <Layout title="Auditoría Perfiles">
+    <Layout title="Auditoría Perfiles" user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {
         !errorMessage && <LogsPerfilesList list={data} />

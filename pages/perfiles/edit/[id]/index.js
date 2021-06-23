@@ -31,7 +31,7 @@ const EditarPerfil = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Editar perfil'>
+    <Layout title='Editar perfil' user={user}>
       <h1>Editar perfil</h1>
       <Form
         onFormSubmit={onSubmit}

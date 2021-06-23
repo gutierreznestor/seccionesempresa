@@ -1,6 +1,6 @@
 import { verify } from 'jsonwebtoken';
 
-const isAllowed = (profilesAllowed = [], userProfile) => {
+export const isAllowed = (profilesAllowed = [], userProfile) => {
   let allow = false;
   profilesAllowed.map(allowed => {
     if (userProfile.find(p => p.includes(allowed))) {

@@ -18,7 +18,7 @@ const ListItem = ({ title, description }) => (
   </FieldContainer>
 );
 
-const ViewUser = ({ data }) => {
+const ViewUser = ({ data, user }) => {
   const { query: { id } } = useRouter();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -41,7 +41,7 @@ const ViewUser = ({ data }) => {
   }, [id]);
 
   return (
-    <Layout title="Datos usuario">
+    <Layout title="Datos usuario" user={user}>
       <h1>Datos de usuario</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {loading ? 'Cargando...' :

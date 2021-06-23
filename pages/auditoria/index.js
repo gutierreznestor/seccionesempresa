@@ -7,7 +7,7 @@ import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 const Auditoria = ({ user }) => {
   return (
-    <Layout title="Auditoría">
+    <Layout title="Auditoría" user={user}>
       <AppLink href='/auditoria/seccionesEmpresa' title="Secciones empresa" />
       <AppLink href='/auditoria/empleados' title="Empleados" />
       <AppLink href='/auditoria/usuarios' title="Usuarios" />

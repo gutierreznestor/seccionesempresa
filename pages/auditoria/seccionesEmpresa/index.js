@@ -8,11 +8,11 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.componen
 import parseCookies from '../../../helpers/parseCookies';
 import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
-const AuditoriaSeccionesEmpresa = ({ data }) => {
+const AuditoriaSeccionesEmpresa = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   return (
-    <Layout title="Auditoría Secciones empresa">
+    <Layout title="Auditoría Secciones empresa" user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {
         !errorMessage && <LogsSeccionesEmpresaList list={data} />

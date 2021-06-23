@@ -22,7 +22,7 @@ const Empleados = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Empleados'>
+    <Layout title='Empleados' user={user}>
       <h1>Empleados</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <AppLink href='/empleados/new' title='Nuevo empleado' />

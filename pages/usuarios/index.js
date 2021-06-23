@@ -24,7 +24,7 @@ const Usuarios = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Usuarios'>
+    <Layout title='Usuarios' user={user}>
       <h1>Usuarios</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <AppLink href='/usuarios/new' title='Nuevo usuario' />

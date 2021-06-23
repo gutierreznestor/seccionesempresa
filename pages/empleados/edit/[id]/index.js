@@ -75,7 +75,7 @@ const EditarEmpleado = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Editar empleado'>
+    <Layout title='Editar empleado' user={user}>
       <h1>Editar empleado</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form

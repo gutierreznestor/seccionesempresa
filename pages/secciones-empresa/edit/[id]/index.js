@@ -35,7 +35,7 @@ const EditarSeccion = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Editar sección'>
+    <Layout title='Editar sección' user={user}>
       <h1>Editar sección</h1>
       <Form
         onFormSubmit={onSubmit}

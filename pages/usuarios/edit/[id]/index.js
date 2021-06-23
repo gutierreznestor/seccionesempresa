@@ -89,7 +89,7 @@ const EditUser = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Editar usuario'>
+    <Layout title='Editar usuario' user={user}>
       <h1>Editar usuario</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {loading ?

@@ -25,7 +25,7 @@ const Perfiles = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Perfiles'>
+    <Layout title='Perfiles' user={user}>
       <h1>Perfiles</h1>
       <AppLink href='/perfiles/new' title='Nuevo Perfil' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
