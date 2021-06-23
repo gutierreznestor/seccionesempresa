@@ -5,10 +5,6 @@ import { StyledNavbar } from './Navbar.styled';
 
 const links = [
   {
-    label: 'Home',
-    url: '/',
-  },
-  {
     label: 'Secciones empresa',
     url: '/secciones-empresa',
   },

@@ -9,6 +9,7 @@ import SeccionesEmpresaList from '../../components/SeccionesEmpresaList/Seccione
 import AppLink from '../../components/AppLink/AppLink.component';
 import { deleteSeccionesEmpresa } from '../../services/seccionesEmpresa.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
+import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 const SeccionesEmpresa = ({ data }) => {
   const [loading, setLoading] = useState(false);
@@ -44,6 +45,9 @@ const SeccionesEmpresa = ({ data }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
   const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
     headers: {
       cookie,
