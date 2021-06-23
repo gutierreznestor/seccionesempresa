@@ -21,8 +21,6 @@ const EditarSeccionForm = [
 ];
 
 const EditarSeccion = ({ data, user }) => {
-  const [values, setValues] = useState(data);
-  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
@@ -38,15 +36,11 @@ const EditarSeccion = ({ data, user }) => {
   return (
     <Layout title='Editar sección'>
       <h1>Editar sección</h1>
-      {loading ?
-        <span>Cargando...</span> :
-        errorMessage ? <ErrorMessage message={errorMessage} /> :
-          <Form
-            onFormSubmit={onSubmit}
-            config={EditarSeccionForm}
-            buttonLabel='Editar'
-            defaultValues={{ ...values }} />
-      }
+      <Form
+        onFormSubmit={onSubmit}
+        config={EditarSeccionForm}
+        buttonLabel='Editar'
+        defaultValues={data} />
     </Layout>
   )
 }
