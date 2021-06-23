@@ -10,6 +10,7 @@ import { deleteUsuario } from '../../services/usuarios.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
 import { redirectToLogin } from '../../helpers/redirectToLogin';
+import { isAllowed } from '../../hocs/auth';
 
 const Usuarios = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,15 +23,15 @@ const Usuarios = ({ data, user }) => {
       Router.push('usuarios');
     }
   }
-
   return (
     <Layout title='Usuarios' user={user}>
       <h1>Usuarios</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      <AppLink href='/usuarios/new' title='Nuevo usuario' />
+      <AppLink href='/usuarios/new' title='Nuevo usuario' enabled={!isAllowed(['auditor'], user.Perfiles)} />
       <UsuariosList
         list={data}
         onDelete={onDelete}
+        user={user}
       />
     </Layout>
   )

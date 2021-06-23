@@ -3,8 +3,9 @@ import Link from 'next/link';
 
 import ButtonTable from '../ButtonTable/ButtonTable.component';
 import { StyledTable } from './UsuariosList.styled';
+import { isAllowed } from '../../hocs/auth';
 
-const UsuariosList = ({ list = [], onDelete, readonly }) => {
+const UsuariosList = ({ list = [], onDelete, readonly, user }) => {
   return (
     <StyledTable>
       <tbody>
@@ -29,9 +30,13 @@ const UsuariosList = ({ list = [], onDelete, readonly }) => {
             {!readonly && (
               <td>
                 <Link href={`usuarios/${idUsuario}`} passHref>
-                  <ButtonTable type='Ver' />
+                  <ButtonTable
+                    type='Ver' />
                 </Link>
-                <ButtonTable type='Eliminar' onClick={() => onDelete(idUsuario)} />
+                <ButtonTable
+                  enabled={!isAllowed(['auditor'], user.Perfiles)}
+                  type='Eliminar'
+                  onClick={() => onDelete(idUsuario)} />
               </td>
             )
             }
