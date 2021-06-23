@@ -2,13 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 
 import { StyledAnchor } from './AppLink.styled';
-import { isAllowed } from '../../hocs/auth';
 
-const AppLink = ({ href, title, perfiles = [] }) => {
-  const disabled = isAllowed(['supervisor'], perfiles)
+const AppLink = ({ href, title, enabled = true }) => {
   return (
     <Link href={href}>
-      <StyledAnchor disabled={disabled}>{title}</StyledAnchor>
+      <StyledAnchor disabled={!enabled}>{title}</StyledAnchor>
     </Link>
   )
 }
