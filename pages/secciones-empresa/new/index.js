@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Router from 'next/router';
+import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
 
 import Form from '../../../components/Form/Form.component';
@@ -46,18 +47,18 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
+  const resp = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
     headers: {
       cookie,
     }
-  })
+  });
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
-  let data = await respSE.json();
+  let data = await resp.json();
   let error = null;
   if (data.errorMessage) {
     error = data.errorMessage;

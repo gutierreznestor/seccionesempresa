@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
+import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
 
 import { nuevoEmpleado } from '../../../services/empleados.service';
@@ -82,14 +83,25 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
+  const resp = await fetch('http://localhost:3000/api/empleados/get-empleados', {
+    headers: {
+      cookie,
+    }
+  });
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await resp.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { user },
+    props: { data, user, error },
   }
 }
 
