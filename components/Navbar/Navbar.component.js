@@ -4,47 +4,56 @@ import Link from 'next/link';
 import { isAllowed } from '../../hocs/auth';
 import { StyledNavbar } from './Navbar.styled';
 import NoLink from '../NoLink/NoLink.component';
+import { logout } from '../../services/auth.service';
 
 
 const Navbar = ({ user }) => {
 
-  console.log({ Navbaruser: user });
+  const handleLogout = async () => {
+    await logout();
+  }
 
   const links = [
     {
       label: 'Secciones empresa',
       url: '/secciones-empresa',
+      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
     },
     {
       label: 'Empleados',
       url: '/empleados',
+      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
     },
     {
       label: 'Usuarios',
       url: '/usuarios',
+      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
     },
     {
       label: 'Perfiles',
       url: '/perfiles',
+      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
     },
     {
       label: 'Auditoría',
       url: '/auditoria',
-      disabled: isAllowed(['auditor'], user.Perfiles)
+      allowed: isAllowed(['auditor'], user.Perfiles)
     },
     {
       label: 'Cerrar sesión',
       url: '/logout',
+      onClick: { handleLogout },
+      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
     },
   ];
 
   return (
     <StyledNavbar>
       <ul>
-        {links.map(({ label, url, disabled }) => {
-          const link = disabled ?
-            <NoLink label={label} /> :
-            <Link href={url}><a>{label}</a></Link>;
+        {links.map(({ label, url, allowed, onClick = () => { } }) => {
+          const link = allowed ?
+            <Link href={url} onClick={onClick}><a>{label}</a></Link> :
+            <NoLink label={label} />;
           return <li key={url}>{link}</li>
         })}
       </ul>
