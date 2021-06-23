@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
+import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
 
 import { nuevoEmpleado } from '../../../services/empleados.service';
@@ -10,6 +11,7 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.componen
 import SeccionesEmpresaList from '../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
 import Button from '../../../components/Button/Button.component';
 import parseCookies from '../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const NuevoEmpleadoForm = [
   {
@@ -66,7 +68,7 @@ const NuevoEmpleado = ({ user }) => {
   }
 
   return (
-    <Layout title='Nuevo empleado'>
+    <Layout title='Nuevo empleado' user={user}>
       <h1>Nuevo empleado</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoEmpleadoForm} />
@@ -78,14 +80,28 @@ const NuevoEmpleado = ({ user }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
+  const resp = await fetch('http://localhost:3000/api/empleados/get-empleados', {
+    headers: {
+      cookie,
+    }
+  });
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await resp.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { user },
+    props: { data, user, error },
   }
 }
 

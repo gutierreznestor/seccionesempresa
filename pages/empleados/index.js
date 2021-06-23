@@ -8,9 +8,10 @@ import EmpleadosList from '../../components/EmpleadosList/EmpleadosList.componen
 import { deleteEmpleado } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
+import { redirectToLogin } from '../../helpers/redirectToLogin';
 
-const Empleados = ({ data, user }) => {
-  const [errorMessage, setErrorMessage] = useState('');
+const Empleados = ({ data, user, error }) => {
+  const [errorMessage, setErrorMessage] = useState(error);
 
   const onDelete = async (id) => {
     const ok = confirm('¿Quieres eliminar al empleado?');
@@ -21,7 +22,7 @@ const Empleados = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Empleados'>
+    <Layout title='Empleados' user={user}>
       <h1>Empleados</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <AppLink href='/empleados/new' title='Nuevo empleado' />
@@ -35,21 +36,28 @@ const Empleados = ({ data, user }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
-  const respSE = await fetch('http://localhost:3000/api/empleados/get-empleados', {
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
+  const res = await fetch('http://localhost:3000/api/empleados/get-empleados', {
     headers: {
       cookie,
     }
   })
-  let res = await respSE.json();
-  let data = (res && res.length) ? res : [];
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await res.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
 

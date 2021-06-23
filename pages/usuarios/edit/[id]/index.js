@@ -8,6 +8,7 @@ import { addPerfilUsuario, deletePerfilUsuario, editarUsuario, getPerfilesUsuari
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import PerfilesUsuarioList from '../../../../components/PerfilesUsuarioList/PerfilesUsuarioList.component';
 import parseCookies from '../../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../../helpers/redirectToLogin';
 
 const EditarUsuarioForm = [
   {
@@ -88,7 +89,7 @@ const EditUser = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Editar usuario'>
+    <Layout title='Editar usuario' user={user}>
       <h1>Editar usuario</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {loading ?
@@ -108,6 +109,9 @@ const EditUser = ({ data, user }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
   const resp = await fetch(`http://localhost:3000/api/usuarios/get-usuario?id=${ctx.query?.id}`, {
     headers: {
       cookie,

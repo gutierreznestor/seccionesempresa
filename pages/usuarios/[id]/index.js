@@ -9,6 +9,7 @@ import PerfilesUsuarioList from '../../../components/PerfilesUsuarioList/Perfile
 import AppLink from '../../../components/AppLink/AppLink.component';
 import parseCookies from '../../../helpers/parseCookies';
 import { verify } from 'jsonwebtoken';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const ListItem = ({ title, description }) => (
   <FieldContainer>
@@ -17,7 +18,7 @@ const ListItem = ({ title, description }) => (
   </FieldContainer>
 );
 
-const ViewUser = ({ data }) => {
+const ViewUser = ({ data, user }) => {
   const { query: { id } } = useRouter();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -40,7 +41,7 @@ const ViewUser = ({ data }) => {
   }, [id]);
 
   return (
-    <Layout title="Datos usuario">
+    <Layout title="Datos usuario" user={user}>
       <h1>Datos de usuario</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {loading ? 'Cargando...' :
@@ -59,6 +60,9 @@ const ViewUser = ({ data }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
   const resp = await fetch(`http://localhost:3000/api/usuarios/get-usuario?id=${ctx.query?.id}`, {
     headers: {
       cookie,

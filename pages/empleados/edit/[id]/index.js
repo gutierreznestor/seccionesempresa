@@ -12,6 +12,7 @@ import Message from '../../../../components/Message/Message.component';
 import parseCookies from '../../../../helpers/parseCookies';
 import Button from '../../../../components/Button/Button.component';
 import SeccionesEmpresaList from '../../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
+import { redirectToLogin } from '../../../../helpers/redirectToLogin';
 
 const EditarEmpleadoForm = [
   {
@@ -40,10 +41,10 @@ const EditarEmpleadoForm = [
   },
 ];
 
-const EditarEmpleado = ({ data, user }) => {
+const EditarEmpleado = ({ data, user, error }) => {
   const [seccionEmpresa, setSeccionEmpresa] = useState('');
   const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(error);
   const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
   const [seccionesList, setSeccionesList] = useState([]);
 
@@ -57,6 +58,7 @@ const EditarEmpleado = ({ data, user }) => {
   }, []);
 
   const onSubmit = async (formData) => {
+    setErrorMessage('');
     const { Nombre, Apellido, idSeccionEmpresa } = formData;
     const res = await editarEmpleado({ idEmpleado: data.id, user: user?.idUsuario, Nombre, Apellido, idSeccionEmpresa });
     if (res.errorMessage) return setErrorMessage(res.errorMessage);
@@ -74,7 +76,7 @@ const EditarEmpleado = ({ data, user }) => {
   }
 
   return (
-    <Layout title='Editar empleado'>
+    <Layout title='Editar empleado' user={user}>
       <h1>Editar empleado</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form
@@ -94,22 +96,28 @@ const EditarEmpleado = ({ data, user }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
   const resp = await fetch(`http://localhost:3000/api/empleados/get-empleado?id=${ctx.query?.id}`, {
     headers: {
       cookie,
     }
   })
-  let res = await resp.json();
-  let data = res && res.length ? res[0] : {};
-  data.id = ctx.query?.id;
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await resp.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
 

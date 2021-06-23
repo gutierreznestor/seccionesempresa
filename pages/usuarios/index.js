@@ -9,9 +9,11 @@ import UsuariosList from '../../components/UsuariosList/UsuariosList.component';
 import { deleteUsuario } from '../../services/usuarios.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
+import { redirectToLogin } from '../../helpers/redirectToLogin';
+import { isAllowed } from '../../hocs/auth';
 
-const Usuarios = ({ data, user }) => {
-  const [errorMessage, setErrorMessage] = useState('');
+const Usuarios = ({ data, user, error }) => {
+  const [errorMessage, setErrorMessage] = useState(error);
 
   const onDelete = async (id) => {
     const ok = confirm('¿Quieres eliminar al usuario?');
@@ -21,15 +23,15 @@ const Usuarios = ({ data, user }) => {
       Router.push('usuarios');
     }
   }
-
   return (
-    <Layout title='Usuarios'>
+    <Layout title='Usuarios' user={user}>
       <h1>Usuarios</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      <AppLink href='/usuarios/new' title='Nuevo usuario' />
+      <AppLink href='/usuarios/new' title='Nuevo usuario' enabled={!isAllowed(['auditor'], user.Perfiles)} />
       <UsuariosList
         list={data}
         onDelete={onDelete}
+        user={user}
       />
     </Layout>
   )
@@ -37,20 +39,28 @@ const Usuarios = ({ data, user }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
-  const respSE = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
+  const res = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
     headers: {
       cookie,
     }
   })
-  const data = await respSE.json();
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await res.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
 
