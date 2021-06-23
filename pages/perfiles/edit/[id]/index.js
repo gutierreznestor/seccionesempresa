@@ -8,6 +8,7 @@ import Layout from '../../../../components/Layout';
 import { editarPerfil } from '../../../../services/perfiles.service';
 import parseCookies from '../../../../helpers/parseCookies';
 import { redirectToLogin } from '../../../../helpers/redirectToLogin';
+import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 
 const EditarPerfilForm = [
   {
