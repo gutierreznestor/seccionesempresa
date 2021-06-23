@@ -7,6 +7,7 @@ const handler = async (_, res) => {
       usuarios.idUsuario, le.Operacion, le.Descripcion
     FROM logs_empleados AS le
     INNER JOIN usuarios ON (usuarios.idUsuario = le.idUsuario)
+    ORDER BY le.idLogEmpleado DESC
     `);
 
     return res.json(results)

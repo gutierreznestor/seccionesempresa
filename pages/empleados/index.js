@@ -1,40 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Router from 'next/router';
+import React, { useState } from 'react';
+import fetch from 'isomorphic-unfetch';
+import { verify } from 'jsonwebtoken';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import EmpleadosList from '../../components/EmpleadosList/EmpleadosList.component';
-import { deleteEmpleado, getEmpleados } from '../../services/empleados.service';
+import { deleteEmpleado } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
+import parseCookies from '../../helpers/parseCookies';
 
-const Empleados = () => {
-  const [loading, setLoading] = useState(false);
-  const [list, setList] = useState([]);
+const Empleados = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');
-
-  const fetchEmpleados = async () => {
-    setLoading(true);
-    const data = await getEmpleados();
-    setLoading(false);
-    if (data.errorMessage) return setErrorMessage(data.errorMessage)
-    setList(data);
-  }
-
-  useEffect(() => {
-    fetchEmpleados();
-    return () => {
-      setErrorMessage('');
-    }
-  }, []);
 
   const onDelete = async (id) => {
     const ok = confirm('¿Quieres eliminar al empleado?');
     if (ok) {
-      setLoading(true);
-      const data = await deleteEmpleado({ idUsuario: 1, idEmpleado: id });
+      const data = await deleteEmpleado({ idUsuario: user.idUsuario, idEmpleado: id });
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
-      fetchEmpleados();
-      Router.push('empleados');
     }
   }
 
@@ -43,14 +25,32 @@ const Empleados = () => {
       <h1>Empleados</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <AppLink href='/empleados/new' title='Nuevo empleado' />
-      {loading ?
-        <span>Cargando...</span> :
-        <EmpleadosList
-          list={list}
-          onDelete={onDelete}
-        />}
+      <EmpleadosList
+        list={data}
+        onDelete={onDelete}
+      />
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const respSE = await fetch('http://localhost:3000/api/empleados/get-empleados', {
+    headers: {
+      cookie,
+    }
+  })
+  let res = await respSE.json();
+  let data = (res && res.length) ? res : [];
+  let user = null;
+  verify(cookie.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { data, user },
+  }
 }
 
 export default Empleados;

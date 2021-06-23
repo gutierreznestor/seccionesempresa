@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Router from 'next/router'
+import Router from 'next/router';
+import { verify } from 'jsonwebtoken';
 
 import { nuevoEmpleado } from '../../../services/empleados.service';
 import { getSeccionesEmpresa } from '../../../services/seccionesEmpresa.service';
@@ -8,6 +9,7 @@ import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import SeccionesEmpresaList from '../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
 import Button from '../../../components/Button/Button.component';
+import parseCookies from '../../../helpers/parseCookies';
 
 const NuevoEmpleadoForm = [
   {
@@ -36,7 +38,7 @@ const NuevoEmpleadoForm = [
   },
 ];
 
-const NuevaSeccion = () => {
+const NuevoEmpleado = ({ user }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [seccionesList, setSeccionesList] = useState([]);
   const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
@@ -58,7 +60,7 @@ const NuevaSeccion = () => {
   const onSubmit = async (data) => {
     setErrorMessage('');
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    const res = await nuevoEmpleado({ user: '3', Nombre, Apellido, idSeccionEmpresa })
+    const res = await nuevoEmpleado({ user: user.idUsuario, Nombre, Apellido, idSeccionEmpresa })
     if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/empleados')
   }
@@ -74,4 +76,17 @@ const NuevaSeccion = () => {
   )
 }
 
-export default NuevaSeccion;
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  let user = null;
+  verify(cookie.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { user },
+  }
+}
+
+export default NuevoEmpleado;

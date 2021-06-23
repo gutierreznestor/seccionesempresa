@@ -1,34 +1,42 @@
-import React, { useState, useEffect } from 'react';
-
-import { getLogsEmpleados } from '../../../services/logs.service';
+import React, { useState } from 'react';
+import fetch from 'isomorphic-unfetch';
+import { verify } from 'jsonwebtoken';
 
 import Layout from '../../../components/Layout';
 import LogsEmpleadosList from '../../../components/LogsEmpleadosList/LogsEmpleadosList.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
+import parseCookies from '../../../helpers/parseCookies';
 
-const AuditoriaEmpleados = () => {
-  const [loading, setLoading] = useState(false);
+const AuditoriaEmpleados = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState('');
-  const [logsUsuarios, setLogsUsuarios] = useState([]);
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      const data = await getLogsEmpleados();
-      if (data.errorMessage) return setErrorMessage(data.errorMessage)
-      setLoading(false)
-      setLogsUsuarios(data);
-    }
-    getData();
-  }, []);
   return (
     <Layout title="Auditoría Empleados">
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      {loading ?
-        <span>Cargando...</span> :
-        !errorMessage && <LogsEmpleadosList list={logsUsuarios} />
+      {
+        !errorMessage && <LogsEmpleadosList list={data} />
       }
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const respSE = await fetch(`http://localhost:3000/api/logsEmpleados/get-logs-empleados`, {
+    headers: {
+      cookie,
+    }
+  })
+  let res = await respSE.json();
+  let data = (res && res.length) ? res : [];
+  let user = null;
+  verify(cookie.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { data, user },
+  }
 }
 
 export default AuditoriaEmpleados;

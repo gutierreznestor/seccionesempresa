@@ -18,7 +18,9 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ errorMessage: e.message })
+    ER_NO_REFERENCED_ROW_2
+    const message = e.message.includes('ER_NO_REFERENCED_ROW_2') ? `El id del usuario no existe` : 'No se pudo agregar al log.';
+    res.status(400).json({ errorMessage: message })
   }
 }
 

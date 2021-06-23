@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import ButtonTable from '../ButtonTable/ButtonTable.component';
 
-const PerfilesList = ({ list = [], onDelete, onEdit, readonly }) => {
+const PerfilesList = ({ list = [], onDelete, readonly }) => {
 
   return (
     <table>
@@ -19,7 +19,7 @@ const PerfilesList = ({ list = [], onDelete, onEdit, readonly }) => {
             {!readonly && (
               <td>
                 <Link href={`perfiles/edit/${idPerfil}`} passHref>
-                  <ButtonTable type='Editar' onClick={() => onEdit(idPerfil)} />
+                  <ButtonTable type='Editar' />
                 </Link>
                 <ButtonTable type='Eliminar' onClick={() => onDelete(idPerfil)} />
               </td>

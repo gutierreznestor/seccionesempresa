@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Router, { useRouter } from 'next/router';
+import { verify } from 'jsonwebtoken';
 
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
 import { addPerfilUsuario, deletePerfilUsuario, editarUsuario, getPerfilesUsuario, getUsuario } from '../../../../services/usuarios.service';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import PerfilesUsuarioList from '../../../../components/PerfilesUsuarioList/PerfilesUsuarioList.component';
+import parseCookies from '../../../../helpers/parseCookies';
 
 const EditarUsuarioForm = [
   {
@@ -34,24 +36,11 @@ const EditarUsuarioForm = [
   },
 ];
 
-const EditUser = () => {
+const EditUser = ({ data, user }) => {
   const { query: { id } } = useRouter();
-  const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [perfiles, setPerfiles] = useState([]);
-
-  useEffect(() => {
-    const getData = async (id) => {
-      setLoading(true);
-      const data = await getUsuario(id);
-      setValues(data ? data[0] : {});
-      setLoading(false);
-    }
-    if (id) {
-      getData(id);
-    }
-  }, [id]);
 
   const getProfile = async (id) => {
     setErrorMessage('');
@@ -78,7 +67,10 @@ const EditUser = () => {
   }
 
   const onEdit = async ({ idPerfil }) => {
-    const res = await addPerfilUsuario({ idUsuario: id.toString(), idPerfil: idPerfil.toString() })
+    const res = await addPerfilUsuario({
+      idUsuario: user.idUsuario.toString(),
+      idPerfil: idPerfil.toString()
+    });
     setLoading(false);
     if (res.errorMessage) {
       return setErrorMessage(res.errorMessage);
@@ -87,7 +79,7 @@ const EditUser = () => {
   }
 
   const onDelete = async ({ idPerfil }) => {
-    const res = await deletePerfilUsuario({ user: 2, idUsuario: id.toString(), idPerfil: idPerfil.toString() })
+    const res = await deletePerfilUsuario({ user: user.idUsuario, idUsuario: id.toString(), idPerfil: idPerfil.toString() })
     setLoading(false);
     if (res.errorMessage) {
       return setErrorMessage(res.errorMessage);
@@ -106,12 +98,33 @@ const EditUser = () => {
             onFormSubmit={onSubmit}
             config={EditarUsuarioForm}
             buttonLabel='Guardar'
-            defaultValues={{ ...values }} />
+            defaultValues={data} />
         </>
       }
       <PerfilesUsuarioList list={perfiles} onEdit={onEdit} onDelete={onDelete} />
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const resp = await fetch(`http://localhost:3000/api/usuarios/get-usuario?id=${ctx.query?.id}`, {
+    headers: {
+      cookie,
+    }
+  })
+  let res = await resp.json();
+  let data = res && res.length ? res[0] : {};
+  data.id = ctx.query?.id;
+  let user = null;
+  verify(cookie.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { data, user },
+  }
 }
 
 export default EditUser;

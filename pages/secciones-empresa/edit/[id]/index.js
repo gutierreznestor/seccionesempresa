@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import Router from 'next/router';
+import fetch from 'isomorphic-unfetch';
+import { verify } from 'jsonwebtoken';
 
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
-import { editarSeccionEmpresa, getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
+import { editarSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
+import parseCookies from '../../../../helpers/parseCookies';
 
 const EditarSeccionForm = [
   {
@@ -17,28 +20,12 @@ const EditarSeccionForm = [
   },
 ];
 
-const EditarSeccion = () => {
-  const { query: { id } } = useRouter();
-  const [values, setValues] = useState({});
-  const [loading, setLoading] = useState(false);
+const EditarSeccion = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
-  const getData = async (id) => {
-    setLoading(true);
-    const data = await getSeccionEmpresa(id);
-    setValues(data ? data[0] : {});
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    if (id) {
-      getData(id);
-    }
-  }, [id])
-
   const onSubmit = async (data) => {
-    const { Nombre } = data;
-    const res = await editarSeccionEmpresa({ user: 9, id, Nombre })
+    const { id, Nombre } = data;
+    const res = await editarSeccionEmpresa({ user: user?.idUsuario, id, Nombre })
     if (res.errorMessage) {
       setErrorMessage(res.errorMessage);
     } else {
@@ -49,17 +36,34 @@ const EditarSeccion = () => {
   return (
     <Layout title='Editar sección'>
       <h1>Editar sección</h1>
-      {loading ?
-        <span>Cargando...</span> :
-        errorMessage ? <ErrorMessage message={errorMessage} /> :
-          <Form
-            onFormSubmit={onSubmit}
-            config={EditarSeccionForm}
-            buttonLabel='Editar'
-            defaultValues={{ ...values }} />
-      }
+      <Form
+        onFormSubmit={onSubmit}
+        config={EditarSeccionForm}
+        buttonLabel='Editar'
+        defaultValues={data} />
     </Layout>
   )
 }
 
 export default EditarSeccion;
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const resp = await fetch(`http://localhost:3000/api/secciones-empresa/get-seccion-empresa?id=${ctx.query?.id}`, {
+    headers: {
+      cookie,
+    }
+  })
+  let res = await resp.json();
+  let data = res && res.length ? res[0] : {};
+  data.id = ctx.query?.id;
+  let user = null;
+  verify(cookie.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { data, user },
+  }
+}

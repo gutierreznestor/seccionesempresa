@@ -7,6 +7,8 @@ import { FieldContainer } from './ViewUser.styled';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import PerfilesUsuarioList from '../../../components/PerfilesUsuarioList/PerfilesUsuarioList.component';
 import AppLink from '../../../components/AppLink/AppLink.component';
+import parseCookies from '../../../helpers/parseCookies';
+import { verify } from 'jsonwebtoken';
 
 const ListItem = ({ title, description }) => (
   <FieldContainer>
@@ -15,29 +17,11 @@ const ListItem = ({ title, description }) => (
   </FieldContainer>
 );
 
-const ViewUser = () => {
+const ViewUser = ({ data }) => {
   const { query: { id } } = useRouter();
-  const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [perfiles, setPerfiles] = useState([])
-
-
-  useEffect(() => {
-    const getData = async (id) => {
-      setErrorMessage('');
-      setLoading(true);
-      const res = await getUsuario(id);
-      setLoading(false);
-      if (res.errorMessage) {
-        return setErrorMessage(res.errorMessage);
-      }
-      setValues({ ...res[0] });
-    }
-    if (id) {
-      getData(id);
-    }
-  }, [id]);
 
   useEffect(() => {
     const getProfile = async (id) => {
@@ -61,9 +45,9 @@ const ViewUser = () => {
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {loading ? 'Cargando...' :
         !errorMessage && <>
-          <ListItem title="Nombre" description={values?.Nombre} />
-          <ListItem title="Apellido" description={values?.Apellido} />
-          <ListItem title="Usuario" description={values?.Usuario} />
+          <ListItem title="Nombre" description={data?.Nombre} />
+          <ListItem title="Apellido" description={data?.Apellido} />
+          <ListItem title="Usuario" description={data?.Usuario} />
         </>
       }
       <PerfilesUsuarioList list={perfiles} readonly />
@@ -71,6 +55,27 @@ const ViewUser = () => {
         href={`/usuarios/edit/${id}`}
         title='Editar usuario' />
     </Layout>)
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const resp = await fetch(`http://localhost:3000/api/usuarios/get-usuario?id=${ctx.query?.id}`, {
+    headers: {
+      cookie,
+    }
+  })
+  let res = await resp.json();
+  let data = res && res.length ? res[0] : {};
+  data.id = ctx.query?.id;
+  let user = null;
+  verify(cookie.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { data, user },
+  }
 }
 
 export default ViewUser;

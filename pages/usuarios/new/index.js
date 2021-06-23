@@ -5,6 +5,8 @@ import { nuevoUsuario } from '../../../services/usuarios.service';
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
+import parseCookies from '../../../helpers/parseCookies';
+import { verify } from 'jsonwebtoken';
 
 const NuevoUsuarioForm = [
   {
@@ -41,7 +43,7 @@ const NuevoUsuarioForm = [
   },
 ];
 
-const NuevoUsuario = () => {
+const NuevoUsuario = ({ user }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
@@ -52,7 +54,7 @@ const NuevoUsuario = () => {
 
   const onSubmit = async (data) => {
     const { Usuario, Nombre, Apellido, Password } = data;
-    const res = await nuevoUsuario({ idUsuario: '1', Usuario, Nombre, Apellido, Password })
+    const res = await nuevoUsuario({ idUsuario: user.idUsuario, Usuario, Nombre, Apellido, Password })
     if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/usuarios')
   }
@@ -64,6 +66,19 @@ const NuevoUsuario = () => {
       <Form onFormSubmit={onSubmit} config={NuevoUsuarioForm} />
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  let user = null;
+  verify(cookie.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { user },
+  }
 }
 
 export default NuevoUsuario;
