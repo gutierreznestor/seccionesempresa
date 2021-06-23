@@ -8,6 +8,7 @@ import EmpleadosList from '../../components/EmpleadosList/EmpleadosList.componen
 import { deleteEmpleado } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
+import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 const Empleados = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');

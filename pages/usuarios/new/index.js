@@ -7,6 +7,7 @@ import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../../helpers/parseCookies';
 import { verify } from 'jsonwebtoken';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const NuevoUsuarioForm = [
   {

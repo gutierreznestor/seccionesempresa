@@ -7,6 +7,7 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.componen
 import Layout from '../../../components/Layout';
 import { nuevoPerfil } from '../../../services/perfiles.service';
 import parseCookies from '../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const NuevoPerfilForm = [
   {

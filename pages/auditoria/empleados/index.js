@@ -6,6 +6,7 @@ import Layout from '../../../components/Layout';
 import LogsEmpleadosList from '../../../components/LogsEmpleadosList/LogsEmpleadosList.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const AuditoriaEmpleados = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState('');

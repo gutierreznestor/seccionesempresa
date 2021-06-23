@@ -6,6 +6,7 @@ import Layout from '../../../components/Layout';
 import LogsPerfilesList from '../../../components/LogsPerfilesList/LogsPerfilesList.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const AuditoriaPerfiles = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');

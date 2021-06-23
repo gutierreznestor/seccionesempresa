@@ -6,6 +6,7 @@ import Layout from '../../../components/Layout';
 import LogsSeccionesEmpresaList from '../../../components/LogsSeccionesEmpresaList/LogsSeccionesEmpresaList.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const AuditoriaSeccionesEmpresa = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState('');

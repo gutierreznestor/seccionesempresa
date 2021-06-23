@@ -8,6 +8,7 @@ import { addPerfilUsuario, deletePerfilUsuario, editarUsuario, getPerfilesUsuari
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import PerfilesUsuarioList from '../../../../components/PerfilesUsuarioList/PerfilesUsuarioList.component';
 import parseCookies from '../../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../../helpers/redirectToLogin';
 
 const EditarUsuarioForm = [
   {

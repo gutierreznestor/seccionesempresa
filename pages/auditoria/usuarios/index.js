@@ -6,6 +6,7 @@ import Layout from '../../../components/Layout';
 import LogsUsuariosList from '../../../components/LogsUsuariosList/LogsUsuariosList.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const AuditoriaUsuarios = ({ data }) => {
   const [errorMessage, setErrorMessage] = useState('');

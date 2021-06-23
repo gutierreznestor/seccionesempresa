@@ -9,6 +9,7 @@ import UsuariosList from '../../components/UsuariosList/UsuariosList.component';
 import { deleteUsuario } from '../../services/usuarios.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
+import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 const Usuarios = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');

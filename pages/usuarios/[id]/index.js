@@ -9,6 +9,7 @@ import PerfilesUsuarioList from '../../../components/PerfilesUsuarioList/Perfile
 import AppLink from '../../../components/AppLink/AppLink.component';
 import parseCookies from '../../../helpers/parseCookies';
 import { verify } from 'jsonwebtoken';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const ListItem = ({ title, description }) => (
   <FieldContainer>

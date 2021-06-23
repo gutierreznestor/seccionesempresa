@@ -7,6 +7,7 @@ import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
 import { editarPerfil } from '../../../../services/perfiles.service';
 import parseCookies from '../../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../../helpers/redirectToLogin';
 
 const EditarPerfilForm = [
   {

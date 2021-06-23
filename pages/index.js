@@ -7,6 +7,7 @@ import Layout from '../components/Layout'
 import SeccionesEmpresaList from '../components/SeccionesEmpresaList/SeccionesEmpresaList.component'
 import EmpleadosList from '../components/EmpleadosList/EmpleadosList.component';
 import parseCookies from '../helpers/parseCookies';
+import { redirectToLogin } from '../helpers/redirectToLogin';
 
 const Home = ({ listSecciones, listEmpleados, user }) => {
   const [errorMessage, setErrorMessage] = useState('');

@@ -7,6 +7,7 @@ import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component'
 import { nuevaSeccionEmpresa } from '../../../services/seccionesEmpresa.service';
 import parseCookies from '../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const AgregarSeccionForm = [
   {

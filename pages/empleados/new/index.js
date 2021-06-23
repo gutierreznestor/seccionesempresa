@@ -10,6 +10,7 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.componen
 import SeccionesEmpresaList from '../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
 import Button from '../../../components/Button/Button.component';
 import parseCookies from '../../../helpers/parseCookies';
+import { redirectToLogin } from '../../../helpers/redirectToLogin';
 
 const NuevoEmpleadoForm = [
   {

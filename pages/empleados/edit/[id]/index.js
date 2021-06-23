@@ -12,6 +12,7 @@ import Message from '../../../../components/Message/Message.component';
 import parseCookies from '../../../../helpers/parseCookies';
 import Button from '../../../../components/Button/Button.component';
 import SeccionesEmpresaList from '../../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
+import { redirectToLogin } from '../../../../helpers/redirectToLogin';
 
 const EditarEmpleadoForm = [
   {

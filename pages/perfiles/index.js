@@ -9,6 +9,7 @@ import AppLink from '../../components/AppLink/AppLink.component';
 import { deletePerfiles } from '../../services/perfiles.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
+import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 const Perfiles = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');
