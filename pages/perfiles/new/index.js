@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Router from 'next/router'
+import { verify } from 'jsonwebtoken';
 
 import Form from '../../../components/Form/Form.component';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import Layout from '../../../components/Layout';
 import { nuevoPerfil } from '../../../services/perfiles.service';
+import parseCookies from '../../../helpers/parseCookies';
 
 const NuevoPerfilForm = [
   {
@@ -17,13 +19,13 @@ const NuevoPerfilForm = [
   },
 ];
 
-const NuevoPerfil = () => {
+const NuevoPerfil = ({ user }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = async (data) => {
     setErrorMessage('');
     const { Nombre } = data;
-    const res = await nuevoPerfil({ user: 1, Nombre })
+    const res = await nuevoPerfil({ user: user?.idUsuario, Nombre })
     if (res.errorMessage) return setErrorMessage(res.errorMessage)
     Router.push('/perfiles')
   }
@@ -35,6 +37,19 @@ const NuevoPerfil = () => {
       <Form onFormSubmit={onSubmit} config={NuevoPerfilForm} />
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  let user = null;
+  verify(cookie.auth, 'secret', async (err, decoded) => {
+    if (!err && decoded) {
+      user = decoded.user;
+    }
+  });
+  return {
+    props: { user },
+  }
 }
 
 export default NuevoPerfil;
