@@ -6,6 +6,7 @@ import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component'
 import { nuevaSeccionEmpresa } from '../../../services/seccionesEmpresa.service';
+import parseCookies from '../../../helpers/parseCookies';
 
 const AgregarSeccionForm = [
   {
@@ -27,6 +28,7 @@ const NuevaSeccion = ({ user }) => {
     if (res.errorMessage) {
       return setErrorMessage(res.errorMessage);
     }
+    Router.push('/secciones-empresa')
   }
 
   return (
@@ -38,14 +40,17 @@ const NuevaSeccion = ({ user }) => {
   )
 }
 
-NuevaSeccion.getInitialProps = async (ctx) => {
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
   let user = null;
-  verify(ctx.req?.cookies.auth, 'secret', async (err, decoded) => {
+  verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
-  return { user };
+  return {
+    props: { user },
+  }
 }
 
 export default NuevaSeccion;
