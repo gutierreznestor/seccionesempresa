@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import Router, { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
 
@@ -20,19 +20,22 @@ const EditarPerfilForm = [
   },
 ];
 
-const EditarPerfil = ({ data, user }) => {
+const EditarPerfil = ({ data, user, error }) => {
   const { query: { id } } = useRouter();
+  const [errorMessage, setErrorMessage] = useState(error);
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
     const res = await editarPerfil({ user: user?.idUsuario, id, Nombre })
-    if (res.errorMessage) return;
-    Router.push('/perfiles')
+    if (res.errorMessage) {
+      setErrorMessage(res.errorMessage);
+    };
   }
 
   return (
     <Layout title='Editar perfil' user={user}>
       <h1>Editar perfil</h1>
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form
         onFormSubmit={onSubmit}
         config={EditarPerfilForm}
@@ -52,17 +55,20 @@ export async function getServerSideProps(ctx) {
       cookie,
     }
   })
-  let res = await resp.json();
-  let data = res && res.length ? res[0] : {};
-  data.id = ctx.query?.id;
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await resp.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
 

@@ -7,7 +7,6 @@ const Logout = () => {
   useEffect(() => {
     const onLogout = async () => {
       await logout();
-      console.log('Router');
       Router.push('/login')
     }
     onLogout()
