@@ -41,10 +41,10 @@ const EditarEmpleadoForm = [
   },
 ];
 
-const EditarEmpleado = ({ data, user }) => {
+const EditarEmpleado = ({ data, user, error }) => {
   const [seccionEmpresa, setSeccionEmpresa] = useState('');
   const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(error);
   const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
   const [seccionesList, setSeccionesList] = useState([]);
 
@@ -58,6 +58,7 @@ const EditarEmpleado = ({ data, user }) => {
   }, []);
 
   const onSubmit = async (formData) => {
+    setErrorMessage('');
     const { Nombre, Apellido, idSeccionEmpresa } = formData;
     const res = await editarEmpleado({ idEmpleado: data.id, user: user?.idUsuario, Nombre, Apellido, idSeccionEmpresa });
     if (res.errorMessage) return setErrorMessage(res.errorMessage);
@@ -103,17 +104,20 @@ export async function getServerSideProps(ctx) {
       cookie,
     }
   })
-  let res = await resp.json();
-  let data = res && res.length ? res[0] : {};
-  data.id = ctx.query?.id;
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await resp.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
 
