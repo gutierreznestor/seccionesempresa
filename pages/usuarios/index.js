@@ -6,17 +6,17 @@ import { verify } from 'jsonwebtoken';
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import UsuariosList from '../../components/UsuariosList/UsuariosList.component';
-import { deleteUsuario, getUsuarios } from '../../services/usuarios.service';
+import { deleteUsuario } from '../../services/usuarios.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
+import parseCookies from '../../helpers/parseCookies';
 
-const Usuarios = ({ listUsuarios }) => {
+const Usuarios = ({ data, user }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const onDelete = async (id) => {
     const ok = confirm('¿Quieres eliminar al usuario?');
     if (ok) {
-      setLoading(true);
-      const data = await deleteUsuario({ idUsuario: 1, id });
+      const data = await deleteUsuario({ idUsuario: user.idUsuario, id });
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
       Router.push('usuarios');
     }
@@ -28,27 +28,30 @@ const Usuarios = ({ listUsuarios }) => {
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <AppLink href='/usuarios/new' title='Nuevo usuario' />
       <UsuariosList
-        list={listUsuarios}
+        list={data}
         onDelete={onDelete}
       />
     </Layout>
   )
 }
-Usuarios.getInitialProps = async (ctx) => {
-  const cookie = ctx.req?.headers.cookie;
-  const resp = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const respSE = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
     headers: {
       cookie,
     }
   })
-  const listUsuarios = await resp.json();
+  const data = await respSE.json();
   let user = null;
-  verify(cookie, 'secret', async (err, decoded) => {
+  verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
-  return { listUsuarios, user };
+  return {
+    props: { data, user },
+  }
 }
 
 export default Usuarios;
