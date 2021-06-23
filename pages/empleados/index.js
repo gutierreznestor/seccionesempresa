@@ -10,8 +10,8 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
 import { redirectToLogin } from '../../helpers/redirectToLogin';
 
-const Empleados = ({ data, user }) => {
-  const [errorMessage, setErrorMessage] = useState('');
+const Empleados = ({ data, user, error }) => {
+  const [errorMessage, setErrorMessage] = useState(error);
 
   const onDelete = async (id) => {
     const ok = confirm('¿Quieres eliminar al empleado?');
@@ -44,16 +44,20 @@ export async function getServerSideProps(ctx) {
       cookie,
     }
   })
-  let res = await respSE.json();
-  let data = (res && res.length) ? res : [];
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await respSE.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
 
