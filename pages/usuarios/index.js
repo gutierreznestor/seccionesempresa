@@ -12,8 +12,8 @@ import parseCookies from '../../helpers/parseCookies';
 import { redirectToLogin } from '../../helpers/redirectToLogin';
 import { isAllowed } from '../../hocs/auth';
 
-const Usuarios = ({ data, user }) => {
-  const [errorMessage, setErrorMessage] = useState('');
+const Usuarios = ({ data, user, error }) => {
+  const [errorMessage, setErrorMessage] = useState(error);
 
   const onDelete = async (id) => {
     const ok = confirm('¿Quieres eliminar al usuario?');
@@ -42,20 +42,25 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const respSE = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
+  const res = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
     headers: {
       cookie,
     }
   })
-  const data = await respSE.json();
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await res.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
 

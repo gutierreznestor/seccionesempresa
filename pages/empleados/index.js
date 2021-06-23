@@ -39,7 +39,7 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const respSE = await fetch('http://localhost:3000/api/empleados/get-empleados', {
+  const res = await fetch('http://localhost:3000/api/empleados/get-empleados', {
     headers: {
       cookie,
     }
@@ -50,7 +50,7 @@ export async function getServerSideProps(ctx) {
       user = decoded.user;
     }
   });
-  let data = await respSE.json();
+  let data = await res.json();
   let error = null;
   if (data.errorMessage) {
     error = data.errorMessage;
