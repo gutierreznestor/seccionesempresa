@@ -11,8 +11,8 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
 import { redirectToLogin } from '../../helpers/redirectToLogin';
 
-const Perfiles = ({ data, user }) => {
-  const [errorMessage, setErrorMessage] = useState('');
+const Perfiles = ({ data, user, error }) => {
+  const [errorMessage, setErrorMessage] = useState(error);
 
   const onDelete = async (id) => {
     setErrorMessage('');
@@ -41,21 +41,25 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const respSE = await fetch('http://localhost:3000/api/perfiles/get-perfiles', {
+  const res = await fetch('http://localhost:3000/api/perfiles/get-perfiles', {
     headers: {
       cookie,
     }
   })
-  let res = await respSE.json();
-  let data = (res && res.length) ? res : [];
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await res.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
 
