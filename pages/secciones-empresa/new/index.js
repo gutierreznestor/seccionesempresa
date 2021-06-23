@@ -20,8 +20,8 @@ const AgregarSeccionForm = [
   },
 ];
 
-const NuevaSeccion = ({ user }) => {
-  const [errorMessage, setErrorMessage] = useState('');
+const NuevaSeccion = ({ user, error }) => {
+  const [errorMessage, setErrorMessage] = useState(error);
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
@@ -46,14 +46,25 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
+  const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
+    headers: {
+      cookie,
+    }
+  })
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await respSE.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { user },
+    props: { data, user, error },
   }
 }
 
