@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
 
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
-import { getSeccionEmpresa } from '../../../../services/seccionesEmpresa.service';
+import { getSeccionEmpresa, getSeccionesEmpresa } from '../../../../services/seccionesEmpresa.service';
 import { editarEmpleado } from '../../../../services/empleados.service';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import Message from '../../../../components/Message/Message.component';
 import parseCookies from '../../../../helpers/parseCookies';
+import Button from '../../../../components/Button/Button.component';
+import SeccionesEmpresaList from '../../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
 
 const EditarEmpleadoForm = [
   {
@@ -42,6 +44,17 @@ const EditarEmpleado = ({ data, user }) => {
   const [seccionEmpresa, setSeccionEmpresa] = useState('');
   const [showSeccionEmpresa, setShowSeccionEmpresa] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
+  const [seccionesList, setSeccionesList] = useState([]);
+
+  useEffect(() => {
+    const fetchSeccionesEmpresa = async () => {
+      const data = await getSeccionesEmpresa();
+      if (data.errorMessage) return setErrorMessage(data.errorMessage)
+      setSeccionesList(data);
+    }
+    fetchSeccionesEmpresa();
+  }, []);
 
   const onSubmit = async (formData) => {
     const { Nombre, Apellido, idSeccionEmpresa } = formData;
@@ -73,6 +86,8 @@ const EditarEmpleado = ({ data, user }) => {
         defaultValues={data}>
         {showSeccionEmpresa && seccionEmpresa ? <Message>Sección: {seccionEmpresa}</Message> : null}
       </Form>
+      <Button label="Ver/Ocultar Secciones" onClick={() => setShowSeccionesEmpresa(prev => !prev)} />
+      {showSeccionesEmpresa && <SeccionesEmpresaList list={seccionesList} readonly />}
     </Layout>
   )
 }

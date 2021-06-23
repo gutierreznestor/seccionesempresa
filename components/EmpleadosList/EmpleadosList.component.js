@@ -12,7 +12,7 @@ const EmpleadosList = ({ list = [], onDelete, readonly }) => {
           <th>id</th>
           <th>Nombre</th>
           <th>Apellido</th>
-          <th>id</th>
+          <th>id sección</th>
           <th>Sección</th>
         </tr>
         {list.map(({
