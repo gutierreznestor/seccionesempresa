@@ -21,10 +21,11 @@ const EditarSeccionForm = [
   },
 ];
 
-const EditarSeccion = ({ data, user }) => {
-  const [errorMessage, setErrorMessage] = useState('');
+const EditarSeccion = ({ data, user, error }) => {
+  const [errorMessage, setErrorMessage] = useState(error);
 
   const onSubmit = async (data) => {
+    setErrorMessage('');
     const { id, Nombre } = data;
     const res = await editarSeccionEmpresa({ user: user?.idUsuario, id, Nombre })
     if (res.errorMessage) {
@@ -37,6 +38,7 @@ const EditarSeccion = ({ data, user }) => {
   return (
     <Layout title='Editar sección' user={user}>
       <h1>Editar sección</h1>
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form
         onFormSubmit={onSubmit}
         config={EditarSeccionForm}
@@ -58,16 +60,19 @@ export async function getServerSideProps(ctx) {
       cookie,
     }
   })
-  let res = await resp.json();
-  let data = res && res.length ? res[0] : {};
-  data.id = ctx.query?.id;
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {
       user = decoded.user;
     }
   });
+  let data = await resp.json();
+  let error = null;
+  if (data.errorMessage) {
+    error = data.errorMessage;
+    data = [];
+  }
   return {
-    props: { data, user },
+    props: { data, user, error },
   }
 }
