@@ -3,6 +3,7 @@ import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import { verify } from 'jsonwebtoken';
 import parseCookies from '../../helpers/parseCookies';
+import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 const Auditoria = ({ user }) => {
   return (
@@ -17,6 +18,9 @@ const Auditoria = ({ user }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {

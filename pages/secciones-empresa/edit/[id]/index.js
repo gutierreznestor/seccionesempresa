@@ -49,6 +49,9 @@ export default EditarSeccion;
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
   const resp = await fetch(`http://localhost:3000/api/secciones-empresa/get-seccion-empresa?id=${ctx.query?.id}`, {
     headers: {
       cookie,

@@ -21,6 +21,9 @@ const AuditoriaEmpleados = ({ data }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  if (!cookie.auth) {
+    redirectToLogin(ctx.res);
+  }
   const respSE = await fetch(`http://localhost:3000/api/logsEmpleados/get-logs-empleados`, {
     headers: {
       cookie,
