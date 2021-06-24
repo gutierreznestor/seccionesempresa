@@ -10,18 +10,16 @@ import Layout from '../../components/Layout'
 import AppLink from '../../components/AppLink/AppLink.component';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import DataTable from '../../components/DataTable/DataTable.component';
+import { isAllowed } from '../../hocs/auth';
 
 const SeccionesEmpresa = ({ data, user, error }) => {
-  const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(error);
 
   const onDelete = async (id) => {
     setErrorMessage('');
     const ok = confirm('¿Quieres eliminar la sección?');
     if (ok) {
-      setLoading(true);
       const data = await deleteSeccionesEmpresa(id);
-      setLoading(false);
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
       Router.push('secciones-empresa');
     }
@@ -29,7 +27,10 @@ const SeccionesEmpresa = ({ data, user, error }) => {
   return (
     <Layout title='Secciones empresa' user={user}>
       <h1>Secciones empresa</h1>
-      <AppLink href='/secciones-empresa/new' title='Nueva sección' />
+      <AppLink
+        enabled={!isAllowed(['auditor'], user.Perfiles)}
+        href='/secciones-empresa/new'
+        title='Nueva sección' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {
         !error &&
@@ -39,6 +40,7 @@ const SeccionesEmpresa = ({ data, user, error }) => {
             user={user}
             notAllowed={['auditor']}
             path='secciones-empresa'
+            onDelete={onDelete}
           />
         </>
       }
