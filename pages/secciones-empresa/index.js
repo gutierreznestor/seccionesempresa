@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
 import parseCookies from '../../helpers/parseCookies';
 
-import Layout from '../../components/Layout'
-import SeccionesEmpresaList from '../../components/SeccionesEmpresaList/SeccionesEmpresaList.component'
-import AppLink from '../../components/AppLink/AppLink.component';
 import { deleteSeccionesEmpresa } from '../../services/seccionesEmpresa.service';
-import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import { redirectToLogin } from '../../helpers/redirectToLogin';
+import Layout from '../../components/Layout'
+import AppLink from '../../components/AppLink/AppLink.component';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
+import DataTable from '../../components/DataTable/DataTable.component';
 
 const SeccionesEmpresa = ({ data, user, error }) => {
-  const [loading, setLoading] = useState(false);
-  const [list, setList] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(error);
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState(error);
 
   const onDelete = async (id) => {
     setErrorMessage('');
@@ -32,11 +31,16 @@ const SeccionesEmpresa = ({ data, user, error }) => {
       <h1>Secciones empresa</h1>
       <AppLink href='/secciones-empresa/new' title='Nueva sección' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      {loading ?
-        <span>Cargando...</span> :
-        <SeccionesEmpresaList
-          list={data}
-          onDelete={onDelete} />
+      {
+        !error &&
+        <>
+          <DataTable
+            data={data}
+            user={user}
+            notAllowed={['auditor']}
+            path='secciones-empresa'
+          />
+        </>
       }
     </Layout>
   )
@@ -47,7 +51,7 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const respSE = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
+  const res = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
     headers: {
       cookie,
     }
@@ -58,7 +62,7 @@ export async function getServerSideProps(ctx) {
       user = decoded.user;
     }
   });
-  let data = await respSE.json();
+  let data = await res.json();
   let error = null;
   if (data.errorMessage) {
     error = data.errorMessage;
