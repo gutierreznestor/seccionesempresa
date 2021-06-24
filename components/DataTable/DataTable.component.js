@@ -10,8 +10,12 @@ const DataTable = ({
   onDelete,
   readonly,
   notAllowed = [],
+  path = 'usuarios',
 }) => {
   const columns = data[0] && Object.keys(data[0]);
+  const showViewButton =
+    path?.includes('empleados') ||
+    path?.includes('usuarios');
   return (
     <table>
       <thead>
@@ -25,10 +29,14 @@ const DataTable = ({
             }
             {!readonly && (
               <td>
-                <Link href={`usuarios/${row[columns[0]]}`} passHref>
-                  <ButtonTable
-                    type='Ver' />
-                </Link>
+                {
+                  showViewButton &&
+                  <Link href={`${path}/${row[columns[0]]}`} passHref>
+                    <ButtonTable
+                      type='Ver' />
+                  </Link>
+                }
+
                 <ButtonTable
                   enabled={!isAllowed(notAllowed, user.Perfiles)}
                   type='Eliminar'
