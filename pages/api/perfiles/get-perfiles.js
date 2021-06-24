@@ -3,7 +3,7 @@ import { query } from '../../../lib/db'
 const handler = async (_, res) => {
   try {
     const results = await query(`
-      SELECT idPerfil, Creado, Nombre, Actualizado
+      SELECT idPerfil, DATE_FORMAT(Creado, "%d %M %Y") AS Creado, Nombre, Actualizado
       FROM perfiles
       ORDER BY idPerfil
   `)
