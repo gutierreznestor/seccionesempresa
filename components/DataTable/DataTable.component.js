@@ -14,7 +14,6 @@ const DataTable = ({
 }) => {
   const columns = data[0] && Object.keys(data[0]);
   const showViewButton =
-    path?.includes('empleados') ||
     path?.includes('usuarios');
   return (
     <table>
