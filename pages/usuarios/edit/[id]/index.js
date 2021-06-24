@@ -62,13 +62,14 @@ const EditUser = ({ data, user }) => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, Usuario } = data;
-    const res = await editarUsuario({ id, Nombre, Apellido, Usuario })
+    const res = await editarUsuario({ idUsuario: user.idUsuario, id, Nombre, Apellido, Usuario })
     if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/usuarios')
   }
 
   const onEdit = async ({ idPerfil }) => {
     const res = await addPerfilUsuario({
+      id: id.toString(),
       idUsuario: user.idUsuario.toString(),
       idPerfil: idPerfil.toString()
     });

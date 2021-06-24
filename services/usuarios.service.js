@@ -32,7 +32,7 @@ export const getUsuario = async (id) => {
   return await res.json();
 }
 
-export const editarUsuario = async ({ id, Nombre = '', Apellido = '', Usuario = '' }) => {
+export const editarUsuario = async ({ idUsuario, id, Nombre = '', Apellido = '', Usuario = '' }) => {
   const url = `/api/usuarios/edit-usuario?id=${id}`;
   const res = await fetch(url, {
     method: 'PATCH',
@@ -45,7 +45,7 @@ export const editarUsuario = async ({ id, Nombre = '', Apellido = '', Usuario = 
       Usuario,
     }),
   });
-  await addLogUsuario({ idUsuario: id, Operacion: Operaciones.Update, Descripcion: `${Apellido}, ${Nombre} (${Usuario})` });
+  await addLogUsuario({ idUsuario, Operacion: Operaciones.Update, Descripcion: `${Apellido}, ${Nombre} (${Usuario})` });
   return await res.json();
 }
 
@@ -81,8 +81,8 @@ export const getPerfilUsuario = async (idUsuario, idPerfil) => {
   return await res.json();
 }
 
-export const addPerfilUsuario = async ({ idUsuario, idPerfil }) => {
-  const hasProfile = await getPerfilUsuario(idUsuario, idPerfil);
+export const addPerfilUsuario = async ({ id, idUsuario, idPerfil }) => {
+  const hasProfile = await getPerfilUsuario(id, idPerfil);
   if (hasProfile.length) {
     return { errorMessage: 'No se puede agregar el mismo perfil.' }
   }
@@ -94,7 +94,7 @@ export const addPerfilUsuario = async ({ idUsuario, idPerfil }) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      idUsuario,
+      idUsuario: id,
       idPerfil,
     }),
   });
