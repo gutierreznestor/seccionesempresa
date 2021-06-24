@@ -10,6 +10,7 @@ import AppLink from '../../../components/AppLink/AppLink.component';
 import parseCookies from '../../../helpers/parseCookies';
 import { verify } from 'jsonwebtoken';
 import { redirectToLogin } from '../../../helpers/redirectToLogin';
+import { isAllowed } from '../../../hocs/auth';
 
 const ListItem = ({ title, description }) => (
   <FieldContainer>
@@ -53,6 +54,7 @@ const ViewUser = ({ data, user }) => {
       }
       <PerfilesUsuarioList list={perfiles} readonly />
       <AppLink
+        enabled={!isAllowed(['auditor'], user.Perfiles)}
         href={`/usuarios/edit/${id}`}
         title='Editar usuario' />
     </Layout>)

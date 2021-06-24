@@ -3,13 +3,14 @@ import Router from 'next/router';
 import fetch from 'isomorphic-unfetch';
 import { verify } from 'jsonwebtoken';
 
-import Layout from '../../components/Layout'
-import PerfilesList from '../../components/PerfilesList/PerfilesList.component'
-import AppLink from '../../components/AppLink/AppLink.component';
+import { redirectToLogin } from '../../helpers/redirectToLogin';
 import { deletePerfiles } from '../../services/perfiles.service';
+import { isAllowed } from '../../hocs/auth';
+import Layout from '../../components/Layout'
+import AppLink from '../../components/AppLink/AppLink.component';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import parseCookies from '../../helpers/parseCookies';
-import { redirectToLogin } from '../../helpers/redirectToLogin';
+import DataTable from '../../components/DataTable/DataTable.component';
 
 const Perfiles = ({ data, user, error }) => {
   const [errorMessage, setErrorMessage] = useState(error);
@@ -27,11 +28,23 @@ const Perfiles = ({ data, user, error }) => {
   return (
     <Layout title='Perfiles' user={user}>
       <h1>Perfiles</h1>
-      <AppLink href='/perfiles/new' title='Nuevo Perfil' />
+      <AppLink
+        enabled={!isAllowed(['auditor'], user.Perfiles)}
+        href='/perfiles/new'
+        title='Nuevo Perfil' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      <PerfilesList
-        list={data}
-        onDelete={onDelete} />
+      {
+        !error &&
+        <>
+          <DataTable
+            data={data}
+            user={user}
+            notAllowed={['auditor']}
+            path='perfiles'
+            onDelete={onDelete}
+          />
+        </>
+      }
     </Layout>
   )
 }

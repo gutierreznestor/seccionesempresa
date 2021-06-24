@@ -3,7 +3,8 @@ import { query } from '../../../lib/db'
 const handler = async (_, res) => {
   try {
     const results = await query(`
-      SELECT * FROM perfiles
+      SELECT idPerfil, Creado, Nombre, Actualizado
+      FROM perfiles
       ORDER BY idPerfil
   `)
 

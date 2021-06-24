@@ -72,7 +72,7 @@ export const nuevoEmpleado = async ({ user, Nombre, Apellido, idSeccionEmpresa }
   if (seccionEmpresa[0]?.Nombre) {
     await addLogEmpleado({
       idUsuario: user,
-      Operacion: Operaciones.Delete,
+      Operacion: Operaciones.Create,
       Descripcion: `${Apellido}, ${Nombre}. ${seccionEmpresa[0]?.Nombre}`
     });
   }

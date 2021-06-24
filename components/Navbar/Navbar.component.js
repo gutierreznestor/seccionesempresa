@@ -17,22 +17,22 @@ const Navbar = ({ user }) => {
     {
       label: 'Secciones empresa',
       url: '/secciones-empresa',
-      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
     },
     {
       label: 'Empleados',
       url: '/empleados',
-      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
     },
     {
       label: 'Usuarios',
       url: '/usuarios',
-      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
     },
     {
       label: 'Perfiles',
       url: '/perfiles',
-      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
     },
     {
       label: 'Auditoría',
@@ -43,7 +43,7 @@ const Navbar = ({ user }) => {
       label: 'Cerrar sesión',
       url: '/logout',
       onClick: { handleLogout },
-      allowed: isAllowed(['auditor', 'supervisor'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
     },
   ];
 
