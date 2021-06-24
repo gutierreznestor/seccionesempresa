@@ -5,6 +5,7 @@ import { verify } from 'jsonwebtoken';
 
 import { redirectToLogin } from '../../helpers/redirectToLogin';
 import { deletePerfiles } from '../../services/perfiles.service';
+import { isAllowed } from '../../hocs/auth';
 import Layout from '../../components/Layout'
 import AppLink from '../../components/AppLink/AppLink.component';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
@@ -27,7 +28,10 @@ const Perfiles = ({ data, user, error }) => {
   return (
     <Layout title='Perfiles' user={user}>
       <h1>Perfiles</h1>
-      <AppLink href='/perfiles/new' title='Nuevo Perfil' />
+      <AppLink
+        enabled={!isAllowed(['auditor'], user.Perfiles)}
+        href='/perfiles/new'
+        title='Nuevo Perfil' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {
         !error &&
