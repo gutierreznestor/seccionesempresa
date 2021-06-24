@@ -1,5 +1,5 @@
 export const Operaciones = {
-  Create: 'Create',
-  Update: 'Update',
-  Delete: 'Delete',
+  Create: 'Alta',
+  Update: 'Modificación',
+  Delete: 'Baja',
 }
