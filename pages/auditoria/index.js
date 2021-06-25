@@ -13,7 +13,7 @@ const Auditoria = ({ user, error }) => {
       <AppLink href='/auditoria/seccionesEmpresa' title="Secciones empresa" />
       <AppLink href='/auditoria/empleados' title="Empleados" />
       <AppLink href='/auditoria/usuarios' title="Usuarios" />
-      <AppLink href='/auditoria/perfiles' title="Perfiles" />
+      {/* <AppLink href='/auditoria/perfiles' title="Perfiles" /> */}
       {errorMessage && <ErrorMessage message={errorMessage} />}
     </Layout>
   )

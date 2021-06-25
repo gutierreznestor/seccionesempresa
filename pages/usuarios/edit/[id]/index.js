@@ -103,7 +103,7 @@ const EditUser = ({ data, user }) => {
             defaultValues={data} />
         </>
       }
-      <PerfilesUsuarioList list={perfiles} onEdit={onEdit} onDelete={onDelete} />
+      {/* <PerfilesUsuarioList list={perfiles} onEdit={onEdit} onDelete={onDelete} /> */}
     </Layout>
   )
 }
