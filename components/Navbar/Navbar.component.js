@@ -30,11 +30,6 @@ const Navbar = ({ user }) => {
       allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
     },
     {
-      label: 'Perfiles',
-      url: '/perfiles',
-      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
-    },
-    {
       label: 'Auditoría',
       url: '/auditoria',
       allowed: isAllowed(['auditor'], user.Perfiles)
