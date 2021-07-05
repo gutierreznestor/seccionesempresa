@@ -4,7 +4,7 @@ const handler = async (_, res) => {
   try {
     const results = await query(`
       SELECT DISTINCT idEmpleado, se.idSeccionEmpresa,
-        se.Nombre AS Seccion, 
+        se.Nombre AS Sección, 
         Apellido, emp.Nombre
       FROM empleados AS emp
       INNER JOIN secciones_empresa AS se ON 

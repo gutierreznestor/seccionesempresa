@@ -29,11 +29,11 @@ const Navbar = ({ user }) => {
       url: '/usuarios',
       allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
     },
-    {
-      label: 'Perfiles',
-      url: '/perfiles',
-      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
-    },
+    // {
+    //   label: 'Perfiles',
+    //   url: '/perfiles',
+    //   allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
+    // },
     {
       label: 'Auditoría',
       url: '/auditoria',

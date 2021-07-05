@@ -1,9 +1,10 @@
 import { addLogUsuario } from './logs.service';
 import { Operaciones } from '../constants';
 import { getPerfil } from './perfiles.service';
+import fetch from 'isomorphic-unfetch';
 
 export const getUsuarios = async () => {
-  const res = await fetch('/api/usuarios/get-usuarios', {
+  const res = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
     method: 'GET',
   });
   return await res.json();
@@ -12,7 +13,7 @@ export const getUsuarios = async () => {
 export const deleteUsuario = async ({ idUsuario, id }) => {
   const user = await getUsuario(id);
   const { Apellido, Nombre, Usuario } = user[0];
-  const res = await fetch('/api/usuarios/delete-usuario', {
+  const res = await fetch('http://localhost:3000/api/usuarios/delete-usuario', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -26,14 +27,14 @@ export const deleteUsuario = async ({ idUsuario, id }) => {
 }
 
 export const getUsuario = async (id) => {
-  const res = await fetch(`/api/usuarios/get-usuario?id=${id}`, {
+  const res = await fetch(`http://localhost:3000/api/usuarios/get-usuario?id=${id}`, {
     method: 'GET',
   });
   return await res.json();
 }
 
 export const editarUsuario = async ({ idUsuario, id, Nombre = '', Apellido = '', Usuario = '' }) => {
-  const url = `/api/usuarios/edit-usuario?id=${id}`;
+  const url = `http://localhost:3000/api/usuarios/edit-usuario?id=${id}`;
   const res = await fetch(url, {
     method: 'PATCH',
     headers: {
@@ -50,7 +51,7 @@ export const editarUsuario = async ({ idUsuario, id, Nombre = '', Apellido = '',
 }
 
 export const nuevoUsuario = async ({ idUsuario, Usuario, Nombre, Apellido, Password }) => {
-  const url = `/api/usuarios/new-usuario`;
+  const url = `http://localhost:3000/api/usuarios/new-usuario`;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -68,14 +69,14 @@ export const nuevoUsuario = async ({ idUsuario, Usuario, Nombre, Apellido, Passw
 }
 
 export const getPerfilesUsuario = async (id) => {
-  const res = await fetch(`/api/usuarios/get-perfiles-usuario?id=${id}`, {
+  const res = await fetch(`http://localhost:3000/api/usuarios/get-perfiles-usuario?id=${id}`, {
     method: 'GET',
   });
   return await res.json();
 }
 
 export const getPerfilUsuario = async (idUsuario, idPerfil) => {
-  const res = await fetch(`/api/usuarios/get-perfil-usuario?idUsuario=${idUsuario}&idPerfil=${idPerfil}`, {
+  const res = await fetch(`http://localhost:3000/api/usuarios/get-perfil-usuario?idUsuario=${idUsuario}&idPerfil=${idPerfil}`, {
     method: 'GET',
   });
   return await res.json();
@@ -88,7 +89,7 @@ export const addPerfilUsuario = async ({ id, idUsuario, idPerfil }) => {
   }
   const perfil = await getPerfil(idPerfil);
   const usuario = await getUsuario(idUsuario);
-  const res = await fetch('/api/usuarios/add-perfil-usuario', {
+  const res = await fetch('http://localhost:3000/api/usuarios/add-perfil-usuario', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ export const addPerfilUsuario = async ({ id, idUsuario, idPerfil }) => {
 export const deletePerfilUsuario = async ({ user, idUsuario, idPerfil }) => {
   const perfil = await getPerfil(idPerfil);
   const usuario = await getUsuario(idUsuario);
-  const res = await fetch('/api/usuarios/delete-perfil-usuario', {
+  const res = await fetch('http://localhost:3000/api/usuarios/delete-perfil-usuario', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
