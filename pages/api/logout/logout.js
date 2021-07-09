@@ -17,7 +17,6 @@ const handler = async (req, res) => {
     path: '/',
   }));
 
-  res.writeHead(302, { Location: '/api/login' });
   res.end();
 };
 
