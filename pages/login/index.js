@@ -3,8 +3,14 @@ import Router from 'next/router';
 
 import Layout from '../../components/Layout';
 import Form from '../../components/Form/Form.component';
-import { login } from '../../services/auth.service';
+import { login, setEmpresa } from '../../services/auth.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
+import Select from '../../components/Select/Select.component';
+
+const options = [
+  { label: 'empresa', value: 'empresa' },
+  { label: 'empresa 2', value: 'empresa2' },
+];
 
 const LoginForm = [
   {
@@ -27,18 +33,30 @@ const LoginForm = [
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
+  const [selected, setSelected] = useState('empresa');
+
+  const onSelect = (value) => {
+    setErrorMessage('');
+    setSelected(value);
+    setEmpresa(value);
+  }
 
   const onSubmit = async (data) => {
     setErrorMessage('');
     const { Usuario, Password } = data;
-    const res = await login({ Usuario, Password })
+    const res = await login({ Usuario, Password, db: selected })
     if (res.errorMessage) return setErrorMessage(res.errorMessage);
     Router.push('/')
   }
 
+  React.useEffect(() => {
+    setEmpresa(selected);
+  }, []);
+
   return (
     <Layout title="Login" hideNavbar>
       <h1>Iniciar sesión</h1>
+      <Select options={options} onSelect={onSelect} />
       <Form onFormSubmit={onSubmit} config={LoginForm}>
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </Form>
