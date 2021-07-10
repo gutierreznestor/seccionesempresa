@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-unfetch';
 
-export const login = async ({ Usuario, Password }) => {
-  const database = sessionStorage.get('db') || 'empresa';
+export const login = async ({ Usuario, Password, db }) => {
   const url = `http://localhost:3000/api/login/login`;
   let res = await fetch(url, {
     method: 'POST',
@@ -11,7 +10,7 @@ export const login = async ({ Usuario, Password }) => {
     body: JSON.stringify({
       Usuario,
       Password,
-      database,
+      db,
     }),
   });
   return await res.json();
