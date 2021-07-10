@@ -33,12 +33,13 @@ const LoginForm = [
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
-  const [selected, setSelected] = useState('empresa');
+  const [selected, setSelected] = useState('');
 
   const onSelect = (value) => {
     setErrorMessage('');
     setSelected(value);
     setEmpresa(value);
+    localStorage.setItem('db', value);
   }
 
   const onSubmit = async (data) => {
@@ -50,13 +51,15 @@ const Login = () => {
   }
 
   React.useEffect(() => {
-    setEmpresa(selected);
+    const db = localStorage.getItem('db');
+    setEmpresa(db);
+    setSelected(db)
   }, []);
 
   return (
     <Layout title="Login" hideNavbar>
       <h1>Iniciar sesión</h1>
-      <Select options={options} onSelect={onSelect} />
+      <Select options={options} onSelect={onSelect} selected={selected} />
       <Form onFormSubmit={onSubmit} config={LoginForm}>
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </Form>
