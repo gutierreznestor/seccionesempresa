@@ -23,39 +23,43 @@ const DataTable = ({
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+  const noResults = <h3>No hay datos para mostrar.</h3>;
   return (
     <>
       <Button label="Imprimir" onClick={handlePrint} />
-      <TableContainer ref={componentRef}>
-        <thead>
-          <tr>{data[0] && columns.map((heading) => <th key={heading}>{heading}</th>)}</tr>
-        </thead>
-        <tbody>
-          {
-            data.map((row) => <tr>
-              {
-                columns.map((column) => <td key={column}>{row[column]}</td>)
-              }
-              {!readonly && (
-                <td>
-                  {
-                    showViewButton &&
-                    <Link href={`${path}/${row[columns[0]]}`} passHref>
-                      <ButtonTable
-                        type='Ver' />
-                    </Link>
-                  }
+      {data && data.length === 0 ?
+        <h3>No hay datos para mostrar.</h3> :
+        <TableContainer ref={componentRef}>
+          <thead>
+            <tr>{data[0] && columns.map((heading) => <th key={heading}>{heading}</th>)}</tr>
+          </thead>
+          <tbody>
+            {
+              data.map((row) => <tr>
+                {
+                  columns.map((column) => <td key={column}>{row[column]}</td>)
+                }
+                {!readonly && (
+                  <td>
+                    {
+                      showViewButton &&
+                      <Link href={`${path}/${row[columns[0]]}`} passHref>
+                        <ButtonTable
+                          type='Ver' />
+                      </Link>
+                    }
 
-                  <ButtonTable
-                    enabled={!isAllowed(notAllowed, user.Perfiles)}
-                    type='Eliminar'
-                    onClick={() => onDelete(row[columns[0]])} />
-                </td>
-              )}
-            </tr>)
-          }
-        </tbody>
-      </TableContainer>
+                    <ButtonTable
+                      enabled={!isAllowed(notAllowed, user.Perfiles)}
+                      type='Eliminar'
+                      onClick={() => onDelete(row[columns[0]])} />
+                  </td>
+                )}
+              </tr>)
+            }
+          </tbody>
+        </TableContainer>
+      }
     </>
   )
 }
