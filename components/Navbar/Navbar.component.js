@@ -40,6 +40,11 @@ const Navbar = ({ user = {} }) => {
       allowed: isAllowed(['auditor'], user?.Perfiles)
     },
     {
+      label: 'Copias de seguridad',
+      url: '/copias-seguridad',
+      allowed: isAllowed(['supervisor', 'admin'], user?.Perfiles)
+    },
+    {
       label: 'Cerrar sesión',
       url: '/logout',
       onClick: { handleLogout },
