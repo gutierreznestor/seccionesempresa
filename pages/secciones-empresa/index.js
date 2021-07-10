@@ -57,7 +57,6 @@ const SeccionesEmpresa = ({ data, user, error }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
-  // console.log({ PageCookie: cookie });
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
