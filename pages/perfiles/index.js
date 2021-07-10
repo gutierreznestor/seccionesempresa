@@ -54,7 +54,7 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const res = await fetch('http://localhost:3000/api/perfiles/get-perfiles', {
+  const res = await fetch(`http://localhost:3000/api/perfiles/get-perfiles?db=${cookie?.db}`, {
     headers: {
       cookie,
     }

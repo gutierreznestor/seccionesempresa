@@ -47,7 +47,7 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const resp = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
+  const resp = await fetch(`http://localhost:3000/api/secciones-empresa/get-secciones-empresa?db=${cookie?.db}`, {
     headers: {
       cookie,
     }

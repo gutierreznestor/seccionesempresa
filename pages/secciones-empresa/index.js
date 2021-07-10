@@ -15,6 +15,13 @@ import { isAllowed } from '../../hocs/auth';
 const SeccionesEmpresa = ({ data, user, error }) => {
   const [errorMessage, setErrorMessage] = React.useState(error);
 
+  React.useEffect(() => {
+
+    return () => {
+      setErrorMessage('');
+    }
+  }, []);
+
   const onDelete = async (id) => {
     setErrorMessage('');
     const ok = confirm('¿Quieres eliminar la sección?');
@@ -50,10 +57,11 @@ const SeccionesEmpresa = ({ data, user, error }) => {
 
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
+  // console.log({ PageCookie: cookie });
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const res = await fetch('http://localhost:3000/api/secciones-empresa/get-secciones-empresa', {
+  const res = await fetch(`http://localhost:3000/api/secciones-empresa/get-secciones-empresa?db=${cookie?.db}`, {
     headers: {
       cookie,
     }
