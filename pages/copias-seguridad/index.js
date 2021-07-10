@@ -5,18 +5,30 @@ import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 import Layout from '../../components/Layout';
 import Button from '../../components/Button/Button.component';
-import { MakeCopiaSeguridad } from '../../services/copiasSeguridad.service';
+import { LeerArchivos, MakeCopiaSeguridad } from '../../services/copiasSeguridad.service';
+import BackupList from '../../components/BackupList/BackupList.component';
 
 const CopiasSeguridad = ({ user, db }) => {
+
+  const [backups, setBackups] = React.useState([]);
 
   const backup = async () => {
     const res = await MakeCopiaSeguridad({ db });
   }
 
+  React.useEffect(() => {
+    const getNames = async () => {
+      const res = await LeerArchivos({ db });
+      setBackups(res);
+    }
+    getNames();
+  }, []);
+
   return (
     <Layout title="Copias de seguridad" user={user}>
       <h1>Copias de seguridad</h1>
       <Button label="Realizar backup" onClick={backup} />
+      {backups.length && <BackupList list={backups} user={user} />}
     </Layout>
   )
 }
