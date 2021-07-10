@@ -4,11 +4,19 @@ import parseCookies from '../../helpers/parseCookies';
 import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 import Layout from '../../components/Layout';
+import Button from '../../components/Button/Button.component';
+import { MakeCopiaSeguridad } from '../../services/copiasSeguridad.service';
 
-const Administracion = ({ user }) => {
+const CopiasSeguridad = ({ user, db }) => {
+
+  const backup = async () => {
+    const res = await MakeCopiaSeguridad({ db });
+  }
+
   return (
     <Layout title="Copias de seguridad" user={user}>
       <h1>Copias de seguridad</h1>
+      <Button label="Realizar backup" onClick={backup} />
     </Layout>
   )
 }
@@ -25,8 +33,8 @@ export async function getServerSideProps(ctx) {
     }
   });
   return {
-    props: { user },
+    props: { user, db: cookie.db },
   }
 }
 
-export default Administracion;
+export default CopiasSeguridad;
