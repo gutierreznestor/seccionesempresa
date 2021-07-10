@@ -12,21 +12,24 @@ const CopiasSeguridad = ({ user, db }) => {
 
   const [backups, setBackups] = React.useState([]);
 
+  const getNames = async () => {
+    const res = await LeerArchivos({ db });
+    setBackups(res);
+  }
+
   const backup = async () => {
-    const res = await MakeCopiaSeguridad({ db });
+    await MakeCopiaSeguridad({ db });
+    getNames()
   }
 
   React.useEffect(() => {
-    const getNames = async () => {
-      const res = await LeerArchivos({ db });
-      setBackups(res);
-    }
     getNames();
-  }, []);
+  }, [getNames, db]);
 
   return (
     <Layout title="Copias de seguridad" user={user}>
       <h1>Copias de seguridad</h1>
+      <h2>{db}</h2>
       <Button label="Realizar backup" onClick={backup} />
       {backups.length && <BackupList list={backups} user={user} />}
     </Layout>
