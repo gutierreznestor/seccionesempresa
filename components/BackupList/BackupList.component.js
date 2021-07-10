@@ -3,17 +3,7 @@ import React from 'react';
 import ButtonTable from '../ButtonTable/ButtonTable.component';
 import { BackupListContainer } from './BackupList.styled';
 
-const BackupList = ({ list = [], user, onDelete, readonly }) => {
-
-  const [sanitized, setSanitized] = React.useState([]);
-
-  React.useEffect(() => {
-    const sanitizeList = () => {
-      const newList = list.map(item => ({ Backups: item }));
-      setSanitized(newList);
-    };
-    sanitizeList();
-  }, [list]);
+const BackupList = ({ list = [], onRestoreBackup, readonly }) => {
 
   return (
     <BackupListContainer>
@@ -26,7 +16,7 @@ const BackupList = ({ list = [], user, onDelete, readonly }) => {
             <td>{backup}</td>
             {!readonly && (
               <td>
-                <ButtonTable type='Restablecer' onClick={() => onDelete(backup)} />
+                <ButtonTable type='Restablecer' onClick={() => onRestoreBackup(backup)} />
               </td>
             )}
           </tr>
