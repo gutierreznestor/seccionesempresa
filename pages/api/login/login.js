@@ -57,9 +57,9 @@ const handler = async (req, res) => {
           maxAge: 604800,
           path: '/',
         }));
-        res.json({ message: 'Bienvenido nuevamente.' });
+        res.status(201).json({ message: 'Bienvenido nuevamente.' });
       } else {
-        res.json({ errorMessage: 'Algo salió mal.' });
+        res.status(401).json({ errorMessage: 'Algo salió mal.' });
       };
     });
   } catch (error) {
