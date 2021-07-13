@@ -14,6 +14,7 @@
     "isomorphic-unfetch": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
     "mysql-import": "^5.0.21",
+    "mysql-tools": "^0.1.2",
     "mysqldump": "^3.2.0",
     "next": "10.2.2",
     "react": "17.0.2",
