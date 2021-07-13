@@ -48,10 +48,10 @@ CREATE TABLE IF NOT EXISTS usuarios (
 );
 
 INSERT INTO usuarios (Usuario, Nombre, Apellido, Password) VALUES
-  ('admin', 'Facundo', 'Lisandro', 'admin'),
-  ('auditor', 'Stella', 'Ramos', 'auditor'),
-  ('supervisor', 'Agustina', 'Taborda', 'supervisor'),
-  ('test', 'Paulo', 'Ayala', 'test');
+  ('admin', 'Facundo', 'Lisandro', '$2b$10$yafDbGG70L8tpeS2od5nD.zFNufLRwfpuycQ08nhdV9OauYwH7Nji'),
+  ('auditor', 'Stella', 'Ramos', '$2b$10$yafDbGG70L8tpeS2od5nD.zFNufLRwfpuycQ08nhdV9OauYwH7Nji'),
+  ('supervisor', 'Agustina', 'Taborda', '$2b$10$yafDbGG70L8tpeS2od5nD.zFNufLRwfpuycQ08nhdV9OauYwH7Nji'),
+  ('test', 'Paulo', 'Ayala', '$2b$10$yafDbGG70L8tpeS2od5nD.zFNufLRwfpuycQ08nhdV9OauYwH7Nji');
 
 CREATE TABLE IF NOT EXISTS perfiles (
   Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
