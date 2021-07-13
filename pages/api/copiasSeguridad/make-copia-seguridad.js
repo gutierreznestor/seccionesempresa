@@ -1,5 +1,6 @@
-import mysqldump from 'mysqldump';
-import { query } from '../../../lib/db';
+var MysqlTools = require('mysql-tools');
+var tool = new MysqlTools();
+
 
 const handler = async (req, res) => {
   const { db } = req.body
@@ -11,21 +12,31 @@ const handler = async (req, res) => {
     }
 
     const date = new Date();
-    const filename = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getHours() + '-' + date.getMinutes();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const fileName = `${year}-${month}-${day}-${hour}-${minute}.sql`;
+    const filePath = `./backups/${db}/${fileName}`;
 
-    const result = await mysqldump({
-      connection: {
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: db,
-      },
-      dumpToFile: `./backups/${db}/${filename}.sql`,
+    tool.dumpDatabase({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      dumpPath: filePath,
+      database: db,
+    }, function (error, output, message, dumpFileName) {
+      if (error instanceof Error) {
+        return res.status(400).json({ errorMessage: error.message })
+      }
+      return res.status(200).json({
+        message: 'Se generó una copia de seguridad.',
+        fileName,
+      });
     });
-
-    return res.json(result)
   } catch (e) {
-    res.status(400).json({ errorMessage: e.message })
+    return res.status(400).json({ errorMessage: e.message });
   }
 }
 
