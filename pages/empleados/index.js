@@ -9,17 +9,21 @@ import { redirectToLogin } from '../../helpers/redirectToLogin';
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import DataTable from '../../components/DataTable/DataTable.component';
-import { deleteEmpleado } from '../../services/empleados.service';
+import { deleteEmpleado, getEmpleados } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 
 const Empleados = ({ data, user, error }) => {
   const [errorMessage, setErrorMessage] = useState(error);
+  const [empleados, setEmpleados] = useState(data);
 
   const onDelete = async (id) => {
+    setErrorMessage('');
     const ok = confirm('¿Quieres eliminar al empleado?');
     if (ok) {
       const data = await deleteEmpleado({ idUsuario: user.idUsuario, idEmpleado: id });
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
+      const list = await getEmpleados();
+      setEmpleados(list);
     }
   }
 
@@ -35,7 +39,7 @@ const Empleados = ({ data, user, error }) => {
         !error &&
         <>
           <DataTable
-            data={data}
+            data={empleados}
             user={user}
             notAllowed={['auditor']}
             path='empleados'
