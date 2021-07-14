@@ -11,7 +11,7 @@ const handler = async (req, res) => {
         .json({ errorMessage: 'Ingrese el nombre de la base' })
     }
     if (!fileName) {
-      return res.json({ errorMessage: 'Ingrese el nombre del archivo sql' });
+      return res.status(400).json({ errorMessage: 'Ingrese el nombre del archivo sql' });
     }
     const filePath = `./backups/${db}/${fileName}`;
     tool.restoreDatabase({
@@ -25,7 +25,7 @@ const handler = async (req, res) => {
         return res.status(400).json({ errorMessage: error.message })
       }
     });
-    return res.json({
+    return res.status(200).json({
       message: 'La copia de seguridad se restauró correctamente.',
       fileName,
     });
