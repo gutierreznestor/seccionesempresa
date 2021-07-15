@@ -28,15 +28,21 @@ const handler = async (req, res) => {
       database: db,
     }, function (error, output, message, dumpFileName) {
       if (error instanceof Error) {
-        return res.status(400).json({ errorMessage: error.message })
+        return res
+          .status(400)
+          .json({ errorMessage: error.message })
       }
-      return res.status(200).json({
-        message: 'Se generó una copia de seguridad.',
-        fileName,
-      });
+      return res
+        .status(200)
+        .json({
+          message: 'Se generó una copia de seguridad.',
+          fileName,
+        });
     });
   } catch (e) {
-    return res.status(400).json({ errorMessage: e.message });
+    return res
+      .status(400)
+      .json({ errorMessage: e.message });
   }
 }
 
