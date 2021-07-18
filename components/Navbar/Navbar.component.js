@@ -7,7 +7,7 @@ import NoLink from '../NoLink/NoLink.component';
 import { logout } from '../../services/auth.service';
 
 
-const Navbar = ({ user }) => {
+const Navbar = ({ user = {} }) => {
 
   const handleLogout = async () => {
     await logout();
@@ -17,33 +17,38 @@ const Navbar = ({ user }) => {
     {
       label: 'Secciones empresa',
       url: '/secciones-empresa',
-      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user?.Perfiles)
     },
     {
       label: 'Empleados',
       url: '/empleados',
-      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user?.Perfiles)
     },
     {
       label: 'Usuarios',
       url: '/usuarios',
-      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user?.Perfiles)
     },
     // {
     //   label: 'Perfiles',
     //   url: '/perfiles',
-    //   allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
+    //   allowed: isAllowed(['auditor', 'supervisor', 'admin'], user?.Perfiles)
     // },
     {
       label: 'Auditoría',
       url: '/auditoria',
-      allowed: isAllowed(['auditor'], user.Perfiles)
+      allowed: isAllowed(['auditor'], user?.Perfiles)
+    },
+    {
+      label: 'Copias de seguridad',
+      url: '/copias-seguridad',
+      allowed: isAllowed(['supervisor', 'admin'], user?.Perfiles)
     },
     {
       label: 'Cerrar sesión',
       url: '/logout',
       onClick: { handleLogout },
-      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user.Perfiles)
+      allowed: isAllowed(['auditor', 'supervisor', 'admin'], user?.Perfiles)
     },
   ];
 

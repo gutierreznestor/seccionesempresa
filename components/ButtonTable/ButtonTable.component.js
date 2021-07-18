@@ -10,6 +10,7 @@ const ButtonTable = forwardRef(({ type = 'Ver', onClick, enabled = true }, ref) 
     'Ver': <StyledEditButton title='Ver' onClick={onClick} disabled={!enabled} >Ver</StyledEditButton>,
     'Agregar': <StyledEditButton title='Agregar' onClick={onClick} disabled={!enabled} >Agregar</StyledEditButton>,
     'Quitar': <StyledDeleteButton title='Quitar' onClick={onClick} disabled={!enabled} >Quitar</StyledDeleteButton>,
+    'Restablecer': <StyledEditButton title='Restablecer' onClick={onClick} disabled={!enabled} >Restablecer</StyledEditButton>,
   }
   return buttons[type];
 });

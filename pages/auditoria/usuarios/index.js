@@ -54,11 +54,11 @@ export async function getServerSideProps(ctx) {
   if (!cookie.auth) {
     redirectToLogin(ctx.res);
   }
-  const res = await fetch(`http://localhost:3000/api/logsUsuarios/get-logs-usuarios`, {
+  const res = await fetch(`http://localhost:3000/api/logsUsuarios/get-logs-usuarios?db=${cookie?.db}`, {
     headers: {
       cookie,
     }
-  })
+  });
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
     if (!err && decoded) {

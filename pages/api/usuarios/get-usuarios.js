@@ -1,7 +1,8 @@
 import { query } from '../../../lib/db'
 
-const handler = async (_, res) => {
+const handler = async (req, res) => {
   try {
+    const { db } = req.query;
     const results = await query(`
     SELECT DISTINCT usuarios.idUsuario, usuarios.Nombre, usuarios.Apellido, 
       up.idUsuarioPerfil, usuarios.Usuario, perfiles.Nombre AS Perfil 
@@ -11,7 +12,7 @@ const handler = async (_, res) => {
     LEFT JOIN perfiles ON
       (perfiles.idPerfil = up.idPerfil)
     GROUP BY usuarios.idUsuario
-    `);
+    `, null, db);
 
     return res.json(results)
   } catch (e) {

@@ -5,7 +5,7 @@ import cookie from 'cookie';
 import { query } from '../../../lib/db';
 
 const handler = async (req, res) => {
-  const { Usuario, Password } = req.body;
+  const { Usuario, Password, db } = req.body;
   if (!Usuario?.trim() || !Password?.trim()) {
     return res
       .status(400)
@@ -19,6 +19,7 @@ const handler = async (req, res) => {
     WHERE usuarios.Usuario=?;
     `,
     [Usuario],
+    db,
   );
 
   if (!resultsUser?.length) {
@@ -56,9 +57,9 @@ const handler = async (req, res) => {
           maxAge: 604800,
           path: '/',
         }));
-        res.json({ message: 'Bienvenido nuevamente.' });
+        res.status(201).json({ message: 'Bienvenido nuevamente.' });
       } else {
-        res.json({ errorMessage: 'Algo salió mal.' });
+        res.status(401).json({ errorMessage: 'Algo salió mal.' });
       };
     });
   } catch (error) {

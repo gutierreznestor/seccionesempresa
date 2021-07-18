@@ -1,7 +1,8 @@
 import { query } from '../../../lib/db'
 
-const handler = async (_, res) => {
+const handler = async (req, res) => {
   try {
+    const { db } = req.query;
     const results = await query(`
       SELECT DISTINCT idEmpleado, se.idSeccionEmpresa,
         se.Nombre AS Sección, 
@@ -10,9 +11,9 @@ const handler = async (_, res) => {
       INNER JOIN secciones_empresa AS se ON 
         (se.idSeccionEmpresa = emp.idSeccionEmpresa)
       ORDER BY emp.idEmpleado DESC
-    `);
+    `, null, db);
 
-    return res.json(results)
+    return res.status(200).json(results)
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })
   }
