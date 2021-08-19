@@ -30,6 +30,16 @@ export const nuevaEmpresa = async ({ empresa, DB }) => {
       DB,
     }),
   });
+  url = `http://localhost:3000/api/empresas/tablas`;
+  res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      DB,
+    }),
+  });
   return await res.json();
 };
 
