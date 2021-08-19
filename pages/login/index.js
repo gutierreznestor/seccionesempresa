@@ -6,6 +6,7 @@ import Form from '../../components/Form/Form.component';
 import { login, setEmpresa } from '../../services/auth.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import Select from '../../components/Select/Select.component';
+import AppLink from '../../components/AppLink/AppLink.component';
 
 const options = [
   { label: 'empresa', value: 'empresa' },
@@ -60,9 +61,10 @@ const Login = () => {
     <Layout title="Login" hideNavbar>
       <h1>Iniciar sesión</h1>
       <Select options={options} onSelect={onSelect} selected={selected} />
-      <Form onFormSubmit={onSubmit} config={LoginForm}>
+      <Form onFormSubmit={onSubmit} config={LoginForm} buttonLabel='Iniciar sesión'>
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </Form>
+      <AppLink href='nueva-empresa' title='Crear nueva empresa' />
     </Layout>
   )
 }
