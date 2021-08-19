@@ -7,11 +7,7 @@ import { login, setEmpresa } from '../../services/auth.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import Select from '../../components/Select/Select.component';
 import AppLink from '../../components/AppLink/AppLink.component';
-
-const options = [
-  { label: 'empresa', value: 'empresa' },
-  { label: 'empresa 2', value: 'empresa2' },
-];
+import useGetEmpresas from '../../customHooks/useGetEmpresas';
 
 const LoginForm = [
   {
@@ -35,6 +31,10 @@ const LoginForm = [
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [selected, setSelected] = useState('');
+  const {
+    data: { empresas },
+    handlers: { fetch }
+  } = useGetEmpresas();
 
   const onSelect = (value) => {
     setErrorMessage('');
@@ -54,13 +54,14 @@ const Login = () => {
   React.useEffect(() => {
     const db = localStorage.getItem('db');
     setEmpresa(db);
-    setSelected(db)
+    setSelected(db);
+    fetch();
   }, []);
 
   return (
     <Layout title="Login" hideNavbar>
       <h1>Iniciar sesión</h1>
-      <Select options={options} onSelect={onSelect} selected={selected} />
+      <Select options={empresas} onSelect={onSelect} selected={selected} />
       <Form onFormSubmit={onSubmit} config={LoginForm} buttonLabel='Iniciar sesión'>
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </Form>
