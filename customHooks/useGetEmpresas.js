@@ -4,7 +4,7 @@ import { getEmpresas } from '../services/empresas.service';
 const apiToDropdown = (list = []) => {
   return list.map(item => ({
     label: item.Empresa,
-    value: item.idEmpresa,
+    value: item.DB,
   }));
 }
 
