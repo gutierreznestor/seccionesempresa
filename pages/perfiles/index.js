@@ -52,7 +52,7 @@ const Perfiles = ({ data, user, error }) => {
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
   if (!cookie.auth) {
-    redirectToLogin(ctx.res);
+    return redirectToLogin();
   }
   const res = await fetch(`http://localhost:3000/api/perfiles/get-perfiles?db=${cookie?.db}`, {
     headers: {

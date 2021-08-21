@@ -97,7 +97,7 @@ const EditarEmpleado = ({ data, user, error }) => {
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
   if (!cookie.auth) {
-    redirectToLogin(ctx.res);
+    return redirectToLogin();
   }
   const resp = await fetch(`http://localhost:3000/api/empleados/get-empleado?id=${ctx.query?.id}`, {
     headers: {

@@ -63,7 +63,7 @@ const ViewUser = ({ data, user }) => {
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
   if (!cookie.auth) {
-    redirectToLogin(ctx.res);
+    return redirectToLogin();
   }
   const resp = await fetch(`http://localhost:3000/api/usuarios/get-usuario?id=${ctx.query?.id}`, {
     headers: {
