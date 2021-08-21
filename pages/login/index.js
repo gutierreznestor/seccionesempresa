@@ -32,10 +32,9 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [selected, setSelected] = useState('');
   const {
-    data: { empresas },
-    handlers: { fetch }
+    data: { empresasDropdown },
+    handlers: { fetchEmpresas },
   } = useGetEmpresas();
-
   const onSelect = (value) => {
     setErrorMessage('');
     setSelected(value);
@@ -52,16 +51,13 @@ const Login = () => {
   }
 
   React.useEffect(() => {
-    const db = localStorage.getItem('db');
-    setEmpresa(db);
-    setSelected(db);
-    fetch();
+    fetchEmpresas();
   }, []);
 
   return (
     <Layout title="Login" hideNavbar>
       <h1>Iniciar sesión</h1>
-      <Select options={empresas} onSelect={onSelect} selected={selected} />
+      <Select options={empresasDropdown} onSelect={onSelect} selected={selected} />
       <Form onFormSubmit={onSubmit} config={LoginForm} buttonLabel='Iniciar sesión'>
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </Form>
