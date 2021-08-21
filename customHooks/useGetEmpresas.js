@@ -3,11 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useSelectEmpresas } from '../selectors/useSelectEmpresas';
 import { getEmpresas } from '../store/data/empresas';
 
-
-
 const useGetEmpresas = () => {
   const dispatch = useDispatch();
-  const { empresas } = useSelectEmpresas();
+  const { empresas, empresasDropdown } = useSelectEmpresas();
 
   const fetchEmpresas = () => {
     dispatch(getEmpresas());
@@ -16,6 +14,7 @@ const useGetEmpresas = () => {
   return {
     data: {
       empresas,
+      empresasDropdown,
     },
     handlers: {
       fetchEmpresas,
