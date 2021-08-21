@@ -1,8 +1,8 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
-import { getEmpresas, getEmpresasSuccess, getEmpresasFailure } from '../store/data/empresas';
+import { getEmpresas, getEmpresasSuccess, getEmpresasFailure } from '../../store/data/empresas';
 
 
-function* loadDataSaga() {
+function* get() {
   try {
     const res = yield fetch('http://localhost:3000/api/empresas/get-empresas', {
       method: 'GET',
@@ -16,7 +16,7 @@ function* loadDataSaga() {
 
 function* rootSaga() {
   yield all([
-    takeLatest(getEmpresas.type, loadDataSaga),
+    takeLatest(getEmpresas.type, get),
   ]);
 };
 
