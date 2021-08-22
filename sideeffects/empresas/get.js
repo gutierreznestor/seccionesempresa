@@ -1,5 +1,5 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
-import { getEmpresas, getEmpresasSuccess, getEmpresasFailure } from '../../store/data/empresas';
+import { getEmpresas, getEmpresasSuccess, getEmpresasError } from '../../store/empresas';
 
 
 function* get() {
@@ -10,7 +10,7 @@ function* get() {
     const data = yield res.json()
     yield put(getEmpresasSuccess(data))
   } catch (err) {
-    yield put(getEmpresasFailure(err))
+    yield put(getEmpresasError(err))
   }
 };
 

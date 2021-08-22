@@ -1,10 +1,12 @@
 import { all, fork } from 'redux-saga/effects';
 
-import get from './get';
+import getEmpresas from './get';
+import newEmpresa from './new';
 
 function* rootSaga() {
   yield all([
-    fork(get),
+    fork(getEmpresas),
+    fork(newEmpresa),
   ]);
 }
 

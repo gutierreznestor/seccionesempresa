@@ -2,7 +2,7 @@ import createSagaMiddleware from 'redux-saga';
 import { createWrapper } from 'next-redux-wrapper';
 import { configureStore } from '@reduxjs/toolkit';
 
-import empresasReducer from './data/empresas';
+import empresasReducer from './empresas';
 import rootSaga from '../sideeffects';
 
 const sagaMiddleware = createSagaMiddleware();
