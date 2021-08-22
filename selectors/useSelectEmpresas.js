@@ -14,5 +14,7 @@ export const useSelectEmpresas = () => {
     empresas: empresas?.list,
     empresasDropdown: apiToDropdown(empresas?.list),
     loading: empresas?.loading,
+    message: empresas?.message,
+    errorMessage: empresas?.errorMessage,
   };
 }
