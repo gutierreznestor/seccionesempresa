@@ -1,35 +1,22 @@
-import React from 'react';
-import Router from 'next/router';
-
-import { nuevaEmpresa } from "../services/empresas.service";
-import { setEmpresa } from '../services/auth.service';
+import { useDispatch } from 'react-redux';
+import { useSelectEmpresas } from '../selectors/useSelectEmpresas';
+import { newEmpresa } from '../store/empresas';
 
 const useCreateEmpresa = () => {
-  const [errorMessage, setErrorMessage] = React.useState('');
-  const [message, setMessage] = React.useState('')
-  const createEmpresa = async ({ empresa, DB }) => {
-    const response = await nuevaEmpresa({ empresa, DB });
-    if (response.errorMessage) {
-      setErrorMessage(response.errorMessage);
-    } else {
-      setMessage('La empresa se creó correctamente.');
-      await setEmpresa(DB);
-      Router.push('/login');
-    }
-  }
-  const clearErrorMessage = () => {
-    setErrorMessage('');
-    setMessage('');
+  const dispatch = useDispatch();
+  const { message, errorMessage } = useSelectEmpresas();
+
+  const createEmpresa = ({ empresa, DB }) => {
+    dispatch(newEmpresa({ empresa, DB }));
   }
 
   return {
     data: {
-      errorMessage,
       message,
+      errorMessage,
     },
     handlers: {
       createEmpresa,
-      clearErrorMessage,
     }
   }
 }
