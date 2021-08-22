@@ -16,12 +16,29 @@ export const empresasSlice = createSlice({
       state.list = payload;
       state.loading = false;
     },
-    getEmpresasFailure: (state, _) => {
+    getEmpresasError: (state, _) => {
+      state.loading = false;
+    },
+    newEmpresa: (state, _) => {
+      state.loading = true;
+    },
+    newEmpresaSuccess: (state, { payload }) => {
+      state.list = payload;
+      state.loading = false;
+    },
+    newEmpresaError: (state, _) => {
       state.loading = false;
     }
   }
 });
 
-export const { getEmpresas, getEmpresasSuccess, getEmpresasFailure } = empresasSlice.actions;
+export const {
+  getEmpresas,
+  getEmpresasSuccess,
+  getEmpresasError,
+  newEmpresa,
+  newEmpresaSuccess,
+  newEmpresaError,
+} = empresasSlice.actions;
 
 export default empresasSlice.reducer;
