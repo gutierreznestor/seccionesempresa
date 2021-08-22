@@ -25,14 +25,12 @@ const NuevaEmpresaForm = [
 ];
 
 const NuevaEmpresa = ({ user }) => {
-  const { data: { errorMessage, message }, handlers: { createEmpresa, clearErrorMessage } } = useCreateEmpresa();
-
+  const { data: { errorMessage }, handlers: { createEmpresa } } = useCreateEmpresa();
 
   const onSubmit = (values) => {
-    const { empresa, DB } = values;
-    clearErrorMessage()
-    createEmpresa({ empresa, DB });
+    createEmpresa(values);
   }
+
   return (
     <Layout title='Nueva empresa' user={user} hideNavbar>
       <h1>Nueva empresa</h1>

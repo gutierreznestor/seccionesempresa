@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectEmpresas } from '../selectors/useSelectEmpresas';
-import { getEmpresas } from '../store/data/empresas';
+import { getEmpresas } from '../store/empresas';
 
 const useGetEmpresas = () => {
   const dispatch = useDispatch();
