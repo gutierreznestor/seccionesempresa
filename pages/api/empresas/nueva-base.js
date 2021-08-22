@@ -10,11 +10,15 @@ const handler = async (req, res) => {
       `
       CREATE DATABASE ${DB};
       `,
+      null,
+      null,
     );
-    return await res.status(201).json(result)
+    res.status(201).json(result)
   } catch (error) {
-    const message = error.message.includes('ER_DB_CREATE_EXISTS') ? `Ya existe una base con ese nombre.` : 'No se pudo editar el usuario.';
-    return await res.status(400).json({ errorMessage: message })
+    const message = error.message.includes('ER_DB_CREATE_EXISTS') ?
+      `Ya existe una base con ese nombre.` :
+      error.message;
+    res.status(400).json({ errorMessage: message })
   }
 };
 

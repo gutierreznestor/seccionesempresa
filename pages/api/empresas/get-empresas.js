@@ -5,11 +5,11 @@ const handler = async (_, res) => {
     const results = await query(`
       SELECT DISTINCT DB, Nombre AS Empresa
       FROM empresas;
-    `, null, 'mainSeccionesEmpresa');
-    return res.status(200).json(results)
+    `, [], 'mainSeccionesEmpresa');
+    res.status(200).json(results);
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })
   }
 }
 
-export default handler
+export default handler;
