@@ -16,14 +16,6 @@ const handler = async (req, res) => {
     );
     await query(
       `
-      INSERT INTO secciones_empresa (Nombre) VALUES
-      (?), (?), (?), (?);
-      `,
-      ['Dirección', 'Administración', 'Ventas', 'Producción'],
-      DB,
-    );
-    await query(
-      `
       INSERT INTO usuarios (Usuario, Nombre, Apellido, Password) VALUES
         (?, ?, ?, ?);
       `,
@@ -54,10 +46,44 @@ const handler = async (req, res) => {
       ['test', 'Paulo', 'Ayala', '$2b$10$yafDbGG70L8tpeS2od5nD.zFNufLRwfpuycQ08nhdV9OauYwH7Nji'],
       DB,
     );
+    await query(
+      `
+      INSERT INTO perfiles (Nombre) VALUES
+        (?), (?), (?), (?);
+      `,
+      ['admin', 'auditor', 'supervisor', 'SIN ASIGNAR'],
+      DB,
+    );
+    await query(
+      `
+      INSERT INTO usuarios_tiene_perfiles (idUsuario, idPerfil) VALUES
+        (?, ?);
+      `,
+      [1, 1],
+      DB,
+    );
+    await query(
+      `
+      INSERT INTO usuarios_tiene_perfiles (idUsuario, idPerfil) VALUES
+        (?, ?);
+      `,
+      [2, 2],
+      DB,
+    );
+    await query(
+      `
+      INSERT INTO usuarios_tiene_perfiles (idUsuario, idPerfil) VALUES
+        (?, ?);
+      `,
+      [3, 3],
+      DB,
+    );
+
     return await res.status(201).json({
       message: 'Datos agregados correctamente.'
     })
   } catch (error) {
+    console.trace('ADDING DATA');
     return await res.status(400).json({ errorMessage: error.message })
   }
 };
