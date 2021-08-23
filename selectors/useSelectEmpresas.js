@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 
 const apiToDropdown = (list = []) => {
-  const toDropdown = list.map(item => ({
+  let toDropdown = list.map(item => ({
     label: item.Empresa,
     value: item.DB,
   }));
+  toDropdown = [{ label: "Seleccionar", value: "", disabled: true }].concat(toDropdown);
   return toDropdown;
 }
 
