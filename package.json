@@ -11,6 +11,7 @@
     "@reduxjs/toolkit": "^1.6.1",
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.0.1",
+    "connected-react-router": "^6.9.1",
     "cookie": "^0.4.1",
     "isomorphic-unfetch": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
