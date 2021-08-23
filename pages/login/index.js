@@ -5,9 +5,6 @@ import Layout from '../../components/Layout';
 import Form from '../../components/Form/Form.component';
 import { login, setEmpresa } from '../../services/auth.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
-import Select from '../../components/Select/Select.component';
-import AppLink from '../../components/AppLink/AppLink.component';
-import useGetEmpresas from '../../customHooks/useGetEmpresas';
 
 const LoginForm = [
   {
@@ -31,10 +28,7 @@ const LoginForm = [
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [selected, setSelected] = useState('');
-  const {
-    data: { empresasDropdown },
-    handlers: { fetchEmpresas },
-  } = useGetEmpresas();
+
   const onSelect = (value) => {
     setErrorMessage('');
     setSelected(value);
@@ -50,18 +44,12 @@ const Login = () => {
     Router.push('/')
   }
 
-  React.useEffect(() => {
-    fetchEmpresas();
-  }, []);
-
   return (
     <Layout title="Login" hideNavbar>
       <h1>Iniciar sesión</h1>
-      <Select options={empresasDropdown} onSelect={onSelect} selected={selected} />
       <Form onFormSubmit={onSubmit} config={LoginForm} buttonLabel='Iniciar sesión'>
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </Form>
-      <AppLink href='nueva-empresa' title='Crear nueva empresa' />
     </Layout>
   )
 }

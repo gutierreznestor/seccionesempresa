@@ -1,5 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 
+import { setEmpresa } from './auth.service';
+
 export const nuevaEmpresa = async ({ empresa, DB }) => {
   const existe = await existeEmpresa(empresa);
   if (existe && existe.length) {
@@ -21,15 +23,22 @@ export const nuevaEmpresa = async ({ empresa, DB }) => {
     return await res.json({ errorMessage: res.errorMessage });
   }
   url = `http://localhost:3000/api/empresas/nueva-base`;
-  res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      DB,
-    }),
-  });
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        DB,
+      }),
+    });
+  } catch (error) {
+    console.log('error: ', error);
+  }
+
+  await setEmpresa(DB);
+
   url = `http://localhost:3000/api/empresas/tablas`;
   res = await fetch(url, {
     method: 'POST',
@@ -40,6 +49,7 @@ export const nuevaEmpresa = async ({ empresa, DB }) => {
       DB,
     }),
   });
+
   url = `http://localhost:3000/api/empresas/data`;
   res = await fetch(url, {
     method: 'POST',
@@ -50,6 +60,7 @@ export const nuevaEmpresa = async ({ empresa, DB }) => {
       DB,
     }),
   });
+  await setEmpresa(DB);
   return await res.json();
 };
 
