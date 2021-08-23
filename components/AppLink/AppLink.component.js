@@ -3,10 +3,14 @@ import Link from 'next/link';
 
 import { StyledAnchor } from './AppLink.styled';
 
-const AppLink = ({ href, title, enabled = true }) => {
+const AppLink = ({ href, title, enabled = true, bgColor = '#40c51f' }) => {
   return (
     <Link href={href}>
-      <StyledAnchor disabled={!enabled}>{title}</StyledAnchor>
+      <StyledAnchor
+        disabled={!enabled}
+        bgColor={bgColor}
+        title={title}
+      >{title}</StyledAnchor>
     </Link>
   )
 }
