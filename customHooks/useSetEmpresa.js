@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectEmpresas } from '../selectors/useSelectEmpresas';
 import { setDB } from '../store/empresas';
