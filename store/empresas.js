@@ -5,7 +5,7 @@ const initialState = {
   loading: false,
   message: '',
   errorMessage: '',
-  empresa: '',
+  DB: '',
 };
 
 export const empresasSlice = createSlice({
@@ -39,15 +39,15 @@ export const empresasSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
-    setEmpresa: (state, { payload }) => {
-      state.empresa = '';
+    setDB: (state) => {
+      state.DB = '';
       state.loading = true;
     },
-    setEmpresaSuccess: (state, { payload }) => {
-      state.empresa = payload;
+    setDBSuccess: (state, { payload }) => {
+      state.DB = payload;
       state.loading = false;
     },
-    setEmpresaError: (state, { payload }) => {
+    setDBError: (state, { payload }) => {
       state.loading = false;
       state.errorMessage = payload;
     },
@@ -61,9 +61,9 @@ export const {
   newEmpresa,
   newEmpresaSuccess,
   newEmpresaError,
-  setEmpresa,
-  setEmpresaSuccess,
-  setEmpresaError,
+  setDB,
+  setDBSuccess,
+  setDBError,
 } = empresasSlice.actions;
 
 export default empresasSlice.reducer;

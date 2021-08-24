@@ -1,8 +1,7 @@
-import { all, call, put, takeLatest, fork } from 'redux-saga/effects';
-import { setEmpresa, setEmpresaSuccess, setEmpresaError } from '../../store/empresas';
+import { put, takeLatest } from 'redux-saga/effects';
+import { setDB, setDBSuccess, setDBError } from '../../store/empresas';
 
-
-function* setDB({ payload }) {
+function* setDatabase({ payload }) {
   const url = `http://localhost:3000/api/login/set-db`;
   const res = yield fetch(url, {
     method: 'POST',
@@ -15,13 +14,13 @@ function* setDB({ payload }) {
   });
   let data = yield res.json()
   if (data.errorMessage) {
-    return yield put(setEmpresaError(data.errorMessage))
+    return yield put(setDBError(data.errorMessage))
   }
-  return yield put(setEmpresaSuccess(data));
+  yield put(setDBSuccess(payload));
 };
 
 function* rootSaga() {
-  yield takeLatest(setEmpresa.type, setDB);
+  yield takeLatest(setDB.type, setDatabase);
 };
 
 export default rootSaga;
