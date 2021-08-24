@@ -1,19 +1,40 @@
 import createSagaMiddleware from 'redux-saga';
-import { createWrapper } from 'next-redux-wrapper';
-import { configureStore } from '@reduxjs/toolkit';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 
 import empresasReducer from './empresas';
+import navigationReducer from './navigation';
 import rootSaga from '../sideeffects';
 
 const sagaMiddleware = createSagaMiddleware();
+const routerMiddleware = createRouterMiddleware();
 
-const reducer = {
+const rootReducer = combineReducers({
   empresas: empresasReducer,
-};
+  navigation: navigationReducer,
+  router: routerReducer
+});
+
+const reducer = (state, action) => {
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state, // use previous state
+      ...action.payload, // apply delta from hydration
+    }
+    if (typeof window !== 'undefined' && state?.router) {
+      // preserve router value on client side navigation
+      nextState.router = state.router
+    }
+    return nextState
+  } else {
+    return rootReducer(state, action)
+  }
+}
 
 export const store = configureStore({
   reducer,
-  middleware: [sagaMiddleware],
+  middleware: [sagaMiddleware, routerMiddleware],
   devTools: true,
 })
 
