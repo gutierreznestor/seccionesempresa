@@ -1,5 +1,6 @@
 import { put, takeLatest, fork } from 'redux-saga/effects';
-import { newEmpresa, newEmpresaSuccess, newEmpresaError, getEmpresas } from '../../store/empresas';
+import { replace } from 'connected-next-router';
+import { newEmpresa, newEmpresaSuccess, newEmpresaError, setDB } from '../../store/empresas';
 
 function* crearEmpresa({ empresa, DB }) {
   const url = `http://localhost:3000/api/empresas/nueva-empresa`;
@@ -32,23 +33,6 @@ function* crearBase({ DB }) {
   return data;
 }
 
-function* setDb({ DB }) {
-  const url = `http://localhost:3000/api/login/set-db`;
-  const res = yield fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      db: DB,
-    }),
-  });
-  const data = yield res.json()
-  if (data.errorMessage) {
-    return yield put(newEmpresaError(data.errorMessage))
-  }
-}
-
 function* create({ payload: { empresa, DB } }) {
   try {
     let data = yield fork(crearEmpresa, { empresa, DB });
@@ -59,12 +43,13 @@ function* create({ payload: { empresa, DB } }) {
     if (data.errorMessage) {
       return yield put(newEmpresaError(data.errorMessage))
     }
-    data = yield fork(setDb, { DB });
+    yield put(setDB(DB));
     if (data.errorMessage) {
       return yield put(newEmpresaError(data.errorMessage))
     }
     yield put(newEmpresaSuccess("Empresa creada correctamente."));
-    yield put(getEmpresas());
+    yield put(setDB(DB));
+    yield put(replace('/seleccionar-empresa'));
   } catch (error) {
     yield put(newEmpresaError(error))
   }
