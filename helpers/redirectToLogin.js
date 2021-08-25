@@ -3,7 +3,7 @@ import Router from 'next/router';
 export const redirectToLogin = () => {
   return {
     redirect: {
-      destination: "/login",
+      destination: "/seleccionar-empresa",
       permanent: false,
     },
     props: {},
