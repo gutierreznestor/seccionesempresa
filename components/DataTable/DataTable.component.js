@@ -51,7 +51,7 @@ const DataTable = ({
                       }
 
                       <ButtonTable
-                        enabled={!isAllowed(notAllowed, user.Perfiles)}
+                        enabled={!isAllowed(notAllowed, user?.Perfiles)}
                         type='Eliminar'
                         onClick={() => onDelete(row[columns[0]])} />
                     </td>

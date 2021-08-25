@@ -31,7 +31,7 @@ const Empleados = ({ data, user, error }) => {
     <Layout title='Empleados' user={user}>
       <h1>Empleados</h1>
       <AppLink
-        enabled={!isAllowed(['auditor'], user.Perfiles)}
+        enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href='/empleados/new'
         title='Nuevo empleado' />
       {errorMessage && <ErrorMessage message={errorMessage} />}

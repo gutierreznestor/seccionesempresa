@@ -34,7 +34,7 @@ const UsuariosList = ({ list = [], onDelete, readonly, user }) => {
                     type='Ver' />
                 </Link>
                 <ButtonTable
-                  enabled={!isAllowed(['auditor'], user.Perfiles)}
+                  enabled={!isAllowed(['auditor'], user?.Perfiles)}
                   type='Eliminar'
                   onClick={() => onDelete(idUsuario)} />
               </td>

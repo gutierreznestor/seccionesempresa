@@ -54,7 +54,7 @@ const ViewUser = ({ data, user }) => {
       }
       {/* <PerfilesUsuarioList list={perfiles} readonly /> */}
       <AppLink
-        enabled={!isAllowed(['auditor'], user.Perfiles)}
+        enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href={`/usuarios/edit/${id}`}
         title='Editar usuario' />
     </Layout>)

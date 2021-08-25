@@ -17,5 +17,6 @@ export const useSelectEmpresas = () => {
     loading: empresas?.loading,
     message: empresas?.message,
     errorMessage: empresas?.errorMessage,
+    DB: empresas?.DB,
   };
 }

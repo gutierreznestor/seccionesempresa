@@ -7,7 +7,7 @@ import NoLink from '../NoLink/NoLink.component';
 import { logout } from '../../services/auth.service';
 
 
-const Navbar = ({ user = {} }) => {
+const Navbar = ({ user = null }) => {
 
   const handleLogout = async () => {
     await logout();

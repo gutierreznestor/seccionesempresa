@@ -2,7 +2,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 import { setDB, setDBSuccess, setDBError } from '../../store/empresas';
 
 function* setDatabase({ payload }) {
-  const url = `http://localhost:3000/api/login/set-db`;
+  const url = `http://localhost:3000/api/empresas/set-db`;
   const res = yield fetch(url, {
     method: 'POST',
     headers: {

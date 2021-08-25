@@ -28,7 +28,7 @@ const SeccionesEmpresa = ({ data, user, error }) => {
     <Layout title='Secciones empresa' user={user}>
       <h1>Secciones empresa</h1>
       <AppLink
-        enabled={!isAllowed(['auditor'], user.Perfiles)}
+        enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href='/secciones-empresa/new'
         title='Nueva sección' />
       {errorMessage && <ErrorMessage message={errorMessage} />}

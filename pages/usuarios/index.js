@@ -27,7 +27,7 @@ const Usuarios = ({ data, user, error }) => {
     <Layout title='Usuarios' user={user}>
       <h1>Usuarios</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      <AppLink href='/usuarios/new' title='Nuevo usuario' enabled={!isAllowed(['auditor'], user.Perfiles)} />
+      <AppLink href='/usuarios/new' title='Nuevo usuario' enabled={!isAllowed(['auditor'], user?.Perfiles)} />
       <UsuariosList
         list={data}
         onDelete={onDelete}
