@@ -43,12 +43,11 @@ function* create({ payload: { empresa, DB } }) {
     if (data.errorMessage) {
       return yield put(newEmpresaError(data.errorMessage))
     }
-    yield put(setDB(DB));
     if (data.errorMessage) {
       return yield put(newEmpresaError(data.errorMessage))
     }
-    yield put(newEmpresaSuccess("Empresa creada correctamente."));
     yield put(setDB(DB));
+    yield put(newEmpresaSuccess("Empresa creada correctamente."));
     yield put(replace('/seleccionar-empresa'));
   } catch (error) {
     yield put(newEmpresaError(error))
