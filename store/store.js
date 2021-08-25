@@ -4,7 +4,6 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 
 import empresasReducer from './empresas';
-import navigationReducer from './navigation';
 import rootSaga from '../sideeffects';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -12,7 +11,6 @@ const routerMiddleware = createRouterMiddleware();
 
 const rootReducer = combineReducers({
   empresas: empresasReducer,
-  navigation: navigationReducer,
   router: routerReducer
 });
 
