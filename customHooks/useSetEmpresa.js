@@ -4,7 +4,7 @@ import { setDB } from '../store/empresas';
 
 const useSetEmpresa = () => {
   const dispatch = useDispatch();
-  const { empresas, empresasDropdown } = useSelectEmpresas();
+  const { empresas, empresasDropdown, DB } = useSelectEmpresas();
 
   const setEmpresa = (db) => {
     dispatch(setDB(db));
@@ -14,6 +14,7 @@ const useSetEmpresa = () => {
     data: {
       empresas,
       empresasDropdown,
+      DB,
     },
     handlers: {
       setEmpresa,

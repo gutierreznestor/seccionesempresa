@@ -23,7 +23,7 @@ export const logout = async () => {
 }
 
 export const setEmpresa = async (db) => {
-  return await fetch('http://localhost:3000/api/login/set-db', {
+  return await fetch('http://localhost:3000/api/empresas/set-db', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
