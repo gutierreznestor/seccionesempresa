@@ -8,6 +8,7 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import useLogin from '../../customHooks/useLogin';
 import parseCookies from '../../helpers/parseCookies';
 import useSetEmpresa from '../../customHooks/useSetEmpresa';
+import { useSelectAuth } from '../../selectors/useSelectAuth';
 
 const LoginForm = [
   {
@@ -29,8 +30,7 @@ const LoginForm = [
 ];
 
 const Login = ({ db }) => {
-  const [errorMessage, setErrorMessage] = useState('');
-
+  const { errorMessage } = useSelectAuth();
   const {
     handlers: {
       setEmpresa,
