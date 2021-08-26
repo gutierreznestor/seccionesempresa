@@ -40,7 +40,6 @@ export const empresasSlice = createSlice({
       state.errorMessage = payload;
     },
     setDB: (state) => {
-      state.DB = '';
       state.loading = true;
     },
     setDBSuccess: (state, { payload }) => {
