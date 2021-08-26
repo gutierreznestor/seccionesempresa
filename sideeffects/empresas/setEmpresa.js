@@ -1,3 +1,4 @@
+import { replace } from 'connected-next-router';
 import { put, takeLatest } from 'redux-saga/effects';
 import { setDB, setDBSuccess, setDBError } from '../../store/empresas';
 
@@ -14,6 +15,7 @@ function* setDatabase({ payload }) {
   });
   let data = yield res.json()
   if (data.errorMessage) {
+    yield put(replace('/seleccionar-empresa'));
     return yield put(setDBError(data.errorMessage))
   }
   yield put(setDBSuccess(payload));
