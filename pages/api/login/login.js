@@ -45,7 +45,7 @@ const handler = async (req, res) => {
       if (!err && result) {
         const userPayload = {
           idUsuario: user.idUsuario,
-          Nombre: user.Nombre,
+          Usuario: user.Usuario,
           Perfiles: resultsProfile.map((result) => result.Perfil),
         }
         const claims = { user: userPayload };
