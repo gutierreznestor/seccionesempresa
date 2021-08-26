@@ -38,32 +38,29 @@ const handler = async (req, res) => {
       [user.idUsuario],
     );
 
-    compare(Password, user.Password, function (err, result) {
-      if (!result) {
-        res.status(401).json({ errorMessage: 'El usuario o la contraseña son inválidas.*' });
-      };
-      if (!err && result) {
-        const userPayload = {
-          idUsuario: user.idUsuario,
-          Usuario: user.Usuario,
-          Perfiles: resultsProfile.map((result) => result.Perfil),
-        }
-        const claims = { user: userPayload };
-        const jwt = sign(claims, 'secret', { expiresIn: '7d' });
-        res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== 'development',
-          sameSite: 'strict',
-          maxAge: 604800,
-          path: '/',
-        }));
-        res.status(201).json({ message: 'Bienvenido nuevamente.' });
-      } else {
-        res.status(401).json({ errorMessage: 'Algo salió mal.' });
-      };
-    });
+    const resultCompare = await compare(Password, user.Password);
+
+    if (!resultCompare) {
+      return res.status(401).json({ errorMessage: 'El usuario o la contraseña son inválidas.' });
+    }
+
+    const userPayload = {
+      idUsuario: user.idUsuario,
+      Usuario: user.Usuario,
+      Perfiles: resultsProfile.map((result) => result.Perfil),
+    }
+    const claims = { user: userPayload };
+    const jwt = sign(claims, 'secret', { expiresIn: '7d' });
+    res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      sameSite: 'strict',
+      maxAge: 604800,
+      path: '/',
+    }));
+    res.status(201).json({ message: 'Bienvenido nuevamente.' });
   } catch (error) {
-    res.json({ errorMessage: error.message });
+    res.status(400).json({ errorMessage: error.message });
   }
 };
 
