@@ -1,6 +1,7 @@
 import { replace } from "connected-next-router";
 import { all, takeLatest, put } from "redux-saga/effects";
 import { login, loginSuccess, loginError } from "../../store/auth";
+import { setDB } from "../../store/empresas";
 
 function* loginUser({ payload }) {
   const { Usuario, Password, DB } = payload;
@@ -23,6 +24,7 @@ function* loginUser({ payload }) {
     yield put(loginError(data.errorMessage));
   } else {
     yield put(loginSuccess(data.message));
+    yield put(setDB(DB));
     yield put(replace('secciones-empresa'));
   }
 }
