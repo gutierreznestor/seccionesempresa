@@ -45,6 +45,7 @@ export const empresasSlice = createSlice({
     setDBSuccess: (state, { payload }) => {
       state.DB = payload;
       state.loading = false;
+      state.errorMessage = '';
     },
     setDBError: (state, { payload }) => {
       state.loading = false;
