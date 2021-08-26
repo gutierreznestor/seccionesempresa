@@ -8,7 +8,7 @@ const handler = async (req, res) => {
     maxAge: -1,
     path: '/',
   }));
-  res.end();
+  res.status(201).json({ message: 'Se cerró la sesión correctamente.' });
 };
 
 export default handler;
