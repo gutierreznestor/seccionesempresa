@@ -33,16 +33,51 @@ function* crearBase({ DB }) {
   return data;
 }
 
+function* crearTablas({ DB }) {
+  const url = `http://localhost:3000/api/empresas/tablas`;
+  const res = yield fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      DB,
+    }),
+  });
+  const data = yield res.json()
+  return data;
+}
+
+function* addData({ DB }) {
+  const url = `http://localhost:3000/api/empresas/data`;
+  const res = yield fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      DB,
+    }),
+  });
+  const data = yield res.json()
+  return data;
+}
+
 function* create({ payload: { empresa, DB } }) {
   try {
-    let data = yield fork(crearEmpresa, { empresa, DB });
+    let data = yield crearEmpresa({ empresa, DB });
     if (data.errorMessage) {
       return yield put(newEmpresaError(data.errorMessage))
     }
-    data = yield fork(crearBase, { DB });
+    data = yield crearBase({ DB });
     if (data.errorMessage) {
       return yield put(newEmpresaError(data.errorMessage))
     }
+    data = yield crearTablas({ DB });
+    if (data.errorMessage) {
+      return yield put(newEmpresaError(data.errorMessage))
+    }
+    data = yield addData({ DB });
     if (data.errorMessage) {
       return yield put(newEmpresaError(data.errorMessage))
     }
