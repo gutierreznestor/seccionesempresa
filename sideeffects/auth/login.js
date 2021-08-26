@@ -1,5 +1,6 @@
-import { takeLatest } from "redux-saga/effects";
-import { login } from "../../store/auth";
+import { replace } from "connected-next-router";
+import { all, takeLatest } from "redux-saga/effects";
+import { login, loginSuccess, loginError } from "../../store/auth";
 
 function* loginUser({ payload }) {
   const { Usuario, Password, DB } = payload;
@@ -16,12 +17,19 @@ function* loginUser({ payload }) {
     }),
   });
 
-  const data = yield res.json()
-  return data;
+  const data = yield res.json();
+  if (data.errorMessage) {
+    yield loginError(data.errorMessage);
+  } else {
+    yield loginSuccess(data.message);
+    yield replace('secciones-empresa');
+  }
 }
 
 function* rootSaga() {
-  yield takeLatest(login.type, loginUser);
+  yield all([
+    takeLatest(login.type, loginUser)
+  ]);
 };
 
 export default rootSaga;

@@ -5,8 +5,8 @@ import empresaSaga from './empresas';
 
 function* rootSaga() {
   yield all([
-    fork(authSaga),
     fork(empresaSaga),
+    fork(authSaga),
   ]);
 }
 
