@@ -26,12 +26,12 @@ export const authSlice = createSlice({
       state.message = message;
       state.errorMessage = null;
     },
-    loginError: (state, { errorMessage }) => {
+    loginError: (state, { payload }) => {
       state.user = null;
       state.isAuthenticated = false;
       state.loading = false;
       state.message = null;
-      state.errorMessage = errorMessage;
+      state.errorMessage = payload;
     },
   }
 });

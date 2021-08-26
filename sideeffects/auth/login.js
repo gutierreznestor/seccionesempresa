@@ -1,5 +1,5 @@
 import { replace } from "connected-next-router";
-import { all, takeLatest } from "redux-saga/effects";
+import { all, takeLatest, put } from "redux-saga/effects";
 import { login, loginSuccess, loginError } from "../../store/auth";
 
 function* loginUser({ payload }) {
@@ -18,11 +18,12 @@ function* loginUser({ payload }) {
   });
 
   const data = yield res.json();
+  console.log('data: ', data);
   if (data.errorMessage) {
-    yield loginError(data.errorMessage);
+    yield put(loginError(data.errorMessage));
   } else {
-    yield loginSuccess(data.message);
-    yield replace('secciones-empresa');
+    yield put(loginSuccess(data.message));
+    yield put(replace('secciones-empresa'));
   }
 }
 

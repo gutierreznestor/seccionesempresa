@@ -40,7 +40,7 @@ const SeleccionarEmpresa = ({ db }) => {
       <h1>Seleccionar empresa</h1>
       <AppLink href='nueva-empresa' title='Crear nueva empresa' bgColor="#168ae9" />
       <Select options={empresasDropdown} onSelect={onSelect} selected={currentDB} />
-      <AppLink href='login' title='Continuar' enabled={db || enabled} />
+      <AppLink href='login' title='Continuar' enabled={db || currentDB} />
     </Layout>
   )
 }
