@@ -5,7 +5,12 @@ import { getSeccionesEmpresa } from '../store/seccionesEmpresa';
 
 const useGetSeccionesEmpresa = () => {
   const dispatch = useDispatch();
-  const { seccionesEmpresa, seccionesEmpresaDropdown } = useSelectSeccionesEmpresa();
+  const {
+    errorMessage,
+    message,
+    seccionesEmpresa,
+    seccionesEmpresaDropdown,
+  } = useSelectSeccionesEmpresa();
 
   const fetchSeccionesEmpresa = (DB) => {
     dispatch(getSeccionesEmpresa(DB));
@@ -13,6 +18,8 @@ const useGetSeccionesEmpresa = () => {
 
   return {
     data: {
+      errorMessage,
+      message,
       seccionesEmpresa,
       seccionesEmpresaDropdown,
     },

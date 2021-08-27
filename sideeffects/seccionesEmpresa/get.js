@@ -6,12 +6,12 @@ import {
 } from '../../store/seccionesEmpresa';
 
 
-function* get() {
+function* getSecciones({ payload }) {
   try {
-    const res = yield fetch('http://localhost:3000/api/empresas/get-secciones-empresa', {
+    const res = yield fetch(`http://localhost:3000/api/secciones-empresa/get-secciones-empresa?db=${payload}`, {
       method: 'GET',
     });
-    const data = yield res.json()
+    const data = yield res.json();
     yield put(getSeccionesEmpresaSuccess(data))
   } catch (err) {
     yield put(getSeccionesEmpresaError(err))
@@ -20,7 +20,7 @@ function* get() {
 
 function* rootSaga() {
   yield all([
-    takeLatest(getSeccionesEmpresa.type, get),
+    takeLatest(getSeccionesEmpresa.type, getSecciones),
   ]);
 };
 

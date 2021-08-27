@@ -1,19 +1,29 @@
 import React from 'react';
 import Router from 'next/router';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
-import parseCookies from '../../helpers/parseCookies';
 
 import { deleteSeccionesEmpresa } from '../../services/seccionesEmpresa.service';
-import { redirectToLogin } from '../../helpers/redirectToLogin';
 import Layout from '../../components/Layout'
 import AppLink from '../../components/AppLink/AppLink.component';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import DataTable from '../../components/DataTable/DataTable.component';
 import { isAllowed } from '../../hocs/auth';
+import useGetSeccionesEmpresa from '../../customHooks/useGetSeccionesEmpresa';
+import customServerSideHoc from '../../helpers/customServerSideProps';
 
-const SeccionesEmpresa = ({ data, user, error }) => {
-  const [errorMessage, setErrorMessage] = React.useState(error);
+const SeccionesEmpresa = ({ user, error, db }) => {
+  const [err, setErrorMessage] = React.useState(error);
+
+  const {
+    data: {
+      errorMessage,
+      seccionesEmpresa,
+    },
+    handlers: { fetchSeccionesEmpresa },
+  } = useGetSeccionesEmpresa();
+
+  React.useEffect(() => {
+    fetchSeccionesEmpresa(db);
+  }, []);
 
   const onDelete = async (id) => {
     setErrorMessage('');
@@ -33,10 +43,10 @@ const SeccionesEmpresa = ({ data, user, error }) => {
         title='Nueva sección' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {
-        !error &&
+        !errorMessage &&
         <>
           <DataTable
-            data={data}
+            data={seccionesEmpresa}
             user={user}
             notAllowed={['auditor']}
             path='secciones-empresa'
@@ -49,30 +59,7 @@ const SeccionesEmpresa = ({ data, user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    return redirectToLogin();
-  }
-  const res = await fetch(`http://localhost:3000/api/secciones-empresa/get-secciones-empresa?db=${cookie?.db}`, {
-    headers: {
-      cookie,
-    }
-  })
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await res.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default SeccionesEmpresa;

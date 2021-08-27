@@ -2,7 +2,7 @@ import { all, fork } from "redux-saga/effects";
 
 import authSaga from './auth';
 import empresaSaga from './empresas';
-import seccionesEmpresaSaga from './empresas';
+import seccionesEmpresaSaga from './seccionesEmpresa';
 
 function* rootSaga() {
   yield all([
