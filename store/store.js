@@ -3,8 +3,9 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 
-import empresasReducer from './empresas';
 import authReducer from './auth';
+import empresasReducer from './empresas';
+import seccionesEmpresaReducer from './seccionesEmpresa';
 import rootSaga from '../sideeffects';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -13,7 +14,8 @@ const routerMiddleware = createRouterMiddleware();
 const rootReducer = combineReducers({
   auth: authReducer,
   empresas: empresasReducer,
-  router: routerReducer
+  router: routerReducer,
+  seccionesEmpresa: seccionesEmpresaReducer,
 });
 
 const reducer = (state, action) => {
