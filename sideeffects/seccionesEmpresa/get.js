@@ -7,14 +7,14 @@ import {
 
 
 function* getSecciones({ payload }) {
-  try {
-    const res = yield fetch(`http://localhost:3000/api/secciones-empresa/get-secciones-empresa?db=${payload}`, {
-      method: 'GET',
-    });
-    const data = yield res.json();
+  const res = yield fetch(`http://localhost:3000/api/secciones-empresa/get-secciones-empresa?db=${payload}`, {
+    method: 'GET',
+  });
+  const data = yield res.json();
+  if (data.errorMessage) {
+    yield put(getSeccionesEmpresaError(data.errorMessage));
+  } else {
     yield put(getSeccionesEmpresaSuccess(data))
-  } catch (err) {
-    yield put(getSeccionesEmpresaError(err))
   }
 };
 
