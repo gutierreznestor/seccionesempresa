@@ -11,3 +11,10 @@ export const StyledNavbar = styled.nav`
     }
   }
 `;
+
+export const CurrentUserDiv = styled.div`
+  padding-left: 50px;
+  span {
+    font-weight: 600;
+  }
+`;

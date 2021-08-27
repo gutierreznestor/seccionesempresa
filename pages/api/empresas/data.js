@@ -79,12 +79,11 @@ const handler = async (req, res) => {
       DB,
     );
 
-    return await res.status(201).json({
+    res.status(201).json({
       message: 'Datos agregados correctamente.'
     })
   } catch (error) {
-    console.trace('ADDING DATA');
-    return await res.status(400).json({ errorMessage: error.message })
+    res.status(400).json({ errorMessage: error.message })
   }
 };
 
