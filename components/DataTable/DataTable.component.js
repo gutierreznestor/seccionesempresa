@@ -15,6 +15,7 @@ const DataTable = ({
   readonly,
   notAllowed = [],
   path = 'usuarios',
+  allowPrint
 }) => {
   const columns = data[0] && Object.keys(data[0]);
   const showViewButton =
@@ -29,7 +30,7 @@ const DataTable = ({
       {data && data.length === 0 ?
         <h3>No hay datos para mostrar.</h3> :
         <>
-          <Button label="Imprimir" onClick={handlePrint} />
+          {allowPrint && <Button label="Imprimir" onClick={handlePrint} />}
           <TableContainer ref={componentRef}>
             <thead>
               <tr>{data[0] && columns.map((heading) => <th key={heading}>{heading}</th>)}</tr>
