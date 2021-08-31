@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useSelectSeccionesEmpresa, useSelectEmpresas } from '../selectors';
-import { getSeccionesEmpresa } from '../store/seccionesEmpresa';
+import { useSelectSeccionesEmpresa } from '../selectors';
+import { getSeccionesEmpresa as getSE, deleteSeccionEmpresa as deleteSE } from '../store/seccionesEmpresa';
 
-const useGetSeccionesEmpresa = () => {
+const useSeccionesEmpresa = () => {
   const dispatch = useDispatch();
   const {
     errorMessage,
@@ -13,7 +13,11 @@ const useGetSeccionesEmpresa = () => {
   } = useSelectSeccionesEmpresa();
 
   const fetchSeccionesEmpresa = (DB) => {
-    dispatch(getSeccionesEmpresa(DB));
+    dispatch(getSE(DB));
+  }
+
+  const deleteSeccionEmpresa = ({ idSeccionEmpresa, DB }) => {
+    dispatch(deleteSE({ idSeccionEmpresa, DB }));
   }
 
   return {
@@ -25,8 +29,9 @@ const useGetSeccionesEmpresa = () => {
     },
     handlers: {
       fetchSeccionesEmpresa,
+      deleteSeccionEmpresa,
     },
   }
 };
 
-export default useGetSeccionesEmpresa;
+export default useSeccionesEmpresa;
