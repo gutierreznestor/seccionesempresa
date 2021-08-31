@@ -21,6 +21,10 @@ const useSeccionesEmpresa = () => {
     dispatch(newSeccionEmpresa({ DB, Nombre }));
   }
 
+  const deleteSeccionEmpresa = ({ DB, idSeccionEmpresa }) => {
+    dispatch(deleteSE({ DB, idSeccionEmpresa }));
+  }
+
   return {
     data: {
       errorMessage,
@@ -29,8 +33,9 @@ const useSeccionesEmpresa = () => {
       seccionesEmpresaDropdown,
     },
     handlers: {
-      fetchSeccionesEmpresa,
       createSeccionEmpresa,
+      deleteSeccionEmpresa,
+      fetchSeccionesEmpresa,
     },
   }
 };
