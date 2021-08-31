@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Router from 'next/router';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
 
-import { nuevoEmpleado } from '../../../services/empleados.service';
-import { getSeccionesEmpresa } from '../../../services/seccionesEmpresa.service';
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import SeccionesEmpresaList from '../../../components/SeccionesEmpresaList/SeccionesEmpresaList.component';
 import Button from '../../../components/Button/Button.component';
-import parseCookies from '../../../helpers/parseCookies';
-import { redirectToLogin } from '../../../helpers/redirectToLogin';
+import customServerSideHoc from '../../../helpers/customServerSideProps';
+import useSeccionesEmpresa from '../../../customHooks/useSeccionesEmpresa';
+import useEmpleados from '../../../customHooks/useEmpleados';
 
 const NuevoEmpleadoForm = [
   {
@@ -40,31 +36,18 @@ const NuevoEmpleadoForm = [
   },
 ];
 
-const NuevoEmpleado = ({ user }) => {
-  const [errorMessage, setErrorMessage] = useState('');
-  const [seccionesList, setSeccionesList] = useState([]);
+const NuevoEmpleado = ({ user, db }) => {
   const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
-  useEffect(() => {
-    return () => {
-      setErrorMessage('');
-    }
-  }, []);
+  const { data: { errorMessage }, handlers: { createEmpleado } } = useEmpleados();
+  const { data: { seccionesEmpresa }, handlers: { fetchSeccionesEmpresa } } = useSeccionesEmpresa();
 
   useEffect(() => {
-    const fetchSeccionesEmpresa = async () => {
-      const data = await getSeccionesEmpresa();
-      if (data.errorMessage) return setErrorMessage(data.errorMessage)
-      setSeccionesList(data);
-    }
-    fetchSeccionesEmpresa();
+    fetchSeccionesEmpresa(db);
   }, []);
 
   const onSubmit = async (data) => {
-    setErrorMessage('');
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    const res = await nuevoEmpleado({ user: user.idUsuario, Nombre, Apellido, idSeccionEmpresa })
-    if (res.errorMessage) return setErrorMessage(res.errorMessage);
-    Router.push('/empleados')
+    createEmpleado({ user: user.idUsuario, Nombre, Apellido, idSeccionEmpresa, DB: db });
   }
 
   return (
@@ -73,36 +56,13 @@ const NuevoEmpleado = ({ user }) => {
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoEmpleadoForm} />
       <Button label="Ver/Ocultar Secciones" onClick={() => setShowSeccionesEmpresa(prev => !prev)} />
-      {showSeccionesEmpresa && <SeccionesEmpresaList list={seccionesList} readonly />}
+      {showSeccionesEmpresa && <SeccionesEmpresaList list={seccionesEmpresa} readonly />}
     </Layout>
   )
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    return redirectToLogin();
-  }
-  const resp = await fetch('http://localhost:3000/api/empleados/get-empleados', {
-    headers: {
-      cookie,
-    }
-  });
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await resp.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default NuevoEmpleado;

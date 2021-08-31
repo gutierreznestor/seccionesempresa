@@ -7,6 +7,7 @@ export const empleadosSlice = createSlice({
     loading: false,
     message: '',
     errorMessage: '',
+    currentEmpleado: null,
   },
   reducers: {
     deleteEmpleado(state, action) {
@@ -17,10 +18,12 @@ export const empleadosSlice = createSlice({
     deleteEmpleadoSuccess(state, { payload }) {
       state.loading = false;
       state.list = payload;
+      state.currentEmpleado = null;
     },
     deleteEmpleadoError(state, { payload }) {
       state.loading = false;
       state.errorMessage = payload;
+      state.currentEmpleado = null;
     },
     getEmpleados(state, action) {
       state.loading = true;
@@ -35,6 +38,20 @@ export const empleadosSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    newEmpleado(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    newEmpleadoSuccess(state, { payload }) {
+      state.loading = false;
+      state.currentEmpleado = payload;
+    },
+    newEmpleadoError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+      state.currentEmpleado = null;
+    },
   },
 });
 
@@ -45,6 +62,9 @@ export const {
   getEmpleados,
   getEmpleadosSuccess,
   getEmpleadosError,
+  newEmpleado,
+  newEmpleadoSuccess,
+  newEmpleadoError,
 } = empleadosSlice.actions;
 
 export default empleadosSlice.reducer;

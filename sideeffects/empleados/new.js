@@ -1,10 +1,10 @@
 import { put, takeLatest, fork } from 'redux-saga/effects';
 import { replace } from 'connected-next-router';
-import { newSeccionEmpresa, newSeccionEmpresaSuccess, newSeccionEmpresaError } from '../../store/empresas';
+import { newEmpleado, newEmpleadoSuccess, newEmpleadoError } from '../../store/empleados';
 
-function* create({ payload: { Nombre, DB } }) {
+function* create({ payload: { Nombre, Apellido, idSeccionEmpresa, DB } }) {
   try {
-    const url = `http://localhost:3000/api/secciones-empresa/new-secciones-empresa`;
+    const url = `http://localhost:3000/api/empleados/new-empleado`;
     const res = yield fetch(url, {
       method: 'POST',
       headers: {
@@ -12,22 +12,24 @@ function* create({ payload: { Nombre, DB } }) {
       },
       body: JSON.stringify({
         Nombre,
+        Apellido,
+        idSeccionEmpresa,
         DB,
       }),
     });
     const data = yield res.json()
     if (data.errorMessage) {
-      return yield put(newSeccionEmpresaError(data.errorMessage))
+      return yield put(newEmpleadoError(data.errorMessage))
     }
-    yield put(newSeccionEmpresaSuccess("Seción de empresa creada correctamente."));
-    yield put(replace('/secciones-empresa'));
+    yield put(newEmpleadoSuccess("Empleado creado correctamente."));
+    yield put(replace('/empleados'));
   } catch (error) {
-    yield put(newSeccionEmpresaError(error))
+    yield put(newEmpleadoError(error))
   }
 };
 
 function* rootSaga() {
-  yield takeLatest(newSeccionEmpresa.type, create);
+  yield takeLatest(newEmpleado.type, create);
 };
 
 export default rootSaga;
