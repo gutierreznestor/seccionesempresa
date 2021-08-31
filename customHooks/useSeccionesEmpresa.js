@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectSeccionesEmpresa } from '../selectors';
+import { newSeccionEmpresa } from '../store/empresas';
 import { getSeccionesEmpresa as getSE, deleteSeccionEmpresa as deleteSE } from '../store/seccionesEmpresa';
 
 const useSeccionesEmpresa = () => {
@@ -16,8 +17,8 @@ const useSeccionesEmpresa = () => {
     dispatch(getSE(DB));
   }
 
-  const deleteSeccionEmpresa = ({ idSeccionEmpresa, DB }) => {
-    dispatch(deleteSE({ idSeccionEmpresa, DB }));
+  const createSeccionEmpresa = ({ DB, Nombre }) => {
+    dispatch(newSeccionEmpresa({ DB, Nombre }));
   }
 
   return {
@@ -29,7 +30,7 @@ const useSeccionesEmpresa = () => {
     },
     handlers: {
       fetchSeccionesEmpresa,
-      deleteSeccionEmpresa,
+      createSeccionEmpresa,
     },
   }
 };

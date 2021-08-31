@@ -51,6 +51,17 @@ export const empresasSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    newSeccionEmpresa: (state) => {
+      state.loading = true;
+    },
+    newSeccionEmpresaSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.errorMessage = '';
+    },
+    newSeccionEmpresaError: (state, { payload }) => {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
   }
 });
 
@@ -64,6 +75,9 @@ export const {
   setDB,
   setDBSuccess,
   setDBError,
+  newSeccionEmpresa,
+  newSeccionEmpresaSuccess,
+  newSeccionEmpresaError,
 } = empresasSlice.actions;
 
 export default empresasSlice.reducer;
