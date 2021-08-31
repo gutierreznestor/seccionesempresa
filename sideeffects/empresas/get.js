@@ -7,7 +7,10 @@ function* get() {
     const res = yield fetch('http://localhost:3000/api/empresas/get-empresas', {
       method: 'GET',
     });
-    const data = yield res.json()
+    const data = yield res.json();
+    if (data.errorMessage) {
+      return yield put(getEmpresasError(data.errorMessage));
+    }
     yield put(getEmpresasSuccess(data))
   } catch (err) {
     yield put(getEmpresasError(err))

@@ -7,7 +7,7 @@ import AppLink from '../../components/AppLink/AppLink.component';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import DataTable from '../../components/DataTable/DataTable.component';
 import { isAllowed } from '../../hocs/auth';
-import useGetSeccionesEmpresa from '../../customHooks/useGetSeccionesEmpresa';
+import useSeccionesEmpresa from '../../customHooks/useSeccionesEmpresa';
 import customServerSideHoc from '../../helpers/customServerSideProps';
 
 const SeccionesEmpresa = ({ user, error, db }) => {
@@ -18,8 +18,11 @@ const SeccionesEmpresa = ({ user, error, db }) => {
       errorMessage,
       seccionesEmpresa,
     },
-    handlers: { fetchSeccionesEmpresa },
-  } = useGetSeccionesEmpresa();
+    handlers: {
+      fetchSeccionesEmpresa,
+      deleteSeccionEmpresa,
+    },
+  } = useSeccionesEmpresa();
 
   React.useEffect(() => {
     fetchSeccionesEmpresa(db);
@@ -29,9 +32,10 @@ const SeccionesEmpresa = ({ user, error, db }) => {
     setErrorMessage('');
     const ok = confirm('¿Quieres eliminar la sección?');
     if (ok) {
-      const data = await deleteSeccionesEmpresa(id);
-      if (data.errorMessage) return setErrorMessage(data.errorMessage);
-      Router.push('secciones-empresa');
+      deleteSeccionEmpresa({
+        idSeccionEmpresa: id,
+        DB: db,
+      });
     }
   }
   return (
@@ -42,18 +46,13 @@ const SeccionesEmpresa = ({ user, error, db }) => {
         href='/secciones-empresa/new'
         title='Nueva sección' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      {
-        !errorMessage &&
-        <>
-          <DataTable
-            data={seccionesEmpresa}
-            user={user}
-            notAllowed={['auditor']}
-            path='secciones-empresa'
-            onDelete={onDelete}
-          />
-        </>
-      }
+      <DataTable
+        data={seccionesEmpresa}
+        user={user}
+        notAllowed={['auditor']}
+        path='secciones-empresa'
+        onDelete={onDelete}
+      />
     </Layout>
   )
 }
