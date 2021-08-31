@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
 
 import { isAllowed } from '../../hocs/auth';
-import parseCookies from '../../helpers/parseCookies';
-import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import DataTable from '../../components/DataTable/DataTable.component';
-import { deleteEmpleado, getEmpleados } from '../../services/empleados.service';
+import { deleteEmpleado } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
+import customServerSideHoc from '../../helpers/customServerSideProps';
+import useGetEmpleados from '../../customHooks/useGetEmpleados';
 
-const Empleados = ({ data, user, error }) => {
+const Empleados = ({ user, error, db }) => {
   const [errorMessage, setErrorMessage] = useState(error);
-  const [empleados, setEmpleados] = useState(data);
+  const { data: { empleados }, handlers: { fetchEmpleados } } = useGetEmpleados();
 
   const onDelete = async (id) => {
     setErrorMessage('');
@@ -22,10 +20,13 @@ const Empleados = ({ data, user, error }) => {
     if (ok) {
       const data = await deleteEmpleado({ idUsuario: user.idUsuario, idEmpleado: id });
       if (data.errorMessage) return setErrorMessage(data.errorMessage);
-      const list = await getEmpleados();
-      setEmpleados(list);
+
     }
   }
+
+  React.useEffect(() => {
+    fetchEmpleados(db);
+  }, []);
 
   return (
     <Layout title='Empleados' user={user}>
@@ -52,30 +53,7 @@ const Empleados = ({ data, user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    return redirectToLogin();
-  }
-  const res = await fetch(`http://localhost:3000/api/empleados/get-empleados?db=${cookie?.db}`, {
-    headers: {
-      cookie,
-    }
-  })
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await res.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default Empleados;
