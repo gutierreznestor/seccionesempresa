@@ -10,7 +10,7 @@ import customServerSideHoc from '../../helpers/customServerSideProps';
 import useEmpleados from '../../customHooks/useEmpleados';
 
 const Empleados = ({ user, db }) => {
-  const { data: { empleados, errorMessage }, handlers: { fetchEmpleados, deleteEmpleado } } = useEmpleados(db);
+  const { data: { empleados, errorMessage }, handlers: { fetchEmpleados, deleteEmpleado } } = useEmpleados({ DB: db, user });
 
   const onDelete = (id) => {
     const ok = confirm('¿Quieres eliminar al empleado?');

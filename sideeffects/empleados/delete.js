@@ -1,14 +1,16 @@
 import { replace } from "connected-next-router";
 import { all, takeLatest, put } from "redux-saga/effects";
+import { Operaciones } from "../../constants";
 import {
   deleteEmpleado,
   deleteEmpleadoSuccess,
   deleteEmpleadoError,
   getEmpleados,
 } from "../../store/empleados";
+import { newLogEmpleado } from "../../store/logsEmpleados";
 
-function* deleteSeccion({ payload }) {
-  const { idEmpleado, DB } = payload;
+function* deleteEmp({ payload }) {
+  const { idEmpleado, DB, user } = payload;
   const url = `http://localhost:3000/api/empleados/delete-empleado`;
   let res = yield fetch(url, {
     method: 'POST',
@@ -25,6 +27,12 @@ function* deleteSeccion({ payload }) {
   if (data.errorMessage) {
     yield put(deleteEmpleadoError(data.errorMessage));
   } else {
+    yield put(newLogEmpleado({
+      idUsuario: user.idUsuario,
+      Operacion: Operaciones.Delete,
+      Descripcion: `Se eliminó el empleado: ${idEmpleado}`,
+      DB
+    }));
     yield put(deleteEmpleadoSuccess(data.message));
     yield put(getEmpleados(DB));
   }
@@ -32,7 +40,7 @@ function* deleteSeccion({ payload }) {
 
 function* rootSaga() {
   yield all([
-    takeLatest(deleteEmpleado.type, deleteSeccion)
+    takeLatest(deleteEmpleado.type, deleteEmp)
   ]);
 };
 

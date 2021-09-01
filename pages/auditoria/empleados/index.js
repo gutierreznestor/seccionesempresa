@@ -17,7 +17,7 @@ const AuditoriaEmpleados = ({ user, error, db }) => {
     setQuery(value)
   };
 
-  const search = (row) => {
+  const search = (row = []) => {
     return row.filter(row =>
       row.idLogEmpleado?.toString().toLowerCase().indexOf(query) > -1 ||
       row.Creado?.toString().toLowerCase().indexOf(query) > -1 ||
@@ -46,6 +46,7 @@ const AuditoriaEmpleados = ({ user, error, db }) => {
             data={search(logsEmpleados)}
             user={user}
             notAllowed={['auditor']}
+            allowPrint
             readonly />
         </>
       }

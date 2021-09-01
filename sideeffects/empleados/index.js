@@ -1,12 +1,12 @@
 import { all, fork } from 'redux-saga/effects';
 
-import deleteSeccionEmpresa from './delete';
+import deleteEmpleado from './delete';
 import getEmpleados from './get';
 import newEmpleado from './new';
 
 function* rootSaga() {
   yield all([
-    fork(deleteSeccionEmpresa),
+    fork(deleteEmpleado),
     fork(getEmpleados),
     fork(newEmpleado),
   ]);
