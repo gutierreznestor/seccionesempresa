@@ -5,27 +5,22 @@ import { isAllowed } from '../../hocs/auth';
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import DataTable from '../../components/DataTable/DataTable.component';
-import { deleteEmpleado } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
 import customServerSideHoc from '../../helpers/customServerSideProps';
-import useGetEmpleados from '../../customHooks/useGetEmpleados';
+import useEmpleados from '../../customHooks/useEmpleados';
 
-const Empleados = ({ user, error, db }) => {
-  const [errorMessage, setErrorMessage] = useState(error);
-  const { data: { empleados }, handlers: { fetchEmpleados } } = useGetEmpleados();
+const Empleados = ({ user, db }) => {
+  const { data: { empleados, errorMessage }, handlers: { fetchEmpleados, deleteEmpleado } } = useEmpleados(db);
 
-  const onDelete = async (id) => {
-    setErrorMessage('');
+  const onDelete = (id) => {
     const ok = confirm('¿Quieres eliminar al empleado?');
     if (ok) {
-      const data = await deleteEmpleado({ idUsuario: user.idUsuario, idEmpleado: id });
-      if (data.errorMessage) return setErrorMessage(data.errorMessage);
-
+      deleteEmpleado(id);
     }
   }
 
   React.useEffect(() => {
-    fetchEmpleados(db);
+    fetchEmpleados();
   }, []);
 
   return (
@@ -37,7 +32,7 @@ const Empleados = ({ user, error, db }) => {
         title='Nuevo empleado' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {
-        !error &&
+        !errorMessage &&
         <>
           <DataTable
             data={empleados}

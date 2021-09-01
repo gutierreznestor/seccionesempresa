@@ -38,7 +38,7 @@ const NuevoEmpleadoForm = [
 
 const NuevoEmpleado = ({ user, db }) => {
   const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
-  const { data: { errorMessage }, handlers: { createEmpleado } } = useEmpleados();
+  const { data: { errorMessage }, handlers: { createEmpleado } } = useEmpleados(db);
   const { data: { seccionesEmpresa }, handlers: { fetchSeccionesEmpresa } } = useSeccionesEmpresa();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const NuevoEmpleado = ({ user, db }) => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    createEmpleado({ user, Nombre, Apellido, idSeccionEmpresa, DB: db });
+    createEmpleado({ user, Nombre, Apellido, idSeccionEmpresa });
   }
 
   return (

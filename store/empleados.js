@@ -15,9 +15,8 @@ export const empleadosSlice = createSlice({
       state.message = '';
       state.errorMessage = '';
     },
-    deleteEmpleadoSuccess(state, { payload }) {
+    deleteEmpleadoSuccess(state) {
       state.loading = false;
-      state.list = payload;
       state.currentEmpleado = null;
     },
     deleteEmpleadoError(state, { payload }) {

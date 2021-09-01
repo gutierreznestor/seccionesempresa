@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectEmpleados } from '../selectors';
 import { newEmpleado } from '../store/empleados';
-import { getSeccionesEmpresa as getSE, deleteSeccionEmpresa as deleteSE } from '../store/seccionesEmpresa';
+import { getEmpleados, deleteEmpleado as deleteE } from '../store/empleados';
 
-const useEmpleados = () => {
+const useEmpleados = (DB) => {
   const dispatch = useDispatch();
   const {
     empleados,
@@ -13,16 +13,16 @@ const useEmpleados = () => {
     message,
   } = useSelectEmpleados();
 
-  const fetchSeccionesEmpresa = (DB) => {
-    dispatch(getSE(DB));
+  const fetchEmpleados = () => {
+    dispatch(getEmpleados(DB));
   }
 
-  const createEmpleado = ({ DB, Nombre, Apellido, idSeccionEmpresa, user }) => {
+  const createEmpleado = ({ Nombre, Apellido, idSeccionEmpresa, user }) => {
     dispatch(newEmpleado({ DB, Nombre, Apellido, idSeccionEmpresa, user }));
   }
 
-  const deleteSeccionEmpresa = ({ DB, idSeccionEmpresa }) => {
-    dispatch(deleteSE({ DB, idSeccionEmpresa }));
+  const deleteEmpleado = (idEmpleado) => {
+    dispatch(deleteE({ DB, idEmpleado }));
   }
 
   return {
@@ -34,8 +34,8 @@ const useEmpleados = () => {
     },
     handlers: {
       createEmpleado,
-      deleteSeccionEmpresa,
-      fetchSeccionesEmpresa,
+      deleteEmpleado,
+      fetchEmpleados,
     },
   }
 };
