@@ -1,15 +1,15 @@
 import React from 'react';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
 
 import Layout from '../../../components/Layout';
-import parseCookies from '../../../helpers/parseCookies';
-import { redirectToLogin } from '../../../helpers/redirectToLogin';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import SearchInput from '../../../components/SearchInput/SearchInput.component';
 import DataTable from '../../../components/DataTable/DataTable.component';
+import useLogEmpleados from '../../../customHooks/useLogEmpleados';
+import customServerSideHoc from '../../../helpers/customServerSideProps';
 
-const AuditoriaEmpleados = ({ data, user, error }) => {
+const AuditoriaEmpleados = ({ user, error, db }) => {
+
+  const { data: { logsEmpleados }, handlers: { fetchLogsEmpleados } } = useLogEmpleados();
 
   const [query, setQuery] = React.useState('');
 
@@ -28,6 +28,10 @@ const AuditoriaEmpleados = ({ data, user, error }) => {
     );
   }
 
+  React.useEffect(() => {
+    fetchLogsEmpleados(db);
+  }, []);
+
   return (
     <Layout title="Auditoría Empleados" user={user}>
       {error && <ErrorMessage message={error} />}
@@ -39,7 +43,7 @@ const AuditoriaEmpleados = ({ data, user, error }) => {
             onChange={handleChange}
             placeholder="Buscar" />
           <DataTable
-            data={search(data)}
+            data={search(logsEmpleados)}
             user={user}
             notAllowed={['auditor']}
             readonly />
@@ -50,30 +54,7 @@ const AuditoriaEmpleados = ({ data, user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    return redirectToLogin();
-  }
-  const res = await fetch(`http://localhost:3000/api/logsEmpleados/get-logs-empleados?db=${cookie?.db}`, {
-    headers: {
-      cookie,
-    }
-  })
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await res.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default AuditoriaEmpleados;

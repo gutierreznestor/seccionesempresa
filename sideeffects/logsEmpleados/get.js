@@ -1,26 +1,26 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
 import {
-  getSeccionesEmpresa,
-  getSeccionesEmpresaSuccess,
-  getSeccionesEmpresaError,
-} from '../../store/seccionesEmpresa';
+  getLogsEmpleados,
+  getLogsEmpleadosSuccess,
+  getLogsEmpleadosError,
+} from '../../store/logsEmpleados';
 
 
-function* getLogsEmpleados({ payload }) {
+function* getLogs({ payload }) {
   const res = yield fetch(`http://localhost:3000/api/logsEmpleados/get-logs-empleados?db=${payload}`, {
     method: 'GET',
   });
   const data = yield res.json();
   if (data.errorMessage) {
-    yield put(getSeccionesEmpresaError(data.errorMessage));
+    yield put(getLogsEmpleadosError(data.errorMessage));
   } else {
-    yield put(getSeccionesEmpresaSuccess(data))
+    yield put(getLogsEmpleadosSuccess(data))
   }
 };
 
 function* rootSaga() {
   yield all([
-    takeLatest(getSeccionesEmpresa.type, getLogsEmpleados),
+    takeLatest(getLogsEmpleados.type, getLogs),
   ]);
 };
 
