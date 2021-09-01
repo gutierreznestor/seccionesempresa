@@ -1,8 +1,9 @@
 import { put, takeLatest, fork } from 'redux-saga/effects';
 import { replace } from 'connected-next-router';
 import { newEmpleado, newEmpleadoSuccess, newEmpleadoError } from '../../store/empleados';
+import { newLogEmpleado } from '../../store/logsEmpleados';
 
-function* create({ payload: { Nombre, Apellido, idSeccionEmpresa, DB } }) {
+function* create({ payload: { Nombre, Apellido, idSeccionEmpresa, DB, user } }) {
   try {
     const url = `http://localhost:3000/api/empleados/new-empleado`;
     const res = yield fetch(url, {
@@ -21,10 +22,11 @@ function* create({ payload: { Nombre, Apellido, idSeccionEmpresa, DB } }) {
     if (data.errorMessage) {
       return yield put(newEmpleadoError(data.errorMessage))
     }
+    yield put(newLogEmpleado({ idUsuario: user.idUsuario, Operacion: 'Nuevo', Descripcion: 'Nuevo empleado', DB }));
     yield put(newEmpleadoSuccess("Empleado creado correctamente."));
     yield put(replace('/empleados'));
   } catch (error) {
-    yield put(newEmpleadoError(error))
+    yield put(newEmpleadoError(error.message))
   }
 };
 

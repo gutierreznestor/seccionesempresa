@@ -1,7 +1,7 @@
 import { query } from '../../../lib/db';
 
 const handler = async (req, res) => {
-  const { idUsuario, Operacion, Descripcion } = req.body;
+  const { idUsuario, Operacion, Descripcion, DB } = req.body;
   try {
     if (!idUsuario?.toString().trim() || !Operacion?.trim() || !Descripcion?.trim()) {
       return res
@@ -14,6 +14,7 @@ const handler = async (req, res) => {
       VALUES (?, ?, ?);
       `,
       [idUsuario, Operacion, Descripcion],
+      DB,
     );
 
     return res.json(results)

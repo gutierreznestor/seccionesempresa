@@ -17,8 +17,8 @@ const useEmpleados = () => {
     dispatch(getSE(DB));
   }
 
-  const createEmpleado = ({ DB, Nombre, Apellido, idSeccionEmpresa }) => {
-    dispatch(newEmpleado({ DB, Nombre, Apellido, idSeccionEmpresa }));
+  const createEmpleado = ({ DB, Nombre, Apellido, idSeccionEmpresa, user }) => {
+    dispatch(newEmpleado({ DB, Nombre, Apellido, idSeccionEmpresa, user }));
   }
 
   const deleteSeccionEmpresa = ({ DB, idSeccionEmpresa }) => {

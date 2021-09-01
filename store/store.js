@@ -6,6 +6,7 @@ import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 import authReducer from './auth';
 import empleadosReducer from './empleados';
 import empresasReducer from './empresas';
+import logsEmpleadosReducer from './logsEmpleados';
 import seccionesEmpresaReducer from './seccionesEmpresa';
 import rootSaga from '../sideeffects';
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   empleados: empleadosReducer,
   empresas: empresasReducer,
+  logsEmpleados: logsEmpleadosReducer,
   router: routerReducer,
   seccionesEmpresa: seccionesEmpresaReducer,
 });

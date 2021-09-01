@@ -47,7 +47,7 @@ const NuevoEmpleado = ({ user, db }) => {
 
   const onSubmit = async (data) => {
     const { Nombre, Apellido, idSeccionEmpresa } = data;
-    createEmpleado({ user: user.idUsuario, Nombre, Apellido, idSeccionEmpresa, DB: db });
+    createEmpleado({ user, Nombre, Apellido, idSeccionEmpresa, DB: db });
   }
 
   return (
