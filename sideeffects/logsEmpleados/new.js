@@ -1,5 +1,4 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { replace } from 'connected-next-router';
 import { newLogEmpleado, newLogEmpleadoSuccess, newLogEmpleadoError } from '../../store/logsEmpleados';
 
 function* create({ payload: { idUsuario, Operacion, Descripcion, DB } }) {
@@ -22,7 +21,6 @@ function* create({ payload: { idUsuario, Operacion, Descripcion, DB } }) {
       return yield put(newLogEmpleadoError(data.errorMessage))
     }
     yield put(newLogEmpleadoSuccess("Log de empleado creado correctamente."));
-    yield put(replace('/auditoria/empleados'));
   } catch (error) {
     yield put(newLogEmpleadoError(error))
   }

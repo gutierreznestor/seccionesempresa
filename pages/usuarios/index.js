@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
-import Router from 'next/router';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
+import React from 'react';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import UsuariosList from '../../components/UsuariosList/UsuariosList.component';
-import { deleteUsuario } from '../../services/usuarios.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
-import parseCookies from '../../helpers/parseCookies';
-import { redirectToLogin } from '../../helpers/redirectToLogin';
 import { isAllowed } from '../../hocs/auth';
+import customServerSideHoc from '../../helpers/customServerSideProps';
+import useUsuarios from '../../customHooks/useUsuarios';
 
-const Usuarios = ({ data, user, error }) => {
-  const [errorMessage, setErrorMessage] = useState(error);
+const Usuarios = ({ user, db }) => {
+  const {
+    data: { usuarios, errorMessage },
+    handlers: { fetchUsuarios, deleteUsuario }
+  } = useUsuarios({ DB: db, user })
+
+  React.useEffect(() => {
+    fetchUsuarios()
+  }, []);
 
   const onDelete = async (id) => {
     const ok = confirm('¿Quieres eliminar al usuario?');
     if (ok) {
-      const data = await deleteUsuario({ idUsuario: user.idUsuario, id });
-      if (data.errorMessage) return setErrorMessage(data.errorMessage);
-      Router.push('usuarios');
+      deleteUsuario(id)
     }
   }
   return (
@@ -29,7 +30,7 @@ const Usuarios = ({ data, user, error }) => {
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <AppLink href='/usuarios/new' title='Nuevo usuario' enabled={!isAllowed(['auditor'], user?.Perfiles)} />
       <UsuariosList
-        list={data}
+        list={usuarios}
         onDelete={onDelete}
         user={user}
       />
@@ -38,30 +39,7 @@ const Usuarios = ({ data, user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    return redirectToLogin();
-  }
-  const res = await fetch(`http://localhost:3000/api/usuarios/get-usuarios?db=${cookie?.db}`, {
-    headers: {
-      cookie,
-    }
-  })
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await res.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default Usuarios;

@@ -5,6 +5,7 @@ import empleadosSaga from './empleados';
 import empresaSaga from './empresas';
 import logsEmpleadosSaga from './logsEmpleados';
 import seccionesEmpresaSaga from './seccionesEmpresa';
+import usuariosSaga from './usuarios';
 
 function* rootSaga() {
   yield all([
@@ -13,6 +14,7 @@ function* rootSaga() {
     fork(empresaSaga),
     fork(logsEmpleadosSaga),
     fork(seccionesEmpresaSaga),
+    fork(usuariosSaga),
   ]);
 }
 

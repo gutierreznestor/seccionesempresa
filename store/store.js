@@ -8,6 +8,7 @@ import empleadosReducer from './empleados';
 import empresasReducer from './empresas';
 import logsEmpleadosReducer from './logsEmpleados';
 import seccionesEmpresaReducer from './seccionesEmpresa';
+import usuariosReducer from './usuarios';
 import rootSaga from '../sideeffects';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   logsEmpleados: logsEmpleadosReducer,
   router: routerReducer,
   seccionesEmpresa: seccionesEmpresaReducer,
+  usuarios: usuariosReducer,
 });
 
 const reducer = (state, action) => {

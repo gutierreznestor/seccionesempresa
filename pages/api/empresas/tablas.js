@@ -79,24 +79,6 @@ const handler = async (req, res) => {
     );
     await query(
       `
-      ALTER TABLE usuarios_tiene_perfiles 
-      ADD FOREIGN KEY (idUsuario)
-      REFERENCES usuarios(idUsuario);
-      `,
-      null,
-      DB,
-    );
-    await query(
-      `
-      ALTER TABLE usuarios_tiene_perfiles 
-      ADD FOREIGN KEY (idPerfil)
-      REFERENCES perfiles(idPerfil);
-      `,
-      null,
-      DB,
-    );
-    await query(
-      `
       CREATE TABLE IF NOT EXISTS logs_usuarios (
         Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         idLogUsuario INT AUTO_INCREMENT PRIMARY KEY,

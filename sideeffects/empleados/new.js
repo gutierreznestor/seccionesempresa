@@ -2,6 +2,7 @@ import { put, takeLatest, fork } from 'redux-saga/effects';
 import { replace } from 'connected-next-router';
 import { newEmpleado, newEmpleadoSuccess, newEmpleadoError } from '../../store/empleados';
 import { newLogEmpleado } from '../../store/logsEmpleados';
+import { Operaciones } from '../../constants';
 
 function* create({ payload: { Nombre, Apellido, idSeccionEmpresa, DB, user } }) {
   try {
@@ -22,7 +23,7 @@ function* create({ payload: { Nombre, Apellido, idSeccionEmpresa, DB, user } }) 
     if (data.errorMessage) {
       return yield put(newEmpleadoError(data.errorMessage))
     }
-    yield put(newLogEmpleado({ idUsuario: user.idUsuario, Operacion: 'Nuevo', Descripcion: 'Nuevo empleado', DB }));
+    yield put(newLogEmpleado({ idUsuario: user.idUsuario, Operacion: Operaciones.Create, Descripcion: 'Nuevo empleado', DB }));
     yield put(newEmpleadoSuccess("Empleado creado correctamente."));
     yield put(replace('/empleados'));
   } catch (error) {
