@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS secciones_empresa (
   Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   Descripcion TEXT,
   idSeccionEmpresa INT AUTO_INCREMENT PRIMARY KEY,
-  Nombre VARCHAR(50) NOT NULL
+  Nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
 INSERT INTO secciones_empresa (Nombre) VALUES 
