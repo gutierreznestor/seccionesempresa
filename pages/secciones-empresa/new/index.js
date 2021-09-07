@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
@@ -17,13 +17,12 @@ const AgregarSeccionForm = [
   },
 ];
 
-const NuevaSeccion = ({ user, error, db }) => {
-  const [errorMessage, setErrorMessage] = useState(error);
-  const { handlers: { createSeccionEmpresa } } = useSeccionesEmpresa();
+const NuevaSeccion = ({ user, db }) => {
+  const { data: { errorMessage }, handlers: { createSeccionEmpresa } } = useSeccionesEmpresa({ DB: db, user });
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    createSeccionEmpresa({ Nombre, DB: db })
+    createSeccionEmpresa({ Nombre })
   }
 
   return (

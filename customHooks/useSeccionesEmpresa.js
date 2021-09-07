@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectSeccionesEmpresa } from '../selectors';
-import { newSeccionEmpresa } from '../store/empresas';
+import { newSeccionEmpresa } from '../store/seccionesEmpresa';
 import { getSeccionesEmpresa as getSE, deleteSeccionEmpresa as deleteSE } from '../store/seccionesEmpresa';
 
-const useSeccionesEmpresa = () => {
+const useSeccionesEmpresa = ({ DB, user }) => {
   const dispatch = useDispatch();
   const {
     errorMessage,
@@ -13,16 +13,16 @@ const useSeccionesEmpresa = () => {
     seccionesEmpresaDropdown,
   } = useSelectSeccionesEmpresa();
 
-  const fetchSeccionesEmpresa = (DB) => {
+  const fetchSeccionesEmpresa = () => {
     dispatch(getSE(DB));
   }
 
-  const createSeccionEmpresa = ({ DB, Nombre }) => {
-    dispatch(newSeccionEmpresa({ DB, Nombre }));
+  const createSeccionEmpresa = ({ Nombre }) => {
+    dispatch(newSeccionEmpresa({ DB, Nombre, user }));
   }
 
-  const deleteSeccionEmpresa = ({ DB, idSeccionEmpresa }) => {
-    dispatch(deleteSE({ DB, idSeccionEmpresa }));
+  const deleteSeccionEmpresa = ({ idSeccionEmpresa }) => {
+    dispatch(deleteSE({ DB, idSeccionEmpresa, user }));
   }
 
   return {

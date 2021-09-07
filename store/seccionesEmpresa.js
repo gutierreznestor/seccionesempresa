@@ -7,6 +7,7 @@ export const seccionesEmpresaSlice = createSlice({
     loading: false,
     message: '',
     errorMessage: '',
+    currentSeccionEmpresa: null,
   },
   reducers: {
     deleteSeccionEmpresa(state, action) {
@@ -16,7 +17,7 @@ export const seccionesEmpresaSlice = createSlice({
     },
     deleteSeccionEmpresaSuccess(state, { payload }) {
       state.loading = false;
-      state.list = payload;
+      state.message = payload;
     },
     deleteSeccionEmpresaError(state, { payload }) {
       state.loading = false;
@@ -35,6 +36,20 @@ export const seccionesEmpresaSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    newSeccionEmpresa(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    newSeccionEmpresaSuccess(state, { payload }) {
+      state.loading = false;
+      state.currentSeccionEmpresa = payload;
+    },
+    newSeccionEmpresaError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+      state.currentSeccionEmpresa = null;
+    },
   },
 });
 
@@ -45,6 +60,9 @@ export const {
   getSeccionesEmpresa,
   getSeccionesEmpresaSuccess,
   getSeccionesEmpresaError,
+  newSeccionEmpresa,
+  newSeccionEmpresaSuccess,
+  newSeccionEmpresaError,
 } = seccionesEmpresaSlice.actions;
 
 export default seccionesEmpresaSlice.reducer;

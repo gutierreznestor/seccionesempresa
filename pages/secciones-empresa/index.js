@@ -22,10 +22,10 @@ const SeccionesEmpresa = ({ user, error, db }) => {
       fetchSeccionesEmpresa,
       deleteSeccionEmpresa,
     },
-  } = useSeccionesEmpresa();
+  } = useSeccionesEmpresa({ DB: db, user });
 
   React.useEffect(() => {
-    fetchSeccionesEmpresa(db);
+    fetchSeccionesEmpresa();
   }, []);
 
   const onDelete = async (id) => {

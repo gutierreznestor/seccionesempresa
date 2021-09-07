@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useSelectEmpresas } from '../selectors/useSelectEmpresas';
-import { newSeccionEmpresa } from '../store/empresas';
+import { newSeccionEmpresa } from '../store/seccionesEmpresa';
 
 const useCreateSeccionEmpresa = () => {
   const dispatch = useDispatch();

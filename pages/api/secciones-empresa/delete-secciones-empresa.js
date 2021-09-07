@@ -1,8 +1,7 @@
 import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
-  const { idSeccionEmpresa } = req.body;
-  const { db } = req.query;
+  const { idSeccionEmpresa, db } = req.body;
   try {
     if (!idSeccionEmpresa) {
       return res

@@ -39,7 +39,7 @@ const NuevoEmpleadoForm = [
 const NuevoEmpleado = ({ user, db }) => {
   const [showSeccionesEmpresa, setShowSeccionesEmpresa] = useState(false);
   const { data: { errorMessage }, handlers: { createEmpleado } } = useEmpleados({ DB: db, user });
-  const { data: { seccionesEmpresa }, handlers: { fetchSeccionesEmpresa } } = useSeccionesEmpresa();
+  const { data: { seccionesEmpresa }, handlers: { fetchSeccionesEmpresa } } = useSeccionesEmpresa({ DB: db, user });
 
   useEffect(() => {
     fetchSeccionesEmpresa(db);

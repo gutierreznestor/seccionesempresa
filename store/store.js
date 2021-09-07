@@ -7,6 +7,7 @@ import authReducer from './auth';
 import empleadosReducer from './empleados';
 import empresasReducer from './empresas';
 import logsEmpleadosReducer from './logsEmpleados';
+import logsSeccionesEmpresaReducer from './logsSeccionesEmpresa';
 import seccionesEmpresaReducer from './seccionesEmpresa';
 import usuariosReducer from './usuarios';
 import rootSaga from '../sideeffects';
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   empleados: empleadosReducer,
   empresas: empresasReducer,
   logsEmpleados: logsEmpleadosReducer,
+  logsSeccionesEmpresa: logsSeccionesEmpresaReducer,
   router: routerReducer,
   seccionesEmpresa: seccionesEmpresaReducer,
   usuarios: usuariosReducer,

@@ -23,7 +23,7 @@ function* create({ payload: { Nombre, Apellido, idSeccionEmpresa, DB, user } }) 
     if (data.errorMessage) {
       return yield put(newEmpleadoError(data.errorMessage))
     }
-    yield put(newLogEmpleado({ idUsuario: user.idUsuario, Operacion: Operaciones.Create, Descripcion: 'Nuevo empleado', DB }));
+    yield put(newLogEmpleado({ idUsuario: user.idUsuario, Operacion: Operaciones.Create, Descripcion: `${Nombre} ${Apellido}`, DB }));
     yield put(newEmpleadoSuccess("Empleado creado correctamente."));
     yield put(replace('/empleados'));
   } catch (error) {
