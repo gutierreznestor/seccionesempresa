@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectUsuarios } from '../selectors';
 import { newUsuario } from '../store/usuarios';
-import { getUsuarios, deleteUsuario as deleteE } from '../store/usuarios';
+import { getUsuarios, deleteUsuario as deleteE, getUsuario } from '../store/usuarios';
 
-const useUsuarios = ({ DB, user }) => {
+const useUsuarios = ({ db, user }) => {
   const dispatch = useDispatch();
   const {
     usuarios,
@@ -14,16 +14,19 @@ const useUsuarios = ({ DB, user }) => {
   } = useSelectUsuarios();
 
   const fetchUsuarios = () => {
-    console.log('DB: ', DB);
-    dispatch(getUsuarios(DB));
+    dispatch(getUsuarios(db));
+  }
+
+  const fetchUsuario = (id) => {
+    dispatch(getUsuario({ db, id }));
   }
 
   const createUsuario = ({ Nombre, Apellido, idSeccionEmpresa }) => {
-    dispatch(newUsuario({ DB, Nombre, Apellido, idSeccionEmpresa, user }));
+    dispatch(newUsuario({ db, Nombre, Apellido, idSeccionEmpresa, user }));
   }
 
   const deleteUsuario = (idUsuario) => {
-    dispatch(deleteE({ DB, idUsuario, user }));
+    dispatch(deleteE({ db, idUsuario, user }));
   }
 
   return {
@@ -36,6 +39,7 @@ const useUsuarios = ({ DB, user }) => {
     handlers: {
       createUsuario,
       deleteUsuario,
+      fetchUsuario,
       fetchUsuarios,
     },
   }

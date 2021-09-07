@@ -24,6 +24,19 @@ export const usuariosSlice = createSlice({
       state.errorMessage = payload;
       state.currentUsuario = null;
     },
+    getUsuario(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    getUsuarioSuccess(state, { payload }) {
+      state.loading = false;
+      state.currentUsuario = payload;
+    },
+    getUsuarioError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
     getUsuarios(state, action) {
       state.loading = true;
       state.message = '';
@@ -58,6 +71,9 @@ export const {
   deleteUsuario,
   deleteUsuarioSuccess,
   deleteUsuarioError,
+  getUsuario,
+  getUsuarioSuccess,
+  getUsuarioError,
   getUsuarios,
   getUsuariosSuccess,
   getUsuariosError,

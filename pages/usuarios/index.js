@@ -12,7 +12,7 @@ const Usuarios = ({ user, db }) => {
   const {
     data: { usuarios, errorMessage },
     handlers: { fetchUsuarios, deleteUsuario }
-  } = useUsuarios({ DB: db, user })
+  } = useUsuarios({ db, user });
 
   React.useEffect(() => {
     fetchUsuarios()

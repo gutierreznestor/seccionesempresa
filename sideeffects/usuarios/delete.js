@@ -7,7 +7,7 @@ import {
 } from "../../store/usuarios";
 
 function* deleteUser({ payload }) {
-  const { idUsuario, DB, user } = payload;
+  const { idUsuario, db, user } = payload;
   const url = `http://localhost:3000/api/usuarios/delete-usuario`;
   let res = yield fetch(url, {
     method: 'POST',
@@ -16,7 +16,7 @@ function* deleteUser({ payload }) {
     },
     body: JSON.stringify({
       id: idUsuario,
-      DB,
+      db,
     }),
   });
 
@@ -25,7 +25,7 @@ function* deleteUser({ payload }) {
     yield put(deleteUsuarioError(data.errorMessage));
   } else {
     yield put(deleteUsuarioSuccess(data.message));
-    yield put(getUsuarios(DB));
+    yield put(getUsuarios(db));
   }
 }
 
