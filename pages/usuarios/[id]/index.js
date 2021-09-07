@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 
-import { getPerfilesUsuario } from '../../../services/usuarios.service';
 import Layout from '../../../components/Layout';
 import { FieldContainer } from './ViewUser.styled';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
@@ -20,28 +19,9 @@ const ListItem = ({ title, description }) => (
 
 const ViewUser = ({ db, user }) => {
   const { query: { id } } = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [perfiles, setPerfiles] = useState([])
 
   const { handlers: { fetchUsuario } } = useUsuarios({ db, user });
-  const { currentUsuario: data } = useSelectUsuario();
-
-  // useEffect(() => {
-  //   const getProfile = async (id) => {
-  //     setErrorMessage('');
-  //     setLoading(true);
-  //     const res = await getPerfilesUsuario(id);
-  //     setLoading(false);
-  //     if (res.errorMessage) {
-  //       return setErrorMessage(res.errorMessage);
-  //     }
-  //     setPerfiles(res);
-  //   }
-  //   if (id) {
-  //     getProfile(id);
-  //   }
-  // }, [id]);
+  const { currentUsuario: data, loading, errorMessage } = useSelectUsuario();
 
   React.useEffect(() => {
     if (id) {
