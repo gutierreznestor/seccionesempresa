@@ -29,7 +29,11 @@ const AuditoriaUsuarios = ({ data, user, error }) => {
   }
 
   return (
-    <Layout title="Auditoría Usuarios" user={user}>
+    <Layout
+      h1Title="Auditoría Usuarios"
+      title="Auditoría Usuarios"
+      user={user}
+    >
       {error && <ErrorMessage message={error} />}
       {
         !error &&

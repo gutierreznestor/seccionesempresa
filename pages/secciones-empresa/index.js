@@ -39,8 +39,7 @@ const SeccionesEmpresa = ({ user, error, db }) => {
     }
   }
   return (
-    <Layout title='Secciones empresa' user={user}>
-      <h1>Secciones empresa</h1>
+    <Layout title='Secciones empresa' user={user} h1Title="Secciones empresa">
       <AppLink
         enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href='/secciones-empresa/new'

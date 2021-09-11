@@ -29,7 +29,10 @@ const AuditoriaSeccionesEmpresa = ({ user, error, db }) => {
   }, []);
 
   return (
-    <Layout title="Auditoría Secciones empresa" user={user}>
+    <Layout
+      h1Title="Auditoría Secciones empresa"
+      title="Auditoría Secciones empresa"
+      user={user}>
       {error && <ErrorMessage message={error} />}
       {
         !error &&
