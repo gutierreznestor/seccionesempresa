@@ -1,6 +1,7 @@
 export { useSelectAuth } from './useSelectAuth';
 export { useSelectLogsEmpleados } from './useSelectLogsEmpleados';
 export { useSelectLogsSeccionesEmpresa } from './useSelectLogsSeccionesEmpresa';
+export { useSelectLogsUsuarios } from './useSelectLogsUsuarios';
 export { useSelectEmpleados } from './useSelectEmpleados';
 export { useSelectEmpresas } from './useSelectEmpresas';
 export { useSelectSeccionesEmpresa } from './useSelectSeccionesEmpresa';

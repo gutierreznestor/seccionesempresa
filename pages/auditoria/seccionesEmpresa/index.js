@@ -7,8 +7,11 @@ import SearchInput from '../../../components/SearchInput/SearchInput.component';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
 import useLogSeccionesEmpresa from '../../../customHooks/useLogSeccionesEmpresa';
 
-const AuditoriaSeccionesEmpresa = ({ user, error, db }) => {
-  const { data: { logsSeccionesEmpresa }, handlers: { fetchLogsSeccionesEmpresa } } = useLogSeccionesEmpresa();
+const AuditoriaSeccionesEmpresa = ({ user, db }) => {
+  const {
+    data: { logsSeccionesEmpresa, errorMessage },
+    handlers: { fetchLogsSeccionesEmpresa }
+  } = useLogSeccionesEmpresa();
   const [query, setQuery] = useState('');
   const handleChange = (value) => {
     setQuery(value)
@@ -33,9 +36,9 @@ const AuditoriaSeccionesEmpresa = ({ user, error, db }) => {
       h1Title="Auditoría Secciones empresa"
       title="Auditoría Secciones empresa"
       user={user}>
-      {error && <ErrorMessage message={error} />}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       {
-        !error &&
+        !errorMessage &&
         <>
           <SearchInput
             value={query}
