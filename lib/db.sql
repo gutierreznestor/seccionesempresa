@@ -85,9 +85,6 @@ INSERT INTO usuarios_tiene_perfiles (idUsuario, idPerfil) VALUES
   (2, 2),
   (3, 3);
 
-INSERT INTO usuarios_tiene_perfiles (idUsuario) VALUES
-  (4);
-
 CREATE TABLE IF NOT EXISTS logs_usuarios (
   Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   idLogUsuario INT AUTO_INCREMENT PRIMARY KEY,

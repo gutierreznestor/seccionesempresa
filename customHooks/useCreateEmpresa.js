@@ -7,7 +7,7 @@ const useCreateEmpresa = () => {
   const { message, errorMessage } = useSelectEmpresas();
 
   const createEmpresa = ({ empresa, DB }) => {
-    dispatch(newEmpresa({ empresa, DB }));
+    dispatch(newEmpresa({ empresa: empresa?.toLowerCase(), DB }));
   }
 
   return {
