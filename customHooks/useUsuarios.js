@@ -21,8 +21,8 @@ const useUsuarios = ({ db, user }) => {
     dispatch(getUsuario({ db, id }));
   }
 
-  const createUsuario = ({ Nombre, Apellido, idSeccionEmpresa }) => {
-    dispatch(newUsuario({ db, Nombre, Apellido, idSeccionEmpresa, user }));
+  const createUsuario = ({ Nombre, Apellido, Usuario, Password }) => {
+    dispatch(newUsuario({ db, Nombre, Apellido, Usuario, Password, user }));
   }
 
   const deleteUsuario = (idUsuario) => {

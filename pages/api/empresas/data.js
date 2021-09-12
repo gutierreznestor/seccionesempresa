@@ -78,14 +78,6 @@ const handler = async (req, res) => {
       [3, 3],
       DB,
     );
-    await query(
-      `
-      INSERT INTO usuarios_tiene_perfiles (idUsuario, idPerfil) VALUES
-        (?, ?);
-      `,
-      [4, 4],
-      DB,
-    );
 
     res.status(201).json({
       message: 'Datos agregados correctamente.'
