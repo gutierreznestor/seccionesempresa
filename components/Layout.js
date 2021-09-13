@@ -11,7 +11,7 @@ const Layout = ({ children, title, hideNavbar, user, h1Title }) => (
     </Head>
     <StyledMain>
       {!hideNavbar && <Navbar user={user} />}
-      {h1Title && <h1>{h1Title}</h1>}
+      {title && <h1>{title ? title : h1Title}</h1>}
       {children}
     </StyledMain>
   </>

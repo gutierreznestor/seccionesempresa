@@ -4,6 +4,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 
 import authReducer from './auth';
+import copiasSeguridadReducer from './copiasSeguridad';
 import empleadosReducer from './empleados';
 import empresasReducer from './empresas';
 import logsEmpleadosReducer from './logsEmpleados';
@@ -18,6 +19,7 @@ const routerMiddleware = createRouterMiddleware();
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  copiasSeguridad: copiasSeguridadReducer,
   empleados: empleadosReducer,
   empresas: empresasReducer,
   logsEmpleados: logsEmpleadosReducer,
