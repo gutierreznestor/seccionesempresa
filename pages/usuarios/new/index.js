@@ -5,9 +5,8 @@ import { nuevoUsuario } from '../../../services/usuarios.service';
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
-import parseCookies from '../../../helpers/parseCookies';
-import { verify } from 'jsonwebtoken';
-import { redirectToLogin } from '../../../helpers/redirectToLogin';
+import customServerSideHoc from '../../../helpers/customServerSideProps';
+import useUsuarios from '../../../customHooks/useUsuarios';
 
 const NuevoUsuarioForm = [
   {
@@ -44,25 +43,22 @@ const NuevoUsuarioForm = [
   },
 ];
 
-const NuevoUsuario = ({ user, error }) => {
-  const [errorMessage, setErrorMessage] = useState(error);
+const NuevoUsuario = ({ db, user }) => {
+  const {
+    data: { errorMessage },
+    handlers: { createUsuario },
+  } = useUsuarios({ db, user });
 
   useEffect(() => {
-    return () => {
-      setErrorMessage('');
-    }
+
   }, [])
 
-  const onSubmit = async (data) => {
-    const { Usuario, Nombre, Apellido, Password } = data;
-    const res = await nuevoUsuario({ idUsuario: user.idUsuario, Usuario, Nombre, Apellido, Password })
-    if (res.errorMessage) return setErrorMessage(res.errorMessage);
-    Router.push('/usuarios')
+  const onSubmit = (data) => {
+    createUsuario(data);
   }
 
   return (
-    <Layout title='Nuevo usuario' user={user}>
-      <h1>Nuevo usuario</h1>
+    <Layout title='Nuevo usuario' user={user} h1Title="Nuevo usuario">
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoUsuarioForm} />
     </Layout>
@@ -70,30 +66,7 @@ const NuevoUsuario = ({ user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    redirectToLogin(ctx.res);
-  }
-  const resp = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
-    headers: {
-      cookie,
-    }
-  });
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await resp.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default NuevoUsuario;

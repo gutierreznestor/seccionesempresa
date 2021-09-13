@@ -2,12 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 
 import { isAllowed } from '../../hocs/auth';
-import { StyledNavbar } from './Navbar.styled';
+import { StyledNavbar, CurrentUserDiv } from './Navbar.styled';
 import NoLink from '../NoLink/NoLink.component';
 import { logout } from '../../services/auth.service';
 
 
-const Navbar = ({ user = {} }) => {
+const Navbar = ({ user = null }) => {
 
   const handleLogout = async () => {
     await logout();
@@ -53,16 +53,19 @@ const Navbar = ({ user = {} }) => {
   ];
 
   return (
-    <StyledNavbar>
-      <ul>
-        {links.map(({ label, url, allowed, onClick = () => { } }) => {
-          const link = allowed ?
-            <Link href={url} onClick={onClick}><a>{label}</a></Link> :
-            <NoLink label={label} />;
-          return <li key={url}>{link}</li>
-        })}
-      </ul>
-    </StyledNavbar>
+    <div>
+      <CurrentUserDiv>Usuario: <span>{user?.Usuario}</span></CurrentUserDiv>
+      <StyledNavbar>
+        <ul>
+          {links.map(({ label, url, allowed, onClick = () => { } }) => {
+            const link = allowed ?
+              <Link href={url} onClick={onClick}><a>{label}</a></Link> :
+              <NoLink label={label} />;
+            return <li key={url}>{link}</li>
+          })}
+        </ul>
+      </StyledNavbar>
+    </div>
   )
 }
 

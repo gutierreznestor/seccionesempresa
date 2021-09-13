@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
-import Router from 'next/router';
-import { logout } from '../../services/auth.service';
+import useLogout from '../../customHooks/useLogout';
 
 const Logout = () => {
+  const { logout } = useLogout();
 
   useEffect(() => {
-    const onLogout = async () => {
-      await logout();
-      Router.push('/login')
-    }
-    onLogout()
+    logout()
   }, []);
 
   return <></>;

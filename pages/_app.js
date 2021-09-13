@@ -1,7 +1,14 @@
-import '../styles/globals.css'
+import { ConnectedRouter } from 'connected-next-router'
+import { Wrapper } from '../store/store';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <ConnectedRouter>
+      <Component {...pageProps} />
+    </ConnectedRouter>
+  );
 }
 
-export default MyApp
+
+export default Wrapper.withRedux(MyApp);

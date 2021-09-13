@@ -3,14 +3,12 @@ import Router from 'next/router';
 
 import Layout from '../../components/Layout';
 import Form from '../../components/Form/Form.component';
-import { login, setEmpresa } from '../../services/auth.service';
+import { setEmpresa } from '../../services/auth.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
-import Select from '../../components/Select/Select.component';
-
-const options = [
-  { label: 'empresa', value: 'empresa' },
-  { label: 'empresa 2', value: 'empresa2' },
-];
+import useLogin from '../../customHooks/useLogin';
+import parseCookies from '../../helpers/parseCookies';
+import useSetEmpresa from '../../customHooks/useSetEmpresa';
+import { useSelectAuth } from '../../selectors/useSelectAuth';
 
 const LoginForm = [
   {
@@ -31,40 +29,43 @@ const LoginForm = [
   },
 ];
 
-const Login = () => {
-  const [errorMessage, setErrorMessage] = useState('');
-  const [selected, setSelected] = useState('');
+const Login = ({ db }) => {
+  const { errorMessage } = useSelectAuth();
+  const {
+    handlers: {
+      setEmpresa,
+    },
+  } = useSetEmpresa();
 
-  const onSelect = (value) => {
-    setErrorMessage('');
-    setSelected(value);
-    setEmpresa(value);
-    localStorage.setItem('db', value);
-  }
+  const { login } = useLogin();
 
   const onSubmit = async (data) => {
-    setErrorMessage('');
-    const { Usuario, Password } = data;
-    const res = await login({ Usuario, Password, db: selected })
-    if (res.errorMessage) return setErrorMessage(res.errorMessage);
-    Router.push('/')
+    login(data);
   }
 
   React.useEffect(() => {
-    const db = localStorage.getItem('db');
     setEmpresa(db);
-    setSelected(db)
   }, []);
 
   return (
     <Layout title="Login" hideNavbar>
       <h1>Iniciar sesión</h1>
-      <Select options={options} onSelect={onSelect} selected={selected} />
-      <Form onFormSubmit={onSubmit} config={LoginForm}>
+      <Form onFormSubmit={onSubmit} config={LoginForm} buttonLabel='Iniciar sesión'>
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </Form>
     </Layout>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const cookie = parseCookies(ctx.req);
+  const returnProp = {}
+  if (cookie.db) {
+    returnProp.db = cookie.db;
+  }
+  return {
+    props: returnProp,
+  }
 }
 
 export default Login;

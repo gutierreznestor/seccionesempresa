@@ -52,7 +52,7 @@ const AuditoriaPerfiles = ({ data, user, error }) => {
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
   if (!cookie.auth) {
-    redirectToLogin(ctx.res);
+    return redirectToLogin();
   }
   const res = await fetch(`http://localhost:3000/api/logsPerfiles/get-logs-perfiles?db=${cookie?.db}`, {
     headers: {

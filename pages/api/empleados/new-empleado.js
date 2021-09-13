@@ -1,7 +1,7 @@
 import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
-  const { Nombre, Apellido, idSeccionEmpresa } = req.body
+  const { Nombre, Apellido, idSeccionEmpresa, DB } = req.body
   try {
     if (!Nombre) {
       return res
@@ -14,11 +14,12 @@ const handler = async (req, res) => {
       VALUES (?, ?, ?);
       `,
       [Nombre, Apellido, idSeccionEmpresa],
+      DB,
     )
 
     return res.json(results)
   } catch (e) {
-    const message = e.message.includes('ER_NO_REFERENCED_ROW_2') ? `El id de la sección de empresa no existe` : 'No se pudo agregar el empleado.';
+    let message = e.message.includes('ER_NO_REFERENCED_ROW_2') ? `El id de la sección de empresa no existe` : e.message;
     res.status(400).json({ errorMessage: message })
   }
 }

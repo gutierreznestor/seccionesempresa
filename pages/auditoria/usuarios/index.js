@@ -1,15 +1,17 @@
 import React from 'react';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
 
-import parseCookies from '../../../helpers/parseCookies';
-import { redirectToLogin } from '../../../helpers/redirectToLogin';
 import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import SearchInput from '../../../components/SearchInput/SearchInput.component';
 import DataTable from '../../../components/DataTable/DataTable.component';
+import customServerSideHoc from '../../../helpers/customServerSideProps';
+import useLogUsuarios from '../../../customHooks/useLogUsuarios';
 
-const AuditoriaUsuarios = ({ data, user, error }) => {
+const AuditoriaUsuarios = ({ db, user }) => {
+  const {
+    data: { logsUsuarios, errorMessage },
+    handlers: { fetchLogsUsuarios }
+  } = useLogUsuarios();
 
   const [query, setQuery] = React.useState('');
 
@@ -26,20 +28,28 @@ const AuditoriaUsuarios = ({ data, user, error }) => {
       row.Operacion?.toString().toLowerCase().indexOf(query) > -1 ||
       row.Descripcion?.toString().toLowerCase().indexOf(query) > -1
     );
-  }
+  };
+
+  React.useEffect(() => {
+    fetchLogsUsuarios(db);
+  }, []);
 
   return (
-    <Layout title="Auditoría Usuarios" user={user}>
-      {error && <ErrorMessage message={error} />}
+    <Layout
+      h1Title="Auditoría Usuarios"
+      title="Auditoría Usuarios"
+      user={user}
+    >
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       {
-        !error &&
+        !errorMessage &&
         <>
           <SearchInput
             value={query}
             onChange={handleChange}
             placeholder="Buscar" />
           <DataTable
-            data={search(data)}
+            data={search(logsUsuarios)}
             user={user}
             notAllowed={['auditor']}
             readonly />
@@ -50,30 +60,7 @@ const AuditoriaUsuarios = ({ data, user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    redirectToLogin(ctx.res);
-  }
-  const res = await fetch(`http://localhost:3000/api/logsUsuarios/get-logs-usuarios?db=${cookie?.db}`, {
-    headers: {
-      cookie,
-    }
-  });
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await res.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default AuditoriaUsuarios;

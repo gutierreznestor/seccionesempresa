@@ -44,7 +44,7 @@ const NuevoPerfil = ({ user, error }) => {
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
   if (!cookie.auth) {
-    redirectToLogin(ctx.res);
+    return redirectToLogin();
   }
   const resp = await fetch('http://localhost:3000/api/usuarios/get-usuarios', {
     headers: {

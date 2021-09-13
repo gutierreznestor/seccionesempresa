@@ -1,45 +1,54 @@
 import React, { useState } from 'react';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
 
 import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
-import parseCookies from '../../../helpers/parseCookies';
-import { redirectToLogin } from '../../../helpers/redirectToLogin';
 import DataTable from '../../../components/DataTable/DataTable.component';
 import SearchInput from '../../../components/SearchInput/SearchInput.component';
+import customServerSideHoc from '../../../helpers/customServerSideProps';
+import useLogSeccionesEmpresa from '../../../customHooks/useLogSeccionesEmpresa';
 
-const AuditoriaSeccionesEmpresa = ({ data, user, error }) => {
+const AuditoriaSeccionesEmpresa = ({ user, db }) => {
+  const {
+    data: { logsSeccionesEmpresa, errorMessage },
+    handlers: { fetchLogsSeccionesEmpresa }
+  } = useLogSeccionesEmpresa();
   const [query, setQuery] = useState('');
-
   const handleChange = (value) => {
     setQuery(value)
   };
 
   const search = (row) => {
-    return row.filter(row =>
+    return row ? row.filter(row =>
       row.Creado?.toString().toLowerCase().indexOf(query) > -1 ||
       row.Usuario?.toString().toLowerCase().indexOf(query) > -1 ||
       row.idUsuario?.toString().toLowerCase().indexOf(query) > -1 ||
       row.Operacion?.toString().toLowerCase().indexOf(query) > -1 ||
       row.Descripcion?.toString().toLowerCase().indexOf(query) > -1
-    );
+    ) : [];
   }
 
+  React.useEffect(() => {
+    fetchLogsSeccionesEmpresa(db);
+  }, []);
+
   return (
-    <Layout title="Auditoría Secciones empresa" user={user}>
-      {error && <ErrorMessage message={error} />}
+    <Layout
+      h1Title="Auditoría Secciones empresa"
+      title="Auditoría Secciones empresa"
+      user={user}>
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       {
-        !error &&
+        !errorMessage &&
         <>
           <SearchInput
             value={query}
             onChange={handleChange}
             placeholder="Buscar" />
           <DataTable
-            data={search(data)}
+            data={search(logsSeccionesEmpresa)}
             user={user}
             notAllowed={['auditor']}
+            allowPrint
             readonly />
         </>
       }
@@ -48,30 +57,7 @@ const AuditoriaSeccionesEmpresa = ({ data, user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    redirectToLogin(ctx.res);
-  }
-  const res = await fetch(`http://localhost:3000/api/logsSeccionesEmpresa/get-logs-secciones-empresa?db=${cookie?.db}`, {
-    headers: {
-      cookie,
-    }
-  })
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await res.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default AuditoriaSeccionesEmpresa;

@@ -13,8 +13,8 @@ const Select = ({ options = [], onSelect = () => { }, selected }) => {
       onChange={(e) => onSelect(e.target.value)}
       name='empresa'
       id='empresa'>
-      {options.map(({ label, value }) => {
-        return <option value={value} key={value}>{label}</option>
+      {options.map(({ label, value, disabled }) => {
+        return <option value={value} key={value} disabled={disabled}>{label}</option>
       })};
     </StyledSelect>
   )

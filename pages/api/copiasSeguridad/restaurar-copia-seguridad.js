@@ -3,7 +3,6 @@ var tool = new MysqlTools();
 
 const handler = async (req, res) => {
   const { db, fileName } = req.body;
-  console.log({ db, fileName });
   try {
     if (!db) {
       return res

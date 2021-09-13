@@ -2,7 +2,7 @@ import { hash } from 'bcrypt';
 import { query } from '../../../lib/db';
 
 const handler = async (req, res) => {
-  const { Usuario, Nombre, Apellido, Password } = req.body;
+  const { Usuario, Nombre, Apellido, Password, db } = req.body;
   try {
     if (!Usuario?.trim() || !Nombre?.trim() || !Apellido?.trim() || !Password?.trim()) {
       return res
@@ -16,6 +16,7 @@ const handler = async (req, res) => {
       VALUES (?, ?, ?, ?);
       `,
       [Usuario, Nombre, Apellido, hashPassword],
+      db,
     );
 
     return res.json({

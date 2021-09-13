@@ -1,42 +1,38 @@
 import React, { useState } from 'react';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
 
 import { isAllowed } from '../../hocs/auth';
-import parseCookies from '../../helpers/parseCookies';
-import { redirectToLogin } from '../../helpers/redirectToLogin';
 
 import Layout from '../../components/Layout';
 import AppLink from '../../components/AppLink/AppLink.component';
 import DataTable from '../../components/DataTable/DataTable.component';
-import { deleteEmpleado, getEmpleados } from '../../services/empleados.service';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage.component';
+import customServerSideHoc from '../../helpers/customServerSideProps';
+import useEmpleados from '../../customHooks/useEmpleados';
 
-const Empleados = ({ data, user, error }) => {
-  const [errorMessage, setErrorMessage] = useState(error);
-  const [empleados, setEmpleados] = useState(data);
+const Empleados = ({ user, db }) => {
+  const { data: { empleados, errorMessage }, handlers: { fetchEmpleados, deleteEmpleado } } = useEmpleados({ DB: db, user });
 
-  const onDelete = async (id) => {
-    setErrorMessage('');
+  const onDelete = (id) => {
     const ok = confirm('¿Quieres eliminar al empleado?');
     if (ok) {
-      const data = await deleteEmpleado({ idUsuario: user.idUsuario, idEmpleado: id });
-      if (data.errorMessage) return setErrorMessage(data.errorMessage);
-      const list = await getEmpleados();
-      setEmpleados(list);
+      deleteEmpleado(id);
     }
   }
+
+  React.useEffect(() => {
+    fetchEmpleados();
+  }, []);
 
   return (
     <Layout title='Empleados' user={user}>
       <h1>Empleados</h1>
       <AppLink
-        enabled={!isAllowed(['auditor'], user.Perfiles)}
+        enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href='/empleados/new'
         title='Nuevo empleado' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {
-        !error &&
+        !errorMessage &&
         <>
           <DataTable
             data={empleados}
@@ -52,30 +48,7 @@ const Empleados = ({ data, user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    redirectToLogin(ctx.res);
-  }
-  const res = await fetch(`http://localhost:3000/api/empleados/get-empleados?db=${cookie?.db}`, {
-    headers: {
-      cookie,
-    }
-  })
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await res.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default Empleados;

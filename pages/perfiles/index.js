@@ -29,7 +29,7 @@ const Perfiles = ({ data, user, error }) => {
     <Layout title='Perfiles' user={user}>
       <h1>Perfiles</h1>
       <AppLink
-        enabled={!isAllowed(['auditor'], user.Perfiles)}
+        enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href='/perfiles/new'
         title='Nuevo Perfil' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
@@ -52,7 +52,7 @@ const Perfiles = ({ data, user, error }) => {
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
   if (!cookie.auth) {
-    redirectToLogin(ctx.res);
+    return redirectToLogin();
   }
   const res = await fetch(`http://localhost:3000/api/perfiles/get-perfiles?db=${cookie?.db}`, {
     headers: {

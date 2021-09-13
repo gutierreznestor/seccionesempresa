@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-import Router from 'next/router';
-import fetch from 'isomorphic-unfetch';
-import { verify } from 'jsonwebtoken';
+import React from 'react';
 
 import Form from '../../../components/Form/Form.component';
 import Layout from '../../../components/Layout';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component'
-import { nuevaSeccionEmpresa } from '../../../services/seccionesEmpresa.service';
-import parseCookies from '../../../helpers/parseCookies';
-import { redirectToLogin } from '../../../helpers/redirectToLogin';
+import useSeccionesEmpresa from '../../../customHooks/useSeccionesEmpresa';
+import customServerSideHoc from '../../../helpers/customServerSideProps';
 
 const AgregarSeccionForm = [
   {
@@ -21,16 +17,12 @@ const AgregarSeccionForm = [
   },
 ];
 
-const NuevaSeccion = ({ user, error }) => {
-  const [errorMessage, setErrorMessage] = useState(error);
+const NuevaSeccion = ({ user, db }) => {
+  const { data: { errorMessage }, handlers: { createSeccionEmpresa } } = useSeccionesEmpresa({ DB: db, user });
 
   const onSubmit = async (data) => {
     const { Nombre } = data;
-    const res = await nuevaSeccionEmpresa({ user: user?.idUsuario, Nombre })
-    if (res.errorMessage) {
-      return setErrorMessage(res.errorMessage);
-    }
-    Router.push('/secciones-empresa')
+    createSeccionEmpresa({ Nombre })
   }
 
   return (
@@ -43,30 +35,7 @@ const NuevaSeccion = ({ user, error }) => {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookie = parseCookies(ctx.req);
-  if (!cookie.auth) {
-    redirectToLogin(ctx.res);
-  }
-  const resp = await fetch(`http://localhost:3000/api/secciones-empresa/get-secciones-empresa?db=${cookie?.db}`, {
-    headers: {
-      cookie,
-    }
-  });
-  let user = null;
-  verify(cookie.auth, 'secret', async (err, decoded) => {
-    if (!err && decoded) {
-      user = decoded.user;
-    }
-  });
-  let data = await resp.json();
-  let error = null;
-  if (data.errorMessage) {
-    error = data.errorMessage;
-    data = [];
-  }
-  return {
-    props: { data, user, error },
-  }
+  return await customServerSideHoc(ctx);
 }
 
 export default NuevaSeccion;

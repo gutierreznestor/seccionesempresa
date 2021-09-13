@@ -72,7 +72,7 @@ const CopiasSeguridad = ({ user, db }) => {
 export async function getServerSideProps(ctx) {
   const cookie = parseCookies(ctx.req);
   if (!cookie.auth) {
-    redirectToLogin(ctx.res);
+    return redirectToLogin();
   }
   let user = null;
   verify(cookie.auth, 'secret', async (err, decoded) => {
