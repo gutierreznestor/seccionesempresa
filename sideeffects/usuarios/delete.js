@@ -5,6 +5,8 @@ import {
   deleteUsuarioError,
   getUsuarios,
 } from "../../store/usuarios";
+import { newLogUsuario } from '../../store/logsUsuarios';
+import { Operaciones } from "../../constants";
 
 function* deleteUser({ payload }) {
   const { idUsuario, db, user } = payload;
@@ -25,6 +27,12 @@ function* deleteUser({ payload }) {
     yield put(deleteUsuarioError(data.errorMessage));
   } else {
     yield put(deleteUsuarioSuccess(data.message));
+    yield put(newLogUsuario({
+      idUsuario: user.idUsuario,
+      Operacion: Operaciones.Delete,
+      Descripcion: `Se eliminó el usuario ${idUsuario}`,
+      db,
+    }));
     yield put(getUsuarios(db));
   }
 }

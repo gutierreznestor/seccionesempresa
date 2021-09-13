@@ -1,8 +1,7 @@
 import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
-  const { id: idUsuario, DB } = req.body;
-  console.log('req.body: ', req.body);
+  const { id: idUsuario, db } = req.body;
   try {
     if (!idUsuario) {
       return res
@@ -15,7 +14,7 @@ const handler = async (req, res) => {
       WHERE idUsuario=?
       `,
       [idUsuario],
-      DB,
+      db,
     )
 
     return res.json(results)
