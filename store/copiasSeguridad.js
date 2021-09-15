@@ -39,6 +39,18 @@ export const copiaSeguridadSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    restoreCopiaSeguridad: (state) => {
+      state.loading = true;
+    },
+    restoreCopiaSeguridadSuccess: (state, { payload }) => {
+      state.DB = payload;
+      state.loading = false;
+      state.errorMessage = '';
+    },
+    restoreCopiaSeguridadError: (state, { payload }) => {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
     setCopiaSeguridad: (state) => {
       state.loading = true;
     },
@@ -61,6 +73,9 @@ export const {
   newCopiaSeguridad,
   newCopiaSeguridadSuccess,
   newCopiaSeguridadError,
+  restoreCopiaSeguridad,
+  restoreCopiaSeguridadSuccess,
+  restoreCopiaSeguridadError,
   setCopiaSeguridad,
   setCopiaSeguridadSuccess,
   setCopiaSeguridadError,

@@ -21,7 +21,7 @@ const CopiasSeguridad = ({ user, db }) => {
 
   const {
     data: { copiasSeguridad, errorMessage },
-    handlers: { fetchCopiasSeguridad, newBackup },
+    handlers: { fetchCopiasSeguridad, newBackup, restoreBackup },
   } = useCopiasSeguridad({ db });
 
   const backup = () => {
@@ -32,11 +32,8 @@ const CopiasSeguridad = ({ user, db }) => {
     fetchCopiasSeguridad();
   }, [db]);
 
-  const onRestoreBackup = async (value) => {
-    const res = await restaurarCopiaSeguridad({ db, fileName: value });
-    if (res.errorMessage) {
-      return setErrorMessage(res.errorMessage);
-    }
+  const onRestoreBackup = (value) => {
+    restoreBackup({ db, fileName: value });
   }
 
   return (
