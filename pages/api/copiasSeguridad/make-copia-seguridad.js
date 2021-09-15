@@ -1,3 +1,5 @@
+import makeDir from '../../../helpers/makeDir';
+
 var MysqlTools = require('mysql-tools');
 var tool = new MysqlTools();
 
@@ -18,8 +20,9 @@ const handler = async (req, res) => {
     const hour = date.getHours();
     const minute = date.getMinutes();
     const fileName = `${year}-${month}-${day}-${hour}-${minute}.sql`;
+    const folderPath = `./backups/${db}`;
     const filePath = `./backups/${db}/${fileName}`;
-
+    await makeDir(folderPath);
     tool.dumpDatabase({
       host: 'localhost',
       user: 'root',

@@ -1,4 +1,5 @@
 export { useSelectAuth } from './useSelectAuth';
+export { useSelectCopiasSeguridad } from './useSelectCopiasSeguridad';
 export { useSelectLogsEmpleados } from './useSelectLogsEmpleados';
 export { useSelectLogsSeccionesEmpresa } from './useSelectLogsSeccionesEmpresa';
 export { useSelectLogsUsuarios } from './useSelectLogsUsuarios';
