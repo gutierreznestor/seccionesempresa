@@ -18,6 +18,7 @@ export const copiaSeguridadSlice = createSlice({
       state.loading = true;
       state.message = '';
       state.errorMessage = '';
+      state.list = [];
     },
     getCopiasSeguridadSuccess: (state, { payload }) => {
       state.list = payload;

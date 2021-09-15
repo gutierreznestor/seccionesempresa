@@ -42,7 +42,7 @@ const CopiasSeguridad = ({ user, db }) => {
       {restoreMessage && <Message message={restoreMessage} fileName={fileName} />}
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Button label="Realizar backup" onClick={backup} />
-      {copiasSeguridad.length && <BackupList list={copiasSeguridad} user={user} onRestoreBackup={onRestoreBackup} />}
+      {copiasSeguridad?.length > 0 && <BackupList list={copiasSeguridad} user={user} onRestoreBackup={onRestoreBackup} />}
     </Layout>
   )
 }
