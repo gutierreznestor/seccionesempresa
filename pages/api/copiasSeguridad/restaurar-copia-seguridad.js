@@ -1,3 +1,5 @@
+import searchText from '../../../helpers/searchText';
+
 var MysqlTools = require('mysql-tools');
 var tool = new MysqlTools();
 
@@ -13,6 +15,11 @@ const handler = async (req, res) => {
       return res.status(400).json({ errorMessage: 'Ingrese el nombre del archivo sql' });
     }
     const filePath = `./backups/${db}/${fileName}`;
+    const currentDb = `Database: ${db}`;
+    const match = await searchText(filePath, currentDb);
+    if (match === 0) {
+      return res.status(400).json({ errorMessage: 'No se puede restaurar una base distinta a la actual.' });
+    }
     tool.restoreDatabase({
       host: 'localhost',
       user: 'root',

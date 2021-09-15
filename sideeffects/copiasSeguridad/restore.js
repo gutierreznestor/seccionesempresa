@@ -1,5 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { restoreCopiaSeguridad, restoreCopiaSeguridadSuccess, restoreCopiaSeguridadError, getCopiasSeguridad } from '../../store/copiasSeguridad';
+import { restoreCopiaSeguridad, restoreCopiaSeguridadSuccess, restoreCopiaSeguridadError } from '../../store/copiasSeguridad';
 
 function* restore({ payload: { db, fileName } }) {
   try {
@@ -18,8 +18,10 @@ function* restore({ payload: { db, fileName } }) {
     if (data.errorMessage) {
       return yield put(restoreCopiaSeguridadError(data.errorMessage))
     }
-    yield put(restoreCopiaSeguridadSuccess("Copia de seguridad restaurada correctamente."));
-    yield put(getCopiasSeguridad(db));
+    yield put(restoreCopiaSeguridadSuccess({
+      message: data?.message,
+      fileName: data.fileName,
+    }));
   } catch (error) {
     yield put(restoreCopiaSeguridadError(error))
   }

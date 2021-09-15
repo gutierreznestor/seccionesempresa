@@ -17,7 +17,10 @@ function* create({ payload: { db } }) {
     if (data.errorMessage) {
       return yield put(newCopiaSeguridadError(data.errorMessage))
     }
-    yield put(newCopiaSeguridadSuccess("Copia de seguridad creada correctamente."));
+    yield put(newCopiaSeguridadSuccess({
+      message: data?.message,
+      fileName: data.fileName,
+    }));
     yield put(getCopiasSeguridad(db));
   } catch (error) {
     yield put(newCopiaSeguridadError(error))

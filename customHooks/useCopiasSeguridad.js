@@ -4,7 +4,12 @@ import { getCopiasSeguridad, newCopiaSeguridad, restoreCopiaSeguridad } from '..
 
 const useCopiasSeguridad = ({ db }) => {
   const dispatch = useDispatch();
-  const { copiasSeguridad, errorMessage } = useSelectCopiasSeguridad();
+  const { copiasSeguridad,
+    errorMessage,
+    fileName,
+    message,
+    restoreMessage,
+  } = useSelectCopiasSeguridad();
 
   const fetchCopiasSeguridad = () => {
     dispatch(getCopiasSeguridad(db));
@@ -22,6 +27,9 @@ const useCopiasSeguridad = ({ db }) => {
     data: {
       copiasSeguridad,
       errorMessage,
+      fileName,
+      message,
+      restoreMessage,
     },
     handlers: {
       restoreBackup,

@@ -10,7 +10,7 @@ import useCopiasSeguridad from '../../customHooks/useCopiasSeguridad';
 
 const Message = ({ message, fileName }) => {
   return (
-    <div style={{ margin: '20px 0' }}>
+    <div style={{ margin: '20px 0', color: '#006400' }}>
       <strong>{message}</strong>
       <div>Nombre de la copia: {fileName}</div>
     </div>
@@ -20,7 +20,7 @@ const Message = ({ message, fileName }) => {
 const CopiasSeguridad = ({ user, db }) => {
 
   const {
-    data: { copiasSeguridad, errorMessage },
+    data: { copiasSeguridad, errorMessage, fileName, restoreMessage },
     handlers: { fetchCopiasSeguridad, newBackup, restoreBackup },
   } = useCopiasSeguridad({ db });
 
@@ -39,7 +39,7 @@ const CopiasSeguridad = ({ user, db }) => {
   return (
     <Layout title="Copias de seguridad" user={user}>
       <h2>{db}</h2>
-      {/* {message && <Message message={message} />} */}
+      {restoreMessage && <Message message={restoreMessage} fileName={fileName} />}
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Button label="Realizar backup" onClick={backup} />
       {copiasSeguridad.length && <BackupList list={copiasSeguridad} user={user} onRestoreBackup={onRestoreBackup} />}

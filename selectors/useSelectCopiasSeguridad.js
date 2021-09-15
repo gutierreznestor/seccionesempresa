@@ -4,8 +4,10 @@ export const useSelectCopiasSeguridad = () => {
   const { copiasSeguridad } = useSelector(state => state);
   return {
     copiasSeguridad: copiasSeguridad?.list,
+    errorMessage: copiasSeguridad?.errorMessage,
+    fileName: copiasSeguridad?.fileName,
     loading: copiasSeguridad?.loading,
     message: copiasSeguridad?.message,
-    errorMessage: copiasSeguridad?.errorMessage,
+    restoreMessage: copiasSeguridad?.restoreMessage,
   };
 }

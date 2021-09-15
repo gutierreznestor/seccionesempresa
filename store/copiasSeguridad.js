@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  DB: '',
+  errorMessage: '',
+  fileName: '',
   list: [],
   loading: false,
   message: '',
-  errorMessage: '',
-  DB: '',
+  restoreMessage: '',
 };
 
 export const copiaSeguridadSlice = createSlice({
@@ -20,36 +22,47 @@ export const copiaSeguridadSlice = createSlice({
     getCopiasSeguridadSuccess: (state, { payload }) => {
       state.list = payload;
       state.loading = false;
-      state.message = 'Fetch copias seguridad ok';
     },
     getCopiasSeguridadError: (state, { payload }) => {
       state.loading = false;
       state.errorMessage = payload;
     },
     newCopiaSeguridad: (state, _) => {
+      state.fileName = '';
       state.loading = true;
       state.message = '';
       state.errorMessage = '';
+      state.restoreMessage = '';
     },
-    newCopiaSeguridadSuccess: (state, { payload }) => {
+    newCopiaSeguridadSuccess: (state, { payload: { fileName, message } }) => {
+      state.fileName = fileName;
       state.loading = false;
-      state.message = 'New copia seguridad ok';
+      state.message = message;
     },
     newCopiaSeguridadError: (state, { payload }) => {
       state.loading = false;
       state.errorMessage = payload;
     },
     restoreCopiaSeguridad: (state) => {
+      state.fileName = '';
       state.loading = true;
+      state.errorMessage = '';
+      state.message = '';
+      state.restoreMessage = '';
     },
-    restoreCopiaSeguridadSuccess: (state, { payload }) => {
-      state.DB = payload;
+    restoreCopiaSeguridadSuccess: (state, { payload: { fileName, message } }) => {
+      state.fileName = fileName;
       state.loading = false;
       state.errorMessage = '';
+      state.message = message;
+      state.restoreMessage = message;
     },
     restoreCopiaSeguridadError: (state, { payload }) => {
+      state.fileName = '';
       state.loading = false;
+      state.message = '';
       state.errorMessage = payload;
+      state.restoreMessage = '';
     },
     setCopiaSeguridad: (state) => {
       state.loading = true;
