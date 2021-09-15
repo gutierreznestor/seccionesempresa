@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectCopiasSeguridad } from '../selectors';
-import { getCopiasSeguridad } from '../store/copiasSeguridad';
+import { getCopiasSeguridad, newCopiaSeguridad } from '../store/copiasSeguridad';
 
 const useCopiasSeguridad = ({ db }) => {
   const dispatch = useDispatch();
@@ -11,6 +11,10 @@ const useCopiasSeguridad = ({ db }) => {
     dispatch(getCopiasSeguridad(db));
   }
 
+  const newBackup = () => {
+    dispatch(newCopiaSeguridad({ db }));
+  }
+
   return {
     data: {
       copiasSeguridad,
@@ -18,6 +22,7 @@ const useCopiasSeguridad = ({ db }) => {
     },
     handlers: {
       fetchCopiasSeguridad,
+      newBackup,
     },
   }
 };
