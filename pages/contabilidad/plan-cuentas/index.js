@@ -45,6 +45,7 @@ const PlanCuentas = ({ user, error, db }) => {
         notAllowed={['auditor']}
         path='plan-cuentas'
         onDelete={onDelete}
+        showViewButton
       />
     </Layout>
   )
