@@ -10,6 +10,7 @@ import empresasReducer from './empresas';
 import logsEmpleadosReducer from './logsEmpleados';
 import logsSeccionesEmpresaReducer from './logsSeccionesEmpresa';
 import logsUsuariosReducer from './logsUsuarios';
+import planCuentasReducer from './planCuentas';
 import seccionesEmpresaReducer from './seccionesEmpresa';
 import usuariosReducer from './usuarios';
 import rootSaga from '../sideeffects';
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   logsEmpleados: logsEmpleadosReducer,
   logsSeccionesEmpresa: logsSeccionesEmpresaReducer,
   logsUsuarios: logsUsuariosReducer,
+  planCuentas: planCuentasReducer,
   router: routerReducer,
   seccionesEmpresa: seccionesEmpresaReducer,
   usuarios: usuariosReducer,
