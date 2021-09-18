@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelectPlanCuentas } from '../selectors';
 import { getPlanesCuentas, deletePlanCuentas as deletePC, newPlanCuenta } from '../store/planCuentas';
 
-const usePlanCuentas = ({ DB, user }) => {
+const usePlanCuentas = ({ db, user }) => {
   const dispatch = useDispatch();
   const {
     errorMessage,
@@ -13,15 +13,15 @@ const usePlanCuentas = ({ DB, user }) => {
   } = useSelectPlanCuentas();
 
   const fetchPlanCuentas = () => {
-    dispatch(getPlanesCuentas(DB));
+    dispatch(getPlanesCuentas(db));
   }
 
-  const createPlanCuenta = ({ CodigoPlan, Nombre }) => {
-    dispatch(newPlanCuenta({ CodigoPlan, DB, Nombre, user }));
+  const createPlanCuenta = ({ CodigoPlan, Nombre, Tipo }) => {
+    dispatch(newPlanCuenta({ CodigoPlan, db, Nombre, Tipo, user }));
   }
 
   const deletePlanCuenta = ({ idPlanCuenta }) => {
-    dispatch(deletePC({ DB, idPlanCuenta, user }));
+    dispatch(deletePC({ db, idPlanCuenta, user }));
   }
 
   return {

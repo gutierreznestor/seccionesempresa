@@ -17,7 +17,7 @@ const PlanCuentas = ({ user, error, db }) => {
       fetchPlanCuentas,
       deletePlanCuenta,
     },
-  } = usePlanCuentas({ DB: db, user });
+  } = usePlanCuentas({ db, user });
 
   React.useEffect(() => {
     fetchPlanCuentas();
@@ -28,7 +28,7 @@ const PlanCuentas = ({ user, error, db }) => {
     if (ok) {
       deletePlanCuenta({
         idPlanCuenta: id,
-        DB: db,
+        db,
       });
     }
   }

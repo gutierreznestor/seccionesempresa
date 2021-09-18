@@ -4,9 +4,9 @@ const handler = async (req, res) => {
   try {
     const { db } = req.query;
     const results = await query(`
-      SELECT idPlanCuenta AS id, CodigoPlan AS Codigo, Nombre, Nivel, Tipo
+      SELECT idPlanCuenta AS id, CodigoPlan AS Código, Nombre, Nivel, Tipo
       FROM plan_cuentas
-      ORDER BY Codigo ASC
+      ORDER BY Código ASC
   `, null, db)
 
     res.status(200).json(results)
