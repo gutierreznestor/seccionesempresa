@@ -21,7 +21,10 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(500).json({ errorMessage: e.message })
+    const message = e.message.includes('ER_DUP_ENTRY') ?
+      `Ya existe una cuenta con el código ${CodigoPlan}` :
+      'No se pudo agregar la cuenta.';
+    res.status(400).json({ errorMessage: message })
   }
 }
 

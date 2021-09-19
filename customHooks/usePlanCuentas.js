@@ -1,11 +1,16 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectPlanCuentas } from '../selectors';
-import { getPlanesCuentas, deletePlanCuentas as deletePC, newPlanCuenta } from '../store/planCuentas';
+import {
+  getPlanCuenta,
+  getPlanesCuentas,
+  deletePlanCuentas as deletePC,
+  newPlanCuenta,
+} from '../store/planCuentas';
 
 const usePlanCuentas = ({ db, user }) => {
   const dispatch = useDispatch();
   const {
+    currentPlanCuenta,
     errorMessage,
     message,
     planesCuentas,
@@ -24,8 +29,13 @@ const usePlanCuentas = ({ db, user }) => {
     dispatch(deletePC({ db, idPlanCuenta, user }));
   }
 
+  const fetchPlanCuenta = (id) => {
+    dispatch(getPlanCuenta({ db, id }));
+  }
+
   return {
     data: {
+      currentPlanCuenta,
       errorMessage,
       message,
       planesCuentas,
@@ -34,6 +44,7 @@ const usePlanCuentas = ({ db, user }) => {
     handlers: {
       createPlanCuenta,
       deletePlanCuenta,
+      fetchPlanCuenta,
       fetchPlanCuentas,
     },
   }

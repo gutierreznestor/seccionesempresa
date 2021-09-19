@@ -12,6 +12,7 @@ const apiToDropdown = (list = []) => {
 export const useSelectPlanCuentas = () => {
   const { planCuentas } = useSelector(state => state);
   return {
+    currentPlanCuenta: planCuentas.currentPlanCuenta,
     errorMessage: planCuentas?.errorMessage,
     loading: planCuentas?.loading,
     message: planCuentas?.message,
