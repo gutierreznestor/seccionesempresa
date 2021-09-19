@@ -19,7 +19,6 @@ function* loginUser({ payload }) {
   });
 
   const data = yield res.json();
-  console.log('data: ', data);
   if (data.errorMessage) {
     yield put(loginError(data.errorMessage));
   } else {

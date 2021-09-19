@@ -27,8 +27,7 @@ const PlanCuentas = ({ user, error, db }) => {
     const ok = confirm('¿Quieres eliminar el plan de cuentas?');
     if (ok) {
       deletePlanCuenta({
-        idPlanCuenta: id,
-        db,
+        id,
       });
     }
   }
@@ -40,6 +39,7 @@ const PlanCuentas = ({ user, error, db }) => {
         title='Nuevo plan de cuenta' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <DataTable
+        allowDelete
         data={planesCuentas}
         user={user}
         notAllowed={['auditor']}

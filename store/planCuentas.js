@@ -10,16 +10,16 @@ export const planCuentasSlice = createSlice({
     currentPlanCuenta: null,
   },
   reducers: {
-    deletePlanCuentas(state, action) {
+    deletePlanCuenta(state, action) {
       state.loading = true;
       state.message = '';
       state.errorMessage = '';
     },
-    deletePlanCuentasSuccess(state, { payload }) {
+    deletePlanCuentaSuccess(state, { payload }) {
       state.loading = false;
       state.message = payload;
     },
-    deletePlanCuentasError(state, { payload }) {
+    deletePlanCuentaError(state, { payload }) {
       state.loading = false;
       state.errorMessage = payload;
     },
@@ -80,9 +80,9 @@ export const planCuentasSlice = createSlice({
 });
 
 export const {
-  deletePlanCuentas,
-  deletePlanCuentasSuccess,
-  deletePlanCuentasError,
+  deletePlanCuenta,
+  deletePlanCuentaSuccess,
+  deletePlanCuentaError,
   editPlanCuenta,
   editPlanCuentaSuccess,
   editPlanCuentaError,

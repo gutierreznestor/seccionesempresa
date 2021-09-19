@@ -3,7 +3,7 @@ import { useSelectPlanCuentas } from '../selectors';
 import {
   getPlanCuenta,
   getPlanesCuentas,
-  deletePlanCuentas as deletePC,
+  deletePlanCuenta as deletePC,
   newPlanCuenta,
   editPlanCuenta as editPC,
 } from '../store/planCuentas';
@@ -26,8 +26,8 @@ const usePlanCuentas = ({ db, user }) => {
     dispatch(newPlanCuenta({ CodigoPlan, db, Nombre, Tipo, user }));
   }
 
-  const deletePlanCuenta = ({ idPlanCuenta }) => {
-    dispatch(deletePC({ db, idPlanCuenta, user }));
+  const deletePlanCuenta = ({ id }) => {
+    dispatch(deletePC({ db, id }));
   }
 
   const fetchPlanCuenta = (id) => {

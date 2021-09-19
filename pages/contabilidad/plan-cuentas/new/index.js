@@ -43,7 +43,6 @@ const NuevoPlanCuenta = ({ user, db }) => {
 
   const onSubmit = async (data) => {
     const { CodigoPlan, Nombre, Tipo } = data;
-    console.log({ CodigoPlan, Nombre, Tipo });
     createPlanCuenta({ CodigoPlan, Nombre, Tipo });
   }
 
