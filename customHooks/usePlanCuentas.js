@@ -5,6 +5,7 @@ import {
   getPlanesCuentas,
   deletePlanCuentas as deletePC,
   newPlanCuenta,
+  editPlanCuenta as editPC,
 } from '../store/planCuentas';
 
 const usePlanCuentas = ({ db, user }) => {
@@ -33,6 +34,10 @@ const usePlanCuentas = ({ db, user }) => {
     dispatch(getPlanCuenta({ db, id }));
   }
 
+  const editPlanCuenta = ({ id, CodigoPlan, Nombre, Tipo }) => {
+    dispatch(editPC({ id, CodigoPlan, db, Nombre, Tipo, user }));
+  }
+
   return {
     data: {
       currentPlanCuenta,
@@ -44,6 +49,7 @@ const usePlanCuentas = ({ db, user }) => {
     handlers: {
       createPlanCuenta,
       deletePlanCuenta,
+      editPlanCuenta,
       fetchPlanCuenta,
       fetchPlanCuentas,
     },

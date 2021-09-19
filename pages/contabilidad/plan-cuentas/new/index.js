@@ -9,18 +9,18 @@ import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 
 const NuevoPlanCuentaForm = [
   {
-    label: 'Código',
-    type: 'text',
-    name: 'CodigoPlan',
-    placeholder: '1.01.01',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-  },
-  {
     label: 'Nombre',
     type: 'text',
     name: 'Nombre',
     placeholder: 'Bancos',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+  },
+  {
+    label: 'Código',
+    type: 'text',
+    name: 'CodigoPlan',
+    placeholder: '1.01.01',
     validations: { required: true },
     textValidation: 'Este campo es requerido.',
   },

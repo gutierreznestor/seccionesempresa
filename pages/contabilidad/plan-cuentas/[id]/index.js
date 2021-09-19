@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 
 import Layout from '../../../../components/Layout';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
@@ -8,10 +7,10 @@ import ListItem from '../../../../components/ListItem';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import AppLink from '../../../../components/AppLink/AppLink.component';
 import { isAllowed } from '../../../../hocs/auth';
+import useGetIdParam from '../../../../customHooks/useGetIdParam';
 
 const PlanCuenta = ({ db, user }) => {
-  const { query } = useRouter();
-  const { id } = query
+  const id = useGetIdParam();
   const {
     data: { errorMessage, loading, currentPlanCuenta },
     handlers: { fetchPlanCuenta }
@@ -28,8 +27,8 @@ const PlanCuenta = ({ db, user }) => {
         !errorMessage && <>
           <ListItem title="Nombre" description={currentPlanCuenta?.Nombre} />
           <ListItem title="Código" description={currentPlanCuenta?.CodigoPlan} />
-          <ListItem title="Nivel" description={currentPlanCuenta?.Nivel} />
           <ListItem title="Tipo" description={currentPlanCuenta?.Tipo} />
+          <ListItem title="Nivel" description={currentPlanCuenta?.Nivel} />
         </>
       }
       <AppLink

@@ -23,6 +23,19 @@ export const planCuentasSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    editPlanCuenta(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    editPlanCuentaSuccess(state, { payload }) {
+      state.loading = false;
+      state.message = payload;
+    },
+    editPlanCuentaError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
     getPlanCuenta(state, action) {
       state.loading = true;
       state.message = '';
@@ -70,6 +83,9 @@ export const {
   deletePlanCuentas,
   deletePlanCuentasSuccess,
   deletePlanCuentasError,
+  editPlanCuenta,
+  editPlanCuentaSuccess,
+  editPlanCuentaError,
   getPlanCuenta,
   getPlanCuentaSuccess,
   getPlanCuentaError,
