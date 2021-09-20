@@ -20,9 +20,10 @@ function* create({ payload: { CodigoPlan, Nombre, db, Tipo } }) {
     const data = yield res.json()
     if (data.errorMessage) {
       return yield put(newPlanCuentaError(data.errorMessage))
+    } else {
+      yield put(newPlanCuentaSuccess("Plan de cuenta creada correctamente."));
+      yield put(replace('/contabilidad/plan-cuentas'));
     }
-    yield put(newPlanCuentaSuccess("Plan de cuenta creada correctamente."));
-    yield put(replace('/contabilidad/plan-cuentas'));
   } catch (error) {
     yield put(newPlanCuentaError(error))
   }
