@@ -1,4 +1,5 @@
-import { query } from '../../../lib/db'
+import { query } from '../../../lib/db';
+import getParent from './getParent';
 
 const handler = async (req, res) => {
   const { id } = req.query;
@@ -7,7 +8,13 @@ const handler = async (req, res) => {
     if (!CodigoPlan) {
       return res
         .status(400)
-        .json({ errorMessage: 'Se requiere el CodigoPlan.' })
+        .json({ errorMessage: 'Complete todos los campos.' })
+    }
+    const parent = await getParent({ db, CodigoPlan });
+    if (parent.errorMessage) {
+      return res.status(400).json({
+        errorMessage: 'El plan de cuentas padre no existe'
+      });
     }
     const results = await query(
       `
