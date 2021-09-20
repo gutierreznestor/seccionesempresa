@@ -29,8 +29,8 @@ const NuevoPlanCuentaForm = [
     type: 'number',
     name: 'Tipo',
     placeholder: '0 título; 1 cuenta',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
+    validations: { required: true, min: 0, max: 1 },
+    textValidation: 'Elija 0 para un título y 1 para una cuenta',
   },
 ];
 
@@ -49,7 +49,7 @@ const NuevoPlanCuenta = ({ user, db }) => {
   return (
     <Layout title='Nuevo plan de cuenta' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      <Form onFormSubmit={onSubmit} config={NuevoPlanCuentaForm} />
+      <Form onFormSubmit={onSubmit} config={NuevoPlanCuentaForm} defaultValues={{ Tipo: 0 }} />
     </Layout>
   )
 }
