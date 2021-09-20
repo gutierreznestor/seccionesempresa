@@ -1,28 +1,26 @@
 import { query } from '../../../lib/db';
 import getNivel from '../../../helpers/getNivel';
-import getParent from '../../../helpers/getParent';
+import getParent from './getParent';
 
 const handler = async (req, res) => {
-  const { CodigoPlan, Nombre, db, Tipo } = req.body
+  const { CodigoPlan, Nombre, db, Tipo } = req.body;
+  if (!Nombre || !Tipo || !CodigoPlan) {
+    return res
+      .status(400)
+      .json({ errorMessage: 'Complete todos los campos.' })
+  }
   const nivel = getNivel(CodigoPlan);
-  const parent = getParent(CodigoPlan);
+
   if (nivel > 1) {
-    const queryString = `
-      SELECT * FROM plan_cuentas WHERE CodigoPlan = ?
-    `;
-    const results = await query(queryString, [parent], db);
-    if (results.length === 0) {
+    const parent = await getParent({ db, CodigoPlan });
+    if (parent.errorMessage) {
       return res.status(400).json({
         errorMessage: 'El plan de cuentas padre no existe'
       });
     }
   }
   try {
-    if (!Nombre) {
-      return res
-        .status(400)
-        .json({ errorMessage: 'Se requiere el Nombre.' })
-    }
+
     const results = await query(
       `
       INSERT INTO plan_cuentas (CodigoPlan, Nivel, Nombre, Tipo) 
