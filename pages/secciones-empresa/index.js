@@ -51,6 +51,7 @@ const SeccionesEmpresa = ({ user, error, db }) => {
         notAllowed={['auditor']}
         path='secciones-empresa'
         onDelete={onDelete}
+        allowDelete
       />
     </Layout>
   )

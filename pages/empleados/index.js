@@ -25,7 +25,6 @@ const Empleados = ({ user, db }) => {
 
   return (
     <Layout title='Empleados' user={user}>
-      <h1>Empleados</h1>
       <AppLink
         enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href='/empleados/new'
@@ -38,8 +37,10 @@ const Empleados = ({ user, db }) => {
             data={empleados}
             user={user}
             notAllowed={['auditor']}
-            path='empleados'
+            path='empleados/edit'
             onDelete={onDelete}
+            allowDelete
+            showViewButton
           />
         </>
       }

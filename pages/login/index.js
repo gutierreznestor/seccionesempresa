@@ -49,7 +49,6 @@ const Login = ({ db }) => {
 
   return (
     <Layout title="Login" hideNavbar>
-      <h1>Iniciar sesión</h1>
       <Form onFormSubmit={onSubmit} config={LoginForm} buttonLabel='Iniciar sesión'>
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </Form>

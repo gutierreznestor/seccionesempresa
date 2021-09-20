@@ -19,7 +19,6 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    console.log('e: ', e);
     const message = e.message.includes('ER_ROW_IS_REFERENCED_2') ? `Elimine los perfiles asociados antes de eliminar al usuario.` : 'No se pudo eliminar el usuario.';
     res.status(400).json({ errorMessage: message })
   }

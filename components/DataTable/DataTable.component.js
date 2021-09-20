@@ -9,17 +9,17 @@ import ButtonTable from '../ButtonTable/ButtonTable.component';
 import { TableContainer } from './DataTable.styled';
 
 const DataTable = ({
+  allowPrint,
+  allowDelete,
   data,
-  user,
-  onDelete,
-  readonly,
   notAllowed = [],
+  onDelete,
   path = 'usuarios',
-  allowPrint
+  readonly,
+  showViewButton,
+  user,
 }) => {
   const columns = data[0] && Object.keys(data[0]);
-  const showViewButton =
-    path?.includes('usuarios');
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -37,25 +37,30 @@ const DataTable = ({
             </thead>
             <tbody>
               {
-                data.map((row) => <tr>
+                data?.map((row) => <tr key={row?.id}>
                   {
                     columns.map((column) => <td key={column}>{row[column]}</td>)
                   }
                   {!readonly && (
-                    <td>
+                    <>
                       {
                         showViewButton &&
-                        <Link href={`${path}/${row[columns[0]]}`} passHref>
-                          <ButtonTable
-                            type='Ver' />
-                        </Link>
+                        <td>
+                          <Link href={`${path}/${row[columns[0]]}`} passHref>
+                            <ButtonTable
+                              type='Ver' />
+                          </Link>
+                        </td>
                       }
-
-                      <ButtonTable
-                        enabled={!isAllowed(notAllowed, user?.Perfiles)}
-                        type='Eliminar'
-                        onClick={() => onDelete(row[columns[0]])} />
-                    </td>
+                      {allowDelete &&
+                        <td>
+                          <ButtonTable
+                            enabled={!isAllowed(notAllowed, user?.Perfiles)}
+                            type='Eliminar'
+                            onClick={() => onDelete(row[columns[0]])} />
+                        </td>
+                      }
+                    </>
                   )}
                 </tr>)
               }

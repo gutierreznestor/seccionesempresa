@@ -133,3 +133,19 @@ CREATE TABLE IF NOT EXISTS logs_perfiles (
 ALTER TABLE logs_perfiles 
   ADD FOREIGN KEY (idUsuario)
   REFERENCES usuarios(idUsuario);
+
+CREATE TABLE IF NOT EXISTS plan_cuentas (
+  Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CodigoPlan VARCHAR(20) UNIQUE NOT NULL,
+  idPlanCuenta INT AUTO_INCREMENT PRIMARY KEY,
+  Nivel INT,
+  Nombre VARCHAR(35) NOT NULL,
+  Tipo INT
+);
+
+INSERT INTO plan_cuentas (CodigoPlan, Nivel, Nombre, Tipo) VALUES
+  ('1', 1, 'ACTIVO', 0),
+  ('1.01', 2, 'ACTIVO CORRIENTE', 0),
+  ('1.01.01', 3, 'DISPONIBILIDADES', 0),
+  ('1.01.02', 3, 'CUENTAS POR COBRAR ', 0);
+  

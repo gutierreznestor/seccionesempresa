@@ -165,6 +165,42 @@ const handler = async (req, res) => {
       null,
       DB,
     );
+    await query(
+      `
+      CREATE TABLE IF NOT EXISTS plan_cuentas (
+        Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        CodigoPlan VARCHAR(20) UNIQUE NOT NULL,
+        idPlanCuenta INT AUTO_INCREMENT PRIMARY KEY,
+        Nivel INT,
+        Nombre VARCHAR(35) NOT NULL,
+        Tipo INT
+      );
+      `,
+      null,
+      DB,
+    );
+    await query(
+      `
+      CREATE TABLE IF NOT EXISTS asientos (
+        Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        Numero INT ,
+        TipoAsiento INT,
+        Renglon INT NOT NULL,
+        idPlanCuenta INT NOT NULL,
+        FechaVencimiento DATE,
+        FechaOperacion DATE,
+        Comprobante VARCHAR(20),
+        DebeHaber INT,
+        Importe FLOAT NOT NULL,
+        Leyenda VARCHAR(30),
+        OkCarga INT,
+        Registrado INT,
+        PRIMARY KEY (Numero, Renglon)
+      );
+      `,
+      null,
+      DB,
+    );
     return await res.status(201).json({ message: 'Tablas creadas correcamente.' })
   } catch (error) {
     const message = error.message.includes('ER_DB_CREATE_EXISTS') ? `Ya existe una base con ese nombre.` : error.message;

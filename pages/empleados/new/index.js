@@ -52,7 +52,6 @@ const NuevoEmpleado = ({ user, db }) => {
 
   return (
     <Layout title='Nuevo empleado' user={user}>
-      <h1>Nuevo empleado</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form onFormSubmit={onSubmit} config={NuevoEmpleadoForm} />
       <Button label="Ver/Ocultar Secciones" onClick={() => setShowSeccionesEmpresa(prev => !prev)} />
