@@ -201,6 +201,15 @@ const handler = async (req, res) => {
       null,
       DB,
     );
+    await query(
+      `
+      ALTER TABLE asientos 
+      ADD FOREIGN KEY (idPlanCuenta)
+      REFERENCES plan_cuentas(idPlanCuenta);
+      `,
+      null,
+      DB,
+    );
     return await res.status(201).json({ message: 'Tablas creadas correcamente.' })
   } catch (error) {
     const message = error.message.includes('ER_DB_CREATE_EXISTS') ? `Ya existe una base con ese nombre.` : error.message;
