@@ -1,5 +1,5 @@
 import { query } from '../../../lib/db';
-import getParent from './getParent';
+import getParent from './helpers/getParent';
 
 const handler = async (req, res) => {
   const { id } = req.query;

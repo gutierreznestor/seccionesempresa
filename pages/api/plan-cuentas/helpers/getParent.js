@@ -1,5 +1,5 @@
-import getParent from "../../../helpers/getParent";
-import { query } from "../../../lib/db";
+import getParent from "./getParentString";
+import { query } from "../../../../lib/db";
 
 const parent = async ({ db, CodigoPlan }) => {
   const parent = getParent(CodigoPlan);

@@ -1,6 +1,6 @@
 import { query } from '../../../lib/db';
-import getNivel from '../../../helpers/getNivel';
-import getParent from './getParent';
+import getNivel from './helpers/getNivel';
+import getParent from './helpers/getParent';
 
 const handler = async (req, res) => {
   const { CodigoPlan, Nombre, db, Tipo } = req.body;
