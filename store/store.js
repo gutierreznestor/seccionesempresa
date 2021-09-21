@@ -3,6 +3,7 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 
+import asientosReducer from './asientos';
 import authReducer from './auth';
 import copiasSeguridadReducer from './copiasSeguridad';
 import empleadosReducer from './empleados';
@@ -19,6 +20,7 @@ const sagaMiddleware = createSagaMiddleware();
 const routerMiddleware = createRouterMiddleware();
 
 const rootReducer = combineReducers({
+  asientos: asientosReducer,
   auth: authReducer,
   copiasSeguridad: copiasSeguridadReducer,
   empleados: empleadosReducer,
