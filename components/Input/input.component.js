@@ -1,14 +1,25 @@
 import React from 'react';
 import { StyledInput } from './input.styled';
 
-const Input = React.forwardRef(({ type, name, defaultValue = '', ...props }, ref) => {
+const Input = React.forwardRef(({
+  defaultValue = '',
+  max,
+  min,
+  name,
+  step = 1,
+  type,
+  ...props
+}, ref) => {
   return (
     <StyledInput
       defaultValue={defaultValue}
       id={name}
       name={name}
-      type={type}
+      max={max}
+      min={min}
       ref={ref}
+      step={step}
+      type={type}
       {...props} />
   )
 });

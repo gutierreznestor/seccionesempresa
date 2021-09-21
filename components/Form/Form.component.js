@@ -36,15 +36,21 @@ const Form = ({
       {config.map(({
         label,
         type,
+        max,
+        min,
         name,
         placeholder,
         validations,
+        step,
         textValidation,
       }) => (
         <StyledInputLabel key={name}>
           <StyledLabel>{label}</StyledLabel>
           <Input
+            max={max}
+            min={min}
             type={type}
+            step={step}
             placeholder={placeholder}
             {...register(name, { ...validations })}
           />

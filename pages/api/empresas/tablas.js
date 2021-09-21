@@ -187,6 +187,7 @@ const handler = async (req, res) => {
         TipoAsiento INT,
         Renglon INT NOT NULL,
         idPlanCuenta INT NOT NULL,
+        Fecha DATE,
         FechaVencimiento DATE,
         FechaOperacion DATE,
         Comprobante VARCHAR(20),

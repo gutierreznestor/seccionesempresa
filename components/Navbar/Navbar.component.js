@@ -31,7 +31,7 @@ const Navbar = ({ user = null }) => {
     },
     {
       label: 'Contabilidad',
-      url: '/contabilidad/plan-cuentas',
+      url: '/contabilidad',
       allowed: isAllowed(['auditor', 'supervisor', 'admin'], user?.Perfiles)
     },
     {
