@@ -1,0 +1,46 @@
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelectAsientos } from '../selectors';
+import {
+  newAsiento,
+  getAsientos,
+  deleteAsiento as deleteA
+} from '../store/asientos';
+
+const useAsientos = ({ db, user }) => {
+  const dispatch = useDispatch();
+  const {
+    asientos,
+    errorMessage,
+    loading,
+    message,
+  } = useSelectAsientos();
+
+  const fetchAsientos = () => {
+    dispatch(getAsientos(db));
+  }
+
+  const createAsiento = ({ Nombre, Apellido, idSeccionEmpresa }) => {
+    dispatch(newAsiento({ db, Nombre, Apellido, idSeccionEmpresa, user }));
+  }
+
+  const deleteAsiento = (id) => {
+    dispatch(deleteA({ db, id, user }));
+  }
+
+  return {
+    data: {
+      asientos,
+      errorMessage,
+      loading,
+      message,
+    },
+    handlers: {
+      createAsiento,
+      deleteAsiento,
+      fetchAsientos,
+    },
+  }
+};
+
+export default useAsientos;
