@@ -14,6 +14,7 @@ const Asientos = ({ user, db }) => {
       asientos,
     },
     handlers: {
+      deleteAsiento,
       fetchAsientos,
     },
   } = useAsientos({ db, user });
@@ -21,6 +22,10 @@ const Asientos = ({ user, db }) => {
   React.useEffect(() => {
     fetchAsientos();
   }, []);
+
+  const onDelete = ({ Numero, Renglon }) => {
+    deleteAsiento({ Numero, Renglon });
+  };
 
   return (
     <Layout title='Asientos' user={user}>
@@ -34,6 +39,7 @@ const Asientos = ({ user, db }) => {
         data={asientos}
         user={user}
         notAllowed={['auditor']}
+        onDelete={onDelete}
         path='asientos'
         showViewButton
       />

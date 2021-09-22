@@ -40,9 +40,9 @@ const Form = ({
         min,
         name,
         placeholder,
-        validations,
         step,
         textValidation,
+        validations,
       }) => (
         <StyledInputLabel key={name}>
           <StyledLabel>{label}</StyledLabel>

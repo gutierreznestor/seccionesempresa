@@ -1,10 +1,10 @@
 import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
-  const { Numero, Renglon, db } = req.body
+  const { Numero, Renglon, db } = req.body;
   try {
     if (!Numero || !Renglon) {
-      return res
+      if (Renglon !== 0) return res
         .status(400)
         .json({ errorMessage: 'Se requiere el Número y Renglón de asiento.' })
     }

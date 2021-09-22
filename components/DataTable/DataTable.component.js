@@ -8,6 +8,14 @@ import Button from '../Button/Button.component';
 import ButtonTable from '../ButtonTable/ButtonTable.component';
 import { TableContainer } from './DataTable.styled';
 
+const pathId = ({ path, row, columns }) => {
+  return `${path}/${row[columns[0]]}`;
+}
+
+const pathAsiento = ({ path, row, columns }) => {
+  return `${path}/edit?Numero=${row[columns[0]]}&Renglon=${row[columns[1]]}`;
+}
+
 const DataTable = ({
   allowPrint,
   allowDelete,
@@ -46,7 +54,7 @@ const DataTable = ({
                       {
                         showViewButton &&
                         <td>
-                          <Link href={`${path}/${row[columns[0]]}`} passHref>
+                          <Link href={path === 'asientos' ? pathAsiento({ path, row, columns }) : pathId({ path, row, columns })} passHref>
                             <ButtonTable
                               type='Ver' />
                           </Link>
@@ -57,7 +65,13 @@ const DataTable = ({
                           <ButtonTable
                             enabled={!isAllowed(notAllowed, user?.Perfiles)}
                             type='Eliminar'
-                            onClick={() => onDelete(row[columns[0]])} />
+                            onClick={() => {
+                              if (path === 'asientos') {
+                                onDelete({ Numero: row[columns[0]], Renglon: row[columns[1]] });
+                              } else {
+                                onDelete(row[columns[0]]);
+                              }
+                            }} />
                         </td>
                       }
                     </>

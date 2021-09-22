@@ -24,8 +24,8 @@ const useAsientos = ({ db, user }) => {
     dispatch(newAsiento({ ...data, db, user }));
   }
 
-  const deleteAsiento = (id) => {
-    dispatch(deleteA({ db, id, user }));
+  const deleteAsiento = ({ Numero, Renglon }) => {
+    dispatch(deleteA({ db, Numero, Renglon }));
   }
 
   return {
