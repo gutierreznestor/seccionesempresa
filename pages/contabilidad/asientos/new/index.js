@@ -4,7 +4,7 @@ import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import customServerSideHoc from '../../../../helpers/customServerSideProps';
-import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
+import useAsientos from '../../../../customHooks/useAsientos';
 
 
 const NuevoAsientoForm = [
@@ -18,12 +18,12 @@ const NuevoAsientoForm = [
     min: 1,
   },
   {
-    label: 'Tipo',
+    label: 'Tipo asiento (1/5/9)',
     type: 'number',
-    name: 'Tipos',
+    name: 'TipoAsiento',
     placeholder: '1',
     validations: { required: true, min: 0, max: 9 },
-    textValidation: 'Elija entre 1, 5 o 9.',
+    textValidation: '1 apertura; 5 normal; 9 cierre',
   },
   {
     label: 'Número de cuenta',
@@ -63,8 +63,6 @@ const NuevoAsientoForm = [
     type: 'text',
     name: 'Comprobante',
     placeholder: '99',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
   },
   {
     label: 'Debe / Haber',
@@ -90,22 +88,19 @@ const NuevoAsientoForm = [
     type: 'text',
     name: 'Leyenda',
     placeholder: 'Internet',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
   },
 ];
 
 const NuevoAsiento = ({ user, db }) => {
+
   const {
     data: { errorMessage },
-    handlers: { createPlanCuenta }
-  } = usePlanCuentas({ db, user });
+    handlers: { createAsiento }
+  } = useAsientos({ db, user });
 
 
-  const onSubmit = async (data) => {
-    console.log('data', data);
-    // const { CodigoPlan, Nombre, Tipo } = data;
-    // createPlanCuenta({ CodigoPlan, Nombre, Tipo });
+  const onSubmit = (data) => {
+    createAsiento(data);
   }
 
   return (

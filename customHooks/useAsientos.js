@@ -20,8 +20,8 @@ const useAsientos = ({ db, user }) => {
     dispatch(getAsientos(db));
   }
 
-  const createAsiento = ({ Nombre, Apellido, idSeccionEmpresa }) => {
-    dispatch(newAsiento({ db, Nombre, Apellido, idSeccionEmpresa, user }));
+  const createAsiento = (data) => {
+    dispatch(newAsiento({ ...data, db, user }));
   }
 
   const deleteAsiento = (id) => {

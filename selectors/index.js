@@ -1,3 +1,4 @@
+export { useSelectAsientos } from './useSelectAsientos';
 export { useSelectAuth } from './useSelectAuth';
 export { useSelectCopiasSeguridad } from './useSelectCopiasSeguridad';
 export { useSelectEmpleados } from './useSelectEmpleados';
