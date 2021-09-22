@@ -17,7 +17,7 @@ const getChildren = async ({ db, CodigoPlan }) => {
       children.push(result);
     }
   });
-  return results;
+  return children;
 }
 
 export default getChildren;
