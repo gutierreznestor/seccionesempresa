@@ -13,7 +13,7 @@ const handler = async (req, res) => {
     Leyenda,
     Numero,
     TipoAsiento,
-  } = req.body
+  } = req.body;
   try {
     if (!db || !DebeHaber || !Fecha || !FechaOperacion || !FechaVencimiento || !idPlanCuenta || !Importe || !Numero || !TipoAsiento) {
       return res

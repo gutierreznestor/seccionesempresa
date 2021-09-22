@@ -183,7 +183,7 @@ const handler = async (req, res) => {
       `
       CREATE TABLE IF NOT EXISTS asientos (
         Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        Numero INT ,
+        Numero INT,
         TipoAsiento INT,
         Renglon INT NOT NULL,
         idPlanCuenta INT NOT NULL,
