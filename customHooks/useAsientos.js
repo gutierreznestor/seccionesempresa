@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelectAsientos } from '../selectors';
 import {
   newAsiento,
+  getAsiento,
   getAsientos,
   deleteAsiento as deleteA
 } from '../store/asientos';
@@ -11,6 +12,7 @@ const useAsientos = ({ db, user }) => {
   const dispatch = useDispatch();
   const {
     asientos,
+    currentAsiento,
     errorMessage,
     loading,
     message,
@@ -28,9 +30,14 @@ const useAsientos = ({ db, user }) => {
     dispatch(deleteA({ db, Numero, Renglon }));
   }
 
+  const fetchAsiento = ({ Numero, Renglon }) => {
+    dispatch(getAsiento({ db, Numero, Renglon }));
+  }
+
   return {
     data: {
       asientos,
+      currentAsiento,
       errorMessage,
       loading,
       message,
@@ -38,6 +45,7 @@ const useAsientos = ({ db, user }) => {
     handlers: {
       createAsiento,
       deleteAsiento,
+      fetchAsiento,
       fetchAsientos,
     },
   }

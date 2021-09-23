@@ -18,6 +18,15 @@ const NuevoAsientoForm = [
     min: 1,
   },
   {
+    label: 'Renglón',
+    type: 'number',
+    name: 'Renglon',
+    placeholder: '99',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+    min: 0,
+  },
+  {
     label: 'Tipo asiento (1/5/9)',
     type: 'number',
     name: 'TipoAsiento',

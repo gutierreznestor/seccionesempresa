@@ -12,6 +12,7 @@ const handler = async (req, res) => {
     Importe,
     Leyenda,
     Numero,
+    Renglon,
     TipoAsiento,
   } = req.body;
   try {
@@ -23,10 +24,11 @@ const handler = async (req, res) => {
     const results = await query(
       `
       INSERT INTO asientos (Comprobante, DebeHaber, Fecha, FechaOperacion, FechaVencimiento, 
-        idPlanCuenta, Importe, Leyenda, Numero, TipoAsiento)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        idPlanCuenta, Importe, Leyenda, Numero, TipoAsiento, OkCarga, Registrado, Renglon)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
       `,
-      [Comprobante, DebeHaber, Fecha, FechaOperacion, FechaVencimiento, idPlanCuenta, Importe, Leyenda, Numero, TipoAsiento],
+      [Comprobante, DebeHaber, Fecha, FechaOperacion, FechaVencimiento, idPlanCuenta, Importe, Leyenda,
+        Numero, TipoAsiento, 0, 0, Renglon],
       db,
     )
 

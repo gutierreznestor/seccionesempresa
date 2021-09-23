@@ -22,7 +22,19 @@ export const asientosSlice = createSlice({
     deleteAsientoError(state, { payload }) {
       state.loading = false;
       state.errorMessage = payload;
-      state.currentAsiento = null;
+    },
+    getAsiento(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    getAsientoSuccess(state, { payload }) {
+      state.loading = false;
+      state.currentAsiento = payload;
+    },
+    getAsientoError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
     },
     getAsientos(state, action) {
       state.loading = true;
@@ -58,6 +70,9 @@ export const {
   deleteAsiento,
   deleteAsientoSuccess,
   deleteAsientoError,
+  getAsiento,
+  getAsientoSuccess,
+  getAsientoError,
   getAsientos,
   getAsientosSuccess,
   getAsientosError,

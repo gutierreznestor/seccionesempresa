@@ -15,6 +15,7 @@ function* create({
     Leyenda,
     Numero,
     TipoAsiento,
+    Renglon,
   },
 }) {
   try {
@@ -36,6 +37,7 @@ function* create({
         Leyenda,
         Numero,
         TipoAsiento,
+        Renglon,
       }),
     });
     const data = yield res.json()
