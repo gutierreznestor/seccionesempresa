@@ -1,7 +1,6 @@
 import { query } from '../../../lib/db'
 
 const handler = async (req, res) => {
-  const { Numero, Renglon } = req.query;
   const {
     Comprobante,
     db,
@@ -14,6 +13,7 @@ const handler = async (req, res) => {
     Leyenda,
     Numero,
     TipoAsiento,
+    Renglon,
   } = req.body;
   try {
     if (!Numero || !Renglon) {
@@ -35,7 +35,7 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    res.status(400).json({ errorMessage: 'No existe el id de la sección de empresa.' })
+    res.status(400).json({ errorMessage: e.message })
   }
 }
 

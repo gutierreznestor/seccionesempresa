@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectAsientos } from '../selectors';
 import {
+  editAsiento as editA,
   newAsiento,
   getAsiento,
   getAsientos,
@@ -30,6 +31,10 @@ const useAsientos = ({ db, user }) => {
     dispatch(deleteA({ db, Numero, Renglon }));
   }
 
+  const editAsiento = (data) => {
+    dispatch(editA({ ...data, db, user }));
+  }
+
   const fetchAsiento = ({ Numero, Renglon }) => {
     dispatch(getAsiento({ db, Numero, Renglon }));
   }
@@ -45,6 +50,7 @@ const useAsientos = ({ db, user }) => {
     handlers: {
       createAsiento,
       deleteAsiento,
+      editAsiento,
       fetchAsiento,
       fetchAsientos,
     },
