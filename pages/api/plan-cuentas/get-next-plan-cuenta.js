@@ -15,7 +15,8 @@ const handler = async (req, res) => {
     const lastChild = await getLastChild({ db, CodigoPlan: planCuenta.CodigoPlan });
     console.log('lastChild: ', lastChild);
     if (!lastChild) {
-      return res.status(200).json({ CodigoPlan: '01' });
+      const firstChild = planCuenta.CodigoPlan + '.01';
+      return res.status(200).json({ CodigoPlan: firstChild });
     }
     const nextCodigo = await getNextCodigoPlan({ db, CodigoPlan: lastChild.CodigoPlan });
     console.log('nextCodigo: ', nextCodigo);
