@@ -16,6 +16,7 @@ export const useSelectPlanCuentas = () => {
     errorMessage: planCuentas?.errorMessage,
     loading: planCuentas?.loading,
     message: planCuentas?.message,
+    nextPlanCuenta: planCuentas?.nextPlanCuenta,
     planesCuentas: planCuentas?.list,
     planesCuentasDropdown: apiToDropdown(planCuentas?.list),
   };
