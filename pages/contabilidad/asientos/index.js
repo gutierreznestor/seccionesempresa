@@ -24,8 +24,11 @@ const Asientos = ({ user, db }) => {
   }, []);
 
   const onDelete = ({ Numero, Renglon }) => {
-    deleteAsiento({ Numero, Renglon });
-  };
+    const ok = confirm('¿Quieres eliminar el asiento?');
+    if (ok) {
+      deleteAsiento({ Numero, Renglon });
+    }
+  }
 
   return (
     <Layout title='Asientos' user={user}>
