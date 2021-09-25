@@ -8,6 +8,9 @@ import {
 function asientoToUiModel(data) {
   return {
     ...data,
+    Fecha: new Date(data.Fecha),
+    FechaOperacion: new Date(data.FechaOperacion),
+    FechaVencimiento: new Date(data.FechaVencimiento),
   }
 }
 

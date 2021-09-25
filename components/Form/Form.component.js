@@ -19,7 +19,13 @@ const Form = ({
   watching = () => { },
   children,
 }) => {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm({ defaultValues: { ...defaultValues } });
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm({ defaultValues: { ...defaultValues } });
 
   const onSubmit = data => {
     onFormSubmit(data);
@@ -52,6 +58,7 @@ const Form = ({
             type={type}
             step={step}
             placeholder={placeholder}
+            control={control}
             {...register(name, { ...validations })}
           />
           {errors[name] && <ErrorField>{textValidation}</ErrorField>}

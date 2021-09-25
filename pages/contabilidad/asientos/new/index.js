@@ -115,7 +115,11 @@ const NuevoAsiento = ({ user, db }) => {
   return (
     <Layout title='Nuevo asiento' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      <Form onFormSubmit={onSubmit} config={NuevoAsientoForm} />
+      <Form
+        onFormSubmit={onSubmit}
+        config={NuevoAsientoForm}
+        defaultValues={{ Fecha: new Date() }}
+      />
     </Layout>
   )
 }

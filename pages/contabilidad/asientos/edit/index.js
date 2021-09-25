@@ -109,8 +109,6 @@ const EditarAsiento = ({ user, db }) => {
     handlers: { editAsiento, fetchAsiento }
   } = useAsientos({ db, user });
 
-  console.log('currentAsiento: ', currentAsiento);
-
   const onSubmit = (data) => {
     editAsiento(data);
   }
