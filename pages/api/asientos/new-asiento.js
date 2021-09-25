@@ -34,7 +34,18 @@ const handler = async (req, res) => {
 
     return res.json(results)
   } catch (e) {
-    let message = e.message.includes('ER_NO_REFERENCED_ROW_2') ? `El id de la sección de empresa no existe` : e.message;
+    let message = '';
+    switch (true) {
+      case e.message.includes('ER_DUP_ENTRY'):
+        message = 'Ya existe el asiento con el número y renglón ingresado.';
+        break;
+      case e.message.includes('ER_NO_REFERENCED_ROW_2'):
+        message = 'El id de la sección de empresa no existe';
+        break;
+      default:
+        message = 'Ocurrió un error al intentar guardar el asiento.';
+        break;
+    }
     res.status(400).json({ errorMessage: message })
   }
 }
