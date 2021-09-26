@@ -4,8 +4,9 @@ export const useSelectContabilidad = () => {
   const { contabilidad } = useSelector(state => state);
   return {
     currentContabilidad: contabilidad?.currentContabilidad,
+    errorMessage: contabilidad?.errorMessage,
     loading: contabilidad?.loading,
     message: contabilidad?.message,
-    errorMessage: contabilidad?.errorMessage,
+    proximoAsiento: contabilidad?.proximoAsiento,
   };
 }

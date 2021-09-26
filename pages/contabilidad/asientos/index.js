@@ -5,6 +5,7 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.componen
 import DataTable from '../../../components/DataTable/DataTable.component';
 import { isAllowed } from '../../../hocs/auth';
 import useAsientos from '../../../customHooks/useAsientos';
+import useContabilidad from '../../../customHooks/useContabilidad';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
 
 const Asientos = ({ user, db }) => {
@@ -12,16 +13,33 @@ const Asientos = ({ user, db }) => {
     data: {
       errorMessage,
       asientos,
+      proximoAsiento,
     },
     handlers: {
       deleteAsiento,
       fetchAsientos,
+      getProximoAsiento,
     },
   } = useAsientos({ db, user });
+
+  const {
+    data: { currentContabilidad },
+    handlers: { fetchContabilidad },
+  } = useContabilidad({ db });
 
   React.useEffect(() => {
     fetchAsientos();
   }, []);
+
+  React.useEffect(() => {
+    fetchContabilidad();
+  }, []);
+
+  React.useEffect(() => {
+    if (currentContabilidad) {
+      getProximoAsiento({ Numero: currentContabilidad.UltimoAsiento });
+    }
+  }, [currentContabilidad]);
 
   const onDelete = ({ Numero, Renglon }) => {
     const ok = confirm('¿Quieres eliminar el asiento?');
@@ -29,12 +47,11 @@ const Asientos = ({ user, db }) => {
       deleteAsiento({ Numero, Renglon });
     }
   }
-
   return (
     <Layout title='Asientos' user={user}>
       <AppLink
         enabled={!isAllowed(['auditor'], user?.Perfiles)}
-        href='/contabilidad/asientos/new'
+        href={`/contabilidad/asientos/new?Numero=${proximoAsiento?.Numero}&Renglon=${proximoAsiento?.Renglon}`}
         title='Nuevo asiento' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <DataTable

@@ -5,13 +5,15 @@ import editAsiento from './edit';
 import getAsientos from './get';
 import getAsiento from './getOne';
 import newAsiento from './new';
+import getProximoAsiento from './getProximoAsiento';
 
 function* rootSaga() {
   yield all([
     fork(deleteAsiento),
     fork(editAsiento),
-    fork(getAsientos),
     fork(getAsiento),
+    fork(getAsientos),
+    fork(getProximoAsiento),
     fork(newAsiento),
   ]);
 }

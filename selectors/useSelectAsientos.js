@@ -5,8 +5,9 @@ export const useSelectAsientos = () => {
   return {
     asientos: asientos?.list,
     currentAsiento: asientos?.currentAsiento,
+    errorMessage: asientos?.errorMessage,
     loading: asientos?.loading,
     message: asientos?.message,
-    errorMessage: asientos?.errorMessage,
+    proximoAsiento: asientos?.proximoAsiento,
   };
 }

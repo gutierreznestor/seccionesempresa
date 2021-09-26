@@ -6,9 +6,10 @@ import { editContabilidad as editConta, getContabilidad } from '../store/contabi
 const useContabilidad = ({ db }) => {
   const dispatch = useDispatch();
   const {
+    currentContabilidad,
     errorMessage,
     message,
-    currentContabilidad,
+    proximoAsiento,
   } = useSelectContabilidad();
 
   const editContabilidad = (data) => {
@@ -21,9 +22,10 @@ const useContabilidad = ({ db }) => {
 
   return {
     data: {
+      currentContabilidad,
       errorMessage,
       message,
-      currentContabilidad,
+      proximoAsiento,
     },
     handlers: {
       editContabilidad,

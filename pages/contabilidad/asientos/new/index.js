@@ -7,6 +7,7 @@ import HelperCuenta from '../../../../components/HelperCuenta/HelperCuenta.compo
 import customServerSideHoc from '../../../../helpers/customServerSideProps';
 import useAsientos from '../../../../customHooks/useAsientos';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
+import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
 
 
 const NuevoAsientoForm = [
@@ -114,6 +115,8 @@ const NuevoAsiento = ({ user, db }) => {
     handlers: { fetchPlanCuenta }
   } = usePlanCuentas({ db, user });
 
+  const { Numero, Renglon } = useGetAsientoParam();
+
   const onSubmit = (data) => {
     createAsiento(data);
   }
@@ -128,7 +131,11 @@ const NuevoAsiento = ({ user, db }) => {
       <Form
         onFormSubmit={onSubmit}
         config={NuevoAsientoForm}
-        defaultValues={{ Fecha: new Date() }}
+        defaultValues={{
+          Fecha: new Date(),
+          Numero,
+          Renglon
+        }}
         watcher='idPlanCuenta'
         watching={watchingPlanCuenta}
         watchValue={currentPlanCuenta?.Nombre}

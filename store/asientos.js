@@ -3,11 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 export const asientosSlice = createSlice({
   name: 'asientos',
   initialState: {
+    currentAsiento: null,
+    errorMessage: '',
     list: [],
     loading: false,
     message: '',
-    errorMessage: '',
-    currentAsiento: null,
+    proximoAsiento: null,
   },
   reducers: {
     deleteAsiento(state, action) {
@@ -62,6 +63,20 @@ export const asientosSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    getProximoAsiento(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    getProximoAsientoSuccess(state, { payload }) {
+      state.loading = false;
+      state.proximoAsiento = payload;
+    },
+    getProximoAsientoError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+      state.proximoAsiento = null;
+    },
     newAsiento(state, action) {
       state.loading = true;
       state.message = '';
@@ -92,6 +107,9 @@ export const {
   getAsientos,
   getAsientosSuccess,
   getAsientosError,
+  getProximoAsiento,
+  getProximoAsientoSuccess,
+  getProximoAsientoError,
   newAsiento,
   newAsientoSuccess,
   newAsientoError,
