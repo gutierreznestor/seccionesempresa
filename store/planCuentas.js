@@ -49,6 +49,7 @@ export const planCuentasSlice = createSlice({
     getPlanCuentaError(state, { payload }) {
       state.loading = false;
       state.errorMessage = payload;
+      state.currentPlanCuenta = null;
     },
     getPlanesCuentas(state, action) {
       state.loading = true;

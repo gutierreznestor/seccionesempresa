@@ -3,13 +3,15 @@ import React from 'react';
 import Form from '../../../../components/Form/Form.component';
 import Layout from '../../../../components/Layout';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
+import HelperCuenta from '../../../../components/HelperCuenta/HelperCuenta.component';
 import customServerSideHoc from '../../../../helpers/customServerSideProps';
 import useAsientos from '../../../../customHooks/useAsientos';
+import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 
 
 const NuevoAsientoForm = [
   {
-    label: 'Número de asiento',
+    label: 'Asiento',
     type: 'number',
     name: 'Numero',
     placeholder: '99',
@@ -35,7 +37,7 @@ const NuevoAsientoForm = [
     textValidation: '1 apertura; 5 normal; 9 cierre',
   },
   {
-    label: 'Número de cuenta',
+    label: 'Cuenta',
     type: 'number',
     name: 'idPlanCuenta',
     placeholder: '99',
@@ -74,7 +76,7 @@ const NuevoAsientoForm = [
     placeholder: '99',
   },
   {
-    label: 'Debe / Haber',
+    label: '0 Debe / 1 Haber',
     type: 'number',
     name: 'DebeHaber',
     placeholder: '0',
@@ -107,9 +109,17 @@ const NuevoAsiento = ({ user, db }) => {
     handlers: { createAsiento }
   } = useAsientos({ db, user });
 
+  const {
+    data: { currentPlanCuenta },
+    handlers: { fetchPlanCuenta }
+  } = usePlanCuentas({ db, user });
 
   const onSubmit = (data) => {
     createAsiento(data);
+  }
+
+  const watchingPlanCuenta = (value) => {
+    fetchPlanCuenta(value);
   }
 
   return (
@@ -119,6 +129,10 @@ const NuevoAsiento = ({ user, db }) => {
         onFormSubmit={onSubmit}
         config={NuevoAsientoForm}
         defaultValues={{ Fecha: new Date() }}
+        watcher='idPlanCuenta'
+        watching={watchingPlanCuenta}
+        watchValue={currentPlanCuenta?.Nombre}
+        helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
       />
     </Layout>
   )
