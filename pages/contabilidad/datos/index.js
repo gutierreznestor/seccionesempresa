@@ -54,7 +54,7 @@ const ContabilidadForm = [
 const DatosContabilidad = ({ user, db }) => {
   const {
     data: { errorMessage, currentContabilidad },
-    handlers: { fetchContabilidad }
+    handlers: { editContabilidad, fetchContabilidad }
   } = useContabilidad({ db, user });
 
   React.useEffect(() => {
@@ -62,7 +62,7 @@ const DatosContabilidad = ({ user, db }) => {
   }, []);
 
   const onSubmit = (values) => {
-    console.log('values: ', values);
+    editContabilidad(values);
   }
 
   return (

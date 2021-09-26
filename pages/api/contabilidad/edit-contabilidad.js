@@ -3,21 +3,25 @@ import { query } from '../../../lib/db'
 const handler = async (req, res) => {
   const { db, id = 1 } = req.query;
   const {
-    NombreEmpresa,
     AperturaEjercicio,
+    NombreEmpresa,
     CierreEjercicio,
     UltimaEmisionLibroDiario,
     UltimoAsiento,
   } = req.body;
+  console.log({
+    AperturaEjercicio,
+    NombreEmpresa,
+    CierreEjercicio,
+    UltimaEmisionLibroDiario,
+    UltimoAsiento,
+  });
   try {
     const results = await query(
       `
       UPDATE contabilidad
-      SET NombreEmpresa = ?,
-      SET AperturaEjercicio = ?,
-      SET CierreEjercicio = ?,
-      SET UltimaEmisionLibroDiario = ?,
-      SET UltimoAsiento = ?
+        SET NombreEmpresa = ?, AperturaEjercicio = ?, CierreEjercicio = ?, 
+        UltimaEmisionLibroDiario = ?, UltimoAsiento = ?
       WHERE idContabilidad = ?
       `,
       [

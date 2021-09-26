@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelectContabilidad } from '../selectors';
-import { getContabilidad } from '../store/contabilidad';
+import { editContabilidad as editConta, getContabilidad } from '../store/contabilidad';
 
 const useContabilidad = ({ db }) => {
   const dispatch = useDispatch();
@@ -10,6 +10,10 @@ const useContabilidad = ({ db }) => {
     message,
     currentContabilidad,
   } = useSelectContabilidad();
+
+  const editContabilidad = (data) => {
+    dispatch(editConta({ ...data, db }));
+  }
 
   const fetchContabilidad = () => {
     dispatch(getContabilidad(db));
@@ -22,6 +26,7 @@ const useContabilidad = ({ db }) => {
       currentContabilidad,
     },
     handlers: {
+      editContabilidad,
       fetchContabilidad,
     },
   }
