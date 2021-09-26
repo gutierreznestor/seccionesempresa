@@ -9,13 +9,6 @@ const handler = async (req, res) => {
     UltimaEmisionLibroDiario,
     UltimoAsiento,
   } = req.body;
-  console.log({
-    AperturaEjercicio,
-    NombreEmpresa,
-    CierreEjercicio,
-    UltimaEmisionLibroDiario,
-    UltimoAsiento,
-  });
   try {
     const results = await query(
       `

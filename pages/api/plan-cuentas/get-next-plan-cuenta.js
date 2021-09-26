@@ -11,15 +11,12 @@ const handler = async (req, res) => {
         .status(400)
         .json({ errorMessage: 'El plan de cuenta no existe.' })
     }
-    console.log('planCuenta: ', planCuenta);
     const lastChild = await getLastChild({ db, CodigoPlan: planCuenta.CodigoPlan });
-    console.log('lastChild: ', lastChild);
     if (!lastChild) {
       const firstChild = planCuenta.CodigoPlan + '.01';
       return res.status(200).json({ CodigoPlan: firstChild });
     }
     const nextCodigo = await getNextCodigoPlan({ db, CodigoPlan: lastChild.CodigoPlan });
-    console.log('nextCodigo: ', nextCodigo);
     return res.status(200).json({ CodigoPlan: nextCodigo });
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })

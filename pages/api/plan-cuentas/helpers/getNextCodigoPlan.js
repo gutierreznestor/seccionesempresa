@@ -1,5 +1,4 @@
 const needToPrependZero = (stringNumber) => {
-  console.log('stringNumber: ', stringNumber);
   if (parseInt(stringNumber) < 10 && stringNumber.length > 1) {
     return true;
   }
