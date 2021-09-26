@@ -214,6 +214,7 @@ const handler = async (req, res) => {
     await query(
       `
       CREATE TABLE IF NOT EXISTS contabilidad (
+        idContabilidad INT AUTO_INCREMENT PRIMARY KEY,
         Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         NombreEmpresa VARCHAR(255) NOT NULL,
         AperturaEjercicio DATE,
