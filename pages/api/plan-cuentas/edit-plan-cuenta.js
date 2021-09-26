@@ -1,5 +1,7 @@
 import { query } from '../../../lib/db';
 import getParent from './helpers/getParent';
+import canEditPlanCuenta from './helpers/canEditPlanCuenta';
+import getPlanCuenta from './helpers/getPlanCuenta';
 
 const handler = async (req, res) => {
   const { id } = req.query;
@@ -14,6 +16,13 @@ const handler = async (req, res) => {
     if (parent.errorMessage) {
       return res.status(400).json({
         errorMessage: 'El plan de cuentas padre no existe'
+      });
+    }
+    const planCuenta = await getPlanCuenta({ db, id });
+    const canEdit = await canEditPlanCuenta({ db, CodigoPlan: planCuenta.CodigoPlan });
+    if (!canEdit) {
+      return res.status(400).json({
+        errorMessage: 'Primero modifique las subcuentas antes de cambiar el código.',
       });
     }
     const results = await query(

@@ -26,7 +26,7 @@ const NuevoPlanCuentaForm = [
     textValidation: 'Este campo es requerido.',
   },
   {
-    label: 'Tipo',
+    label: 'Tipo (0 título; 1 cuenta)',
     type: 'number',
     name: 'Tipo',
     placeholder: '0 título; 1 cuenta',

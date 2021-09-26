@@ -20,7 +20,7 @@ const Form = ({
   config = [],
   buttonLabel = 'Agregar',
   defaultValues = {},
-  helpers,
+  helpers = [],
   watcher = '',
   watching = () => { },
   watchValue = '',
