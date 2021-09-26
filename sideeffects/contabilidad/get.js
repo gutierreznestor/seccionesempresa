@@ -5,6 +5,14 @@ import {
   getContabilidadError,
 } from '../../store/contabilidad';
 
+function contabilidadToUiModel(data) {
+  return {
+    ...data,
+    AperturaEjercicio: new Date(data.AperturaEjercicio),
+    CierreEjercicio: new Date(data.CierreEjercicio),
+    UltimaEmisionLibroDiario: new Date(data.UltimaEmisionLibroDiario),
+  }
+}
 
 function* getCont({ payload }) {
   const res = yield fetch(`http://localhost:3000/api/contabilidad/get-contabilidad?db=${payload}`, {
@@ -14,7 +22,7 @@ function* getCont({ payload }) {
   if (data.errorMessage) {
     yield put(getContabilidadError(data.errorMessage));
   } else {
-    yield put(getContabilidadSuccess(data))
+    yield put(getContabilidadSuccess(contabilidadToUiModel(data)))
   }
 };
 
