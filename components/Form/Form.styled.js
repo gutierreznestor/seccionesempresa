@@ -6,7 +6,7 @@ export const StyledForm = styled.form`
   justify-content: center;
   align-items: center;
   background-color: #f2f2f2;
-  width: 400px;
+  min-width: 400px;
   margin-bottom: 20px;
 `;
 
@@ -19,10 +19,37 @@ export const StyledInputLabel = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   margin: 10px 0px;
+  min-width: 400px;
+  position: relative;
 `;
 
 export const StyledLabel = styled.label`
   margin: 3px 0;
+`;
+
+export const WatchValueDiv = styled.div`
+  margin: 3px 0;
+  color: #0580fa;
+  font-weight: 600;
+  font-size: 1.1rem;
+`;
+
+export const InputHelperContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const InputErrorWatchContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  `;
+
+export const FormFieldContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 `;

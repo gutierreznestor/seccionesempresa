@@ -4,20 +4,26 @@ import { useForm } from 'react-hook-form';
 import Input from '../Input/input.component';
 import Button from '../Button/Button.component';
 import {
-  StyledForm,
   ErrorField,
+  FormFieldContainer,
+  InputErrorWatchContainer,
+  InputHelperContainer,
+  StyledForm,
   StyledInputLabel,
   StyledLabel,
+  WatchValueDiv,
 } from './Form.styled'
 
 const Form = ({
   onFormSubmit,
+  children,
   config = [],
   buttonLabel = 'Agregar',
   defaultValues = {},
+  helpers,
   watcher = '',
   watching = () => { },
-  children,
+  watchValue = '',
 }) => {
   const {
     control,
@@ -35,7 +41,12 @@ const Form = ({
 
   useEffect(() => {
     watching(field)
-  }, [field])
+  }, [field]);
+
+  const getHelper = (name) => {
+    const helper = helpers.find(helper => helper.name === name);
+    return helper ? helper.component : '';
+  }
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -50,19 +61,27 @@ const Form = ({
         textValidation,
         validations,
       }) => (
-        <StyledInputLabel key={name}>
-          <StyledLabel>{label}</StyledLabel>
-          <Input
-            max={max}
-            min={min}
-            type={type}
-            step={step}
-            placeholder={placeholder}
-            control={control}
-            {...register(name, { ...validations })}
-          />
-          {errors[name] && <ErrorField>{textValidation}</ErrorField>}
-        </StyledInputLabel>
+        <FormFieldContainer>
+          <StyledInputLabel key={name}>
+            <StyledLabel>{label}</StyledLabel>
+            <InputHelperContainer>
+              <InputErrorWatchContainer>
+                <Input
+                  max={max}
+                  min={min}
+                  type={type}
+                  step={step}
+                  placeholder={placeholder}
+                  control={control}
+                  {...register(name, { ...validations })}
+                />
+                {watcher === name && watchValue && <WatchValueDiv>{watchValue}</WatchValueDiv>}
+                {errors[name] && <ErrorField>{textValidation}</ErrorField>}
+              </InputErrorWatchContainer>
+            </InputHelperContainer>
+          </StyledInputLabel>
+          {getHelper(name)}
+        </FormFieldContainer>
       ))}
       {children}
       <Button type="submit" label={buttonLabel} />
