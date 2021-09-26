@@ -183,10 +183,11 @@ const handler = async (req, res) => {
       `
       CREATE TABLE IF NOT EXISTS asientos (
         Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        Numero INT ,
+        Numero INT,
         TipoAsiento INT,
         Renglon INT NOT NULL,
         idPlanCuenta INT NOT NULL,
+        Fecha DATE,
         FechaVencimiento DATE,
         FechaOperacion DATE,
         Comprobante VARCHAR(20),
@@ -197,6 +198,15 @@ const handler = async (req, res) => {
         Registrado INT,
         PRIMARY KEY (Numero, Renglon)
       );
+      `,
+      null,
+      DB,
+    );
+    await query(
+      `
+      ALTER TABLE asientos 
+      ADD FOREIGN KEY (idPlanCuenta)
+      REFERENCES plan_cuentas(idPlanCuenta);
       `,
       null,
       DB,

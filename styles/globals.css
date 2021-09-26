@@ -1,3 +1,12 @@
+:root {
+  --dark: #101315;
+  --light: #eeeeee;
+  --gradient: linear-gradient(10deg, #ffaa00, #ff6a00);
+  --gradient2: linear-gradient(15deg, #04ea00, #00d17d);
+  --gradient3: linear-gradient(15deg, #b648ff, #ef5dff);
+  font-size: 1rem;
+}
+
 html,
 body {
   padding: 0;
@@ -39,4 +48,76 @@ button {
   border-radius: 5px;
   min-width: 40px;
   border: 1px solid #ccc;
+}
+
+.modal {
+  min-width: 600px;
+  min-height: 400px;
+  margin: auto;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.orange-gradient {
+  background: var(--light);
+}
+
+.green-gradient {
+  background: var(--gradient2);
+}
+
+.pink {
+  color: #c273ff;
+}
+
+.gray {
+  color: #666666;
+}
+
+.light-blue {
+  color: #00b7ff;
+}
+
+.modal-button {
+  position: relative;
+  
+  padding: 0 3rem;
+  min-height: 3rem;
+  margin: 10px;
+  background-color: #248ddb;
+  color: #f2f2f2;
+}
+
+.save-button {
+  padding: 0 1rem;
+  margin: 2rem auto auto 0;
+  background: var(--gradient);
+  color: var(--dark);
+}
+
+.close-button {
+  padding: 0 2rem;
+  height: 2.5rem;
+  margin: 2rem auto 1rem 0;
+  background: #101111;
+  /* border: 1px dashed #9a9a9a99; */
+  color: #ffaa00;
+  border-radius: 4px;
+  transition: background ease 400ms;
+  box-shadow: 1px 1px 15px #03030399;
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #000000e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

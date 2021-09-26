@@ -5,6 +5,7 @@ import Layout from '../../../../components/Layout';
 import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.component';
 import customServerSideHoc from '../../../../helpers/customServerSideProps';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
+import useGetCuentaParam from '../../../../customHooks/useGetCuentaParam';
 
 
 const NuevoPlanCuentaForm = [
@@ -25,7 +26,7 @@ const NuevoPlanCuentaForm = [
     textValidation: 'Este campo es requerido.',
   },
   {
-    label: 'Tipo',
+    label: 'Tipo (0 título; 1 cuenta)',
     type: 'number',
     name: 'Tipo',
     placeholder: '0 título; 1 cuenta',
@@ -39,6 +40,7 @@ const NuevoPlanCuenta = ({ user, db }) => {
     data: { errorMessage },
     handlers: { createPlanCuenta }
   } = usePlanCuentas({ db, user });
+  const { CodigoPlan } = useGetCuentaParam();
 
 
   const onSubmit = async (data) => {
@@ -49,7 +51,7 @@ const NuevoPlanCuenta = ({ user, db }) => {
   return (
     <Layout title='Nuevo plan de cuenta' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      <Form onFormSubmit={onSubmit} config={NuevoPlanCuentaForm} defaultValues={{ Tipo: 0 }} />
+      <Form onFormSubmit={onSubmit} config={NuevoPlanCuentaForm} defaultValues={{ Tipo: 0, CodigoPlan }} />
     </Layout>
   )
 }

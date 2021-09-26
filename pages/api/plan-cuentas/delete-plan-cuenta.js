@@ -1,6 +1,7 @@
 import { query } from '../../../lib/db';
 import getChildren from './helpers/getChildren';
 import getPlanCuenta from './helpers/getPlanCuenta';
+import canEditPlanCuenta from './helpers/canEditPlanCuenta';
 
 const handler = async (req, res) => {
   const { id } = req.query;
@@ -17,13 +18,12 @@ const handler = async (req, res) => {
         .status(400)
         .json({ errorMessage: 'El plan de cuenta no existe.' })
     }
-    const children = await getChildren({ db, CodigoPlan: planCuenta.CodigoPlan });
-    if (children.length > 0) {
+    const canEdit = await canEditPlanCuenta({ db, CodigoPlan: planCuenta.CodigoPlan });
+    if (!canEdit) {
       return res
         .status(400)
-        .json({ errorMessage: 'El plan de cuenta tiene hijos.' });
+        .json({ errorMessage: 'Primero elimine las subcuentas.' })
     }
-
     const results = await query(
       `
       DELETE FROM plan_cuentas 

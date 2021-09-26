@@ -23,7 +23,7 @@ const PlanCuentas = ({ user, error, db }) => {
     fetchPlanCuentas();
   }, []);
 
-  const onDelete = async (id) => {
+  const onDelete = (id) => {
     const ok = confirm('¿Quieres eliminar el plan de cuentas?');
     if (ok) {
       deletePlanCuenta({

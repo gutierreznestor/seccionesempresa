@@ -8,8 +8,7 @@ const Contabilidad = ({ user }) => {
   return (
     <Layout title='Contabilidad' user={user}>
       <AppLink href='/contabilidad/plan-cuentas' title="Plan de cuentas" />
-      <AppLink href='/contabilidad/empleados' title="Empleados" />
-      <AppLink href='/contabilidad/usuarios' title="Usuarios" />
+      <AppLink href='/contabilidad/asientos' title="Asientos" />
     </Layout>
   )
 }

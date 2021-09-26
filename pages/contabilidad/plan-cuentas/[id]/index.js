@@ -12,12 +12,18 @@ import useGetIdParam from '../../../../customHooks/useGetIdParam';
 const PlanCuenta = ({ db, user }) => {
   const id = useGetIdParam();
   const {
-    data: { errorMessage, loading, currentPlanCuenta },
-    handlers: { fetchPlanCuenta }
+    data: {
+      errorMessage,
+      loading,
+      currentPlanCuenta,
+      nextPlanCuenta,
+    },
+    handlers: { fetchPlanCuenta, getNextPlanCuenta }
   } = usePlanCuentas({ db, user });
 
   React.useEffect(() => {
     fetchPlanCuenta(id);
+    getNextPlanCuenta(id);
   }, []);
 
   return (
@@ -35,6 +41,10 @@ const PlanCuenta = ({ db, user }) => {
         enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href={`/contabilidad/plan-cuentas/edit/${id}`}
         title='Editar' />
+      <AppLink
+        enabled={!isAllowed(['auditor'], user?.Perfiles)}
+        href={`/contabilidad/plan-cuentas/new?CodigoPlan=${nextPlanCuenta ? nextPlanCuenta.CodigoPlan : ''}`}
+        title='Nuevo plan' />
     </Layout>
   )
 }

@@ -6,6 +6,7 @@ import {
   deletePlanCuenta as deletePC,
   newPlanCuenta,
   editPlanCuenta as editPC,
+  getNextPlanCuenta as getNexPC,
 } from '../store/planCuentas';
 
 const usePlanCuentas = ({ db, user }) => {
@@ -14,6 +15,7 @@ const usePlanCuentas = ({ db, user }) => {
     currentPlanCuenta,
     errorMessage,
     message,
+    nextPlanCuenta,
     planesCuentas,
     planesCuentasDropdown,
   } = useSelectPlanCuentas();
@@ -38,11 +40,16 @@ const usePlanCuentas = ({ db, user }) => {
     dispatch(editPC({ id, CodigoPlan, db, Nombre, Tipo, user }));
   }
 
+  const getNextPlanCuenta = (id) => {
+    dispatch(getNexPC({ db, id }));
+  }
+
   return {
     data: {
       currentPlanCuenta,
       errorMessage,
       message,
+      nextPlanCuenta,
       planesCuentas,
       planesCuentasDropdown,
     },
@@ -52,6 +59,7 @@ const usePlanCuentas = ({ db, user }) => {
       editPlanCuenta,
       fetchPlanCuenta,
       fetchPlanCuentas,
+      getNextPlanCuenta,
     },
   }
 };

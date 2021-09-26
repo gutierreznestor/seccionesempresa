@@ -37,7 +37,6 @@ const EditarSeccion = ({ data, user, error }) => {
 
   return (
     <Layout title='Editar sección' user={user}>
-      <h1>Editar sección</h1>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form
         onFormSubmit={onSubmit}
