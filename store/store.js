@@ -5,6 +5,7 @@ import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 
 import asientosReducer from './asientos';
 import authReducer from './auth';
+import contabilidadReducer from './contabilidad';
 import copiasSeguridadReducer from './copiasSeguridad';
 import empleadosReducer from './empleados';
 import empresasReducer from './empresas';
@@ -22,6 +23,7 @@ const routerMiddleware = createRouterMiddleware();
 const rootReducer = combineReducers({
   asientos: asientosReducer,
   auth: authReducer,
+  contabilidad: contabilidadReducer,
   copiasSeguridad: copiasSeguridadReducer,
   empleados: empleadosReducer,
   empresas: empresasReducer,
