@@ -54,7 +54,7 @@ button {
   min-width: 600px;
   min-height: 400px;
   margin: auto;
-  padding: 0 2rem;
+  padding: 1rem 2rem;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -83,10 +83,10 @@ button {
 
 .modal-button {
   position: relative;
-  bottom: 1.5rem;
+  
   padding: 0 3rem;
   min-height: 3rem;
-  margin: auto auto 0 auto;
+  margin: 10px;
   background-color: #248ddb;
   color: #f2f2f2;
 }
