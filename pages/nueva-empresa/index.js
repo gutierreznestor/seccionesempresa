@@ -33,7 +33,6 @@ const NuevaEmpresa = ({ user }) => {
 
   return (
     <Layout title='Nueva empresa' user={user} hideNavbar>
-      <h1>Nueva empresa</h1>
       <Form
         onFormSubmit={onSubmit}
         config={NuevaEmpresaForm}
