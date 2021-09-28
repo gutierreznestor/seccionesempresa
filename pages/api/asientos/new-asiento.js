@@ -32,7 +32,7 @@ const handler = async (req, res) => {
       db,
     )
 
-    return res.json(results)
+    return res.status(201).json(results)
   } catch (e) {
     let message = '';
     switch (true) {

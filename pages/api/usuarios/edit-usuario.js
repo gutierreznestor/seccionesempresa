@@ -18,7 +18,7 @@ const handler = async (req, res) => {
       [Nombre, Apellido, Usuario, id],
     )
 
-    return res.json(results)
+    return res.status(200).json(results)
   } catch (e) {
     const message = e.message.includes('ER_DUP_ENTRY') ? `Ya existe el usuario ${Usuario}.` : 'No se pudo editar el usuario.';
     res.status(400).json({ errorMessage: message })

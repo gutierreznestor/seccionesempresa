@@ -30,7 +30,7 @@ const handler = async (req, res) => {
       db,
     )
 
-    return res.json(results)
+    return res.status(201).json(results)
   } catch (e) {
     const message = e.message.includes('ER_DUP_ENTRY') ?
       `Ya existe una cuenta con el código ${CodigoPlan}` :

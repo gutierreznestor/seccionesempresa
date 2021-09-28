@@ -13,7 +13,7 @@ const handler = async (req, res) => {
         errorMessage: 'No se encontró el plan de cuenta',
       });
     }
-    return res.json(results)
+    return res.status(200).json(results)
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })
   }
