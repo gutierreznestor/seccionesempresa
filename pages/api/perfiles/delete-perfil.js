@@ -16,7 +16,7 @@ const handler = async (req, res) => {
       [id],
     )
 
-    return res.json(results)
+    return res.status(200).json(results)
   } catch (e) {
     res.status(400).json({ errorMessage: 'No se puede eliminar un perfil vinculado a un usuario.' })
   }

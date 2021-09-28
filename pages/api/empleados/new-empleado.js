@@ -17,7 +17,7 @@ const handler = async (req, res) => {
       DB,
     )
 
-    return res.json(results)
+    return res.status(201).json(results)
   } catch (e) {
     let message = e.message.includes('ER_NO_REFERENCED_ROW_2') ? `El id de la sección de empresa no existe` : e.message;
     res.status(400).json({ errorMessage: message })

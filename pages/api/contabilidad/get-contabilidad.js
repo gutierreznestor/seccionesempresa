@@ -15,7 +15,7 @@ const handler = async (req, res) => {
     if (results.length === 0) {
       return res.status(404).send('No se encontraron datos.');
     }
-    return res.json(results[0])
+    return res.status(200).json(results[0])
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })
   }
