@@ -8,6 +8,7 @@ import customServerSideHoc from '../../../../helpers/customServerSideProps';
 import useAsientos from '../../../../customHooks/useAsientos';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
+import useContabilidad from '../../../../customHooks/useContabilidad';
 
 
 const NuevoAsientoForm = [
@@ -30,7 +31,7 @@ const NuevoAsientoForm = [
     min: 0,
   },
   {
-    label: 'Tipo asiento (1/5/9)',
+    label: 'Tipo asiento (1 apertura / 5 normal / 9 cierre)',
     type: 'number',
     name: 'TipoAsiento',
     placeholder: '1',
@@ -111,7 +112,15 @@ const NuevoAsiento = ({ user, db }) => {
   } = useAsientos({ db, user });
 
   const {
-    data: { currentPlanCuenta },
+    handlers: { fetchContabilidad },
+  } = useContabilidad({ db });
+
+  React.useEffect(() => {
+    fetchContabilidad();
+  }, []);
+
+  const {
+    data: { errorMessage: errorPlanCuenta, currentPlanCuenta },
     handlers: { fetchPlanCuenta }
   } = usePlanCuentas({ db, user });
 
@@ -133,12 +142,14 @@ const NuevoAsiento = ({ user, db }) => {
         config={NuevoAsientoForm}
         defaultValues={{
           Fecha: new Date(),
+          FechaOperacion: new Date(),
+          FechaVencimiento: new Date(),
           Numero,
           Renglon
         }}
         watcher='idPlanCuenta'
         watching={watchingPlanCuenta}
-        watchValue={currentPlanCuenta?.Nombre}
+        watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}
         helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
       />
     </Layout>
