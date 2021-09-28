@@ -7,7 +7,8 @@ import {
 
 
 function* getPlan({ payload: { id, db } }) {
-  const res = yield fetch(`http://localhost:3000/api/plan-cuentas/get-plan-cuenta?db=${db}&id=${id}`, {
+  const url = `http://localhost:3000/api/plan-cuentas/get-plan-cuenta?db=${db}&id=${id === undefined ? '' : id}`;
+  const res = yield fetch(url, {
     method: 'GET',
   });
   const data = yield res.json();

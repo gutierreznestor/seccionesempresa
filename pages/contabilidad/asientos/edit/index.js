@@ -28,7 +28,7 @@ const EditarAsientoForm = [
     min: 0,
   },
   {
-    label: 'Tipo asiento (1/5/9)',
+    label: 'Tipo asiento (1 apertura / 5 normal / 9 cierre)',
     type: 'number',
     name: 'TipoAsiento',
     placeholder: '1',

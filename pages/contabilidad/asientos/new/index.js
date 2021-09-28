@@ -107,7 +107,7 @@ const NuevoAsientoForm = [
 const NuevoAsiento = ({ user, db }) => {
 
   const {
-    data: { errorMessage },
+    data: { errorMessage, proximoAsiento },
     handlers: { createAsiento }
   } = useAsientos({ db, user });
 
@@ -131,7 +131,9 @@ const NuevoAsiento = ({ user, db }) => {
   }
 
   const watchingPlanCuenta = (value) => {
-    fetchPlanCuenta(value);
+    if (value) {
+      fetchPlanCuenta(value);
+    }
   }
 
   return (
@@ -144,8 +146,8 @@ const NuevoAsiento = ({ user, db }) => {
           Fecha: new Date(),
           FechaOperacion: new Date(),
           FechaVencimiento: new Date(),
-          Numero,
-          Renglon
+          Numero: proximoAsiento?.Numero ? proximoAsiento.Numero : Numero,
+          Renglon: proximoAsiento?.Renglon ? proximoAsiento.Renglon : Renglon,
         }}
         watcher='idPlanCuenta'
         watching={watchingPlanCuenta}

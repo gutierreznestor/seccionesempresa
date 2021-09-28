@@ -18,12 +18,10 @@ const Asientos = ({ user, db }) => {
     handlers: {
       deleteAsiento,
       fetchAsientos,
-      getProximoAsiento,
     },
   } = useAsientos({ db, user });
 
   const {
-    data: { currentContabilidad },
     handlers: { fetchContabilidad },
   } = useContabilidad({ db });
 
@@ -35,11 +33,6 @@ const Asientos = ({ user, db }) => {
     fetchContabilidad();
   }, []);
 
-  React.useEffect(() => {
-    if (currentContabilidad) {
-      getProximoAsiento({ Numero: currentContabilidad.UltimoAsiento });
-    }
-  }, [currentContabilidad]);
 
   const onDelete = ({ Numero, Renglon }) => {
     const ok = confirm('¿Quieres eliminar el asiento?');
