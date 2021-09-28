@@ -36,7 +36,7 @@ const DataTable = ({
   return (
     <>
       {data && data.length === 0 ?
-        <h3>No hay datos para mostrar.</h3> :
+        <h3>Todavía no hay datos para mostrar.</h3> :
         <>
           {allowPrint && <Button label="Imprimir" onClick={handlePrint} />}
           <TableContainer ref={componentRef}>
