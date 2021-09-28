@@ -6,6 +6,9 @@ import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.compo
 import customServerSideHoc from '../../../../helpers/customServerSideProps';
 import useAsientos from '../../../../customHooks/useAsientos';
 import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
+import { getNextAsientoRef } from '../../../../helpers/getNextAsientoRef';
+import AppLink from '../../../../components/AppLink/AppLink.component';
+import { isAllowed } from '../../../../hocs/auth';
 
 
 const EditarAsientoForm = [
@@ -117,6 +120,8 @@ const EditarAsiento = ({ user, db }) => {
     fetchAsiento({ Numero, Renglon });
   }, []);
 
+  const nuevoAsientoRef = getNextAsientoRef({ Numero, Renglon });
+
   return (
     <Layout title='Asiento' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
@@ -129,6 +134,10 @@ const EditarAsiento = ({ user, db }) => {
         /> :
         'loading...'
       }
+      <AppLink
+        enabled={!isAllowed(['auditor'], user?.Perfiles)}
+        href={nuevoAsientoRef}
+        title='Nuevo renglón' />
     </Layout>
   )
 }
