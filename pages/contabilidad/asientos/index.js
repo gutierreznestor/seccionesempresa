@@ -7,6 +7,7 @@ import { isAllowed } from '../../../hocs/auth';
 import useAsientos from '../../../customHooks/useAsientos';
 import useContabilidad from '../../../customHooks/useContabilidad';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
+import Contabilidad from '../../../components/Contabilidad';
 
 const Asientos = ({ user, db }) => {
   const {
@@ -33,7 +34,6 @@ const Asientos = ({ user, db }) => {
     fetchContabilidad();
   }, []);
 
-
   const onDelete = ({ Numero, Renglon }) => {
     const ok = confirm('¿Quieres eliminar el asiento?');
     if (ok) {
@@ -42,6 +42,7 @@ const Asientos = ({ user, db }) => {
   }
   return (
     <Layout title='Asientos' user={user}>
+      <Contabilidad />
       <AppLink
         enabled={!isAllowed(['auditor'], user?.Perfiles)}
         href={`/contabilidad/asientos/new?Numero=${proximoAsiento?.Numero}&Renglon=${proximoAsiento?.Renglon}`}

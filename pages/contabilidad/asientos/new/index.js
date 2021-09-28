@@ -9,6 +9,7 @@ import useAsientos from '../../../../customHooks/useAsientos';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
 import useContabilidad from '../../../../customHooks/useContabilidad';
+import Contabilidad from '../../../../components/Contabilidad';
 
 
 const NuevoAsientoForm = [
@@ -138,6 +139,7 @@ const NuevoAsiento = ({ user, db }) => {
 
   return (
     <Layout title='Nuevo asiento' user={user}>
+      <Contabilidad />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form
         onFormSubmit={onSubmit}
