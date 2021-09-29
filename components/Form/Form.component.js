@@ -61,8 +61,8 @@ const Form = ({
         textValidation,
         validations,
       }) => (
-        <FormFieldContainer>
-          <StyledInputLabel key={name}>
+        <FormFieldContainer key={name}>
+          <StyledInputLabel>
             <StyledLabel>{label}</StyledLabel>
             <InputHelperContainer>
               <InputErrorWatchContainer>
