@@ -16,7 +16,6 @@ export const contabilidadSlice = createSlice({
     },
     getContabilidadSuccess(state, { payload }) {
       state.loading = false;
-      state.message = payload;
       state.currentContabilidad = payload;
     },
     getContabilidadError(state, { payload }) {

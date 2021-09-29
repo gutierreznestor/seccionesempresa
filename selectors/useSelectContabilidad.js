@@ -10,3 +10,5 @@ export const useSelectContabilidad = () => {
     proximoAsiento: contabilidad?.proximoAsiento,
   };
 }
+
+export const getContabilidad = state => state.contabilidad;

@@ -11,3 +11,5 @@ export const useSelectAsientos = () => {
     proximoAsiento: asientos?.proximoAsiento,
   };
 }
+
+export const getAsientos = state => state.asientos;

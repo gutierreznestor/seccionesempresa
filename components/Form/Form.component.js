@@ -27,9 +27,9 @@ const Form = ({
 }) => {
   const {
     control,
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
     watch,
   } = useForm({ defaultValues: { ...defaultValues } });
 
