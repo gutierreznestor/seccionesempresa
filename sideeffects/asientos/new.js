@@ -1,6 +1,7 @@
 import { put, takeLatest, select } from 'redux-saga/effects';
 import { replace } from 'connected-next-router';
 import { newAsiento, newAsientoSuccess, newAsientoError } from '../../store/asientos';
+import { getContabilidad as getConta } from '../../store/contabilidad';
 import { getContabilidad } from '../../selectors/useSelectContabilidad';
 import { isSameDate } from '../../helpers/dates';
 
@@ -30,7 +31,20 @@ function* validateAsiento(payload) {
   return true;
 }
 
-function* createAsiento() {
+function* createAsiento({
+  Comprobante,
+  db,
+  DebeHaber,
+  Fecha,
+  FechaOperacion,
+  FechaVencimiento,
+  idPlanCuenta,
+  Importe,
+  Leyenda,
+  Numero,
+  TipoAsiento,
+  Renglon,
+}) {
   try {
     let url = `http://localhost:3000/api/asientos/new-asiento`;
     const res = yield fetch(url, {
@@ -69,7 +83,7 @@ function* createAsiento() {
       }),
     });
     yield put(newAsientoSuccess("Asiento creado correctamente."));
-    yield put(getContabilidad(db));
+    yield put(getConta(db));
     yield put(replace('/contabilidad/asientos'));
   } catch (error) {
     yield put(newAsientoError(error.message));
@@ -82,8 +96,7 @@ function* create({
   try {
     const isValid = yield validateAsiento(payload);
     if (isValid) {
-      console.log('valid: ', valid);
-      // createAsiento(payload);
+      yield createAsiento(payload);
     }
   } catch (error) {
     yield put(newAsientoError(error.message))
