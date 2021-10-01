@@ -10,6 +10,7 @@ import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
 import useContabilidad from '../../../../customHooks/useContabilidad';
 import Contabilidad from '../../../../components/Contabilidad';
+import useScroll from '../../../../customHooks/useScroll';
 
 
 const NuevoAsientoForm = [
@@ -107,6 +108,8 @@ const NuevoAsientoForm = [
 
 const NuevoAsiento = ({ user, db }) => {
 
+  const [ref, setRef] = useScroll();
+
   const {
     data: { errorMessage, proximoAsiento },
     handlers: { createAsiento }
@@ -137,10 +140,14 @@ const NuevoAsiento = ({ user, db }) => {
     }
   }
 
+  React.useEffect(() => {
+    if (errorMessage) setRef();
+  }, [errorMessage]);
+
   return (
     <Layout title='Nuevo asiento' user={user}>
       <Contabilidad />
-      {errorMessage && <ErrorMessage message={errorMessage} />}
+      {errorMessage && <ErrorMessage message={errorMessage} ref={ref} />}
       <Form
         onFormSubmit={onSubmit}
         config={NuevoAsientoForm}
