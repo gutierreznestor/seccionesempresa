@@ -1,12 +1,12 @@
 import { all, fork } from 'redux-saga/effects';
 
 import getRegistros from './get';
-import newRegistro from './new';
+import registerAsiento from './registerAsiento';
 
 function* rootSaga() {
   yield all([
     fork(getRegistros),
-    fork(newRegistro),
+    fork(registerAsiento),
   ]);
 }
 
