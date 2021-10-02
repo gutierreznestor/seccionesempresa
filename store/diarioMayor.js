@@ -48,6 +48,19 @@ export const diarioMayorSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    registerAsiento(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    registerAsientoSuccess(state, { payload }) {
+      state.loading = false;
+      state.message = payload;
+    },
+    registerAsientoError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
   },
 });
 
@@ -61,6 +74,9 @@ export const {
   newRegistro,
   newRegistroSuccess,
   newRegistroError,
+  registerAsiento,
+  registerAsientoSuccess,
+  registerAsientoError,
 } = diarioMayorSlice.actions;
 
 export default diarioMayorSlice.reducer;
