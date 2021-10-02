@@ -194,8 +194,8 @@ const handler = async (req, res) => {
         DebeHaber INT,
         Importe FLOAT NOT NULL,
         Leyenda VARCHAR(30),
-        OkCarga INT,
-        Registrado INT,
+        OkCarga INT DEFAULT 0,
+        Registrado INT DEFAULT 0,
         PRIMARY KEY (Numero, Renglon)
       );
       `,
@@ -221,6 +221,29 @@ const handler = async (req, res) => {
         CierreEjercicio DATE,
         UltimaEmisionLibroDiario DATE,
         UltimoAsiento INT NOT NULL
+      );
+      `,
+      null,
+      DB,
+    );
+    await query(
+      `
+      CREATE TABLE IF NOT EXISTS diario_mayor (
+        Creado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        Numero INT,
+        TipoAsiento INT,
+        Renglon INT NOT NULL,
+        idPlanCuenta INT NOT NULL,
+        Fecha DATE,
+        FechaVencimiento DATE,
+        FechaOperacion DATE,
+        Comprobante VARCHAR(20),
+        DebeHaber INT,
+        Importe FLOAT NOT NULL,
+        Leyenda VARCHAR(30),
+        OkCarga INT,
+        Registrado INT DEFAULT 0,
+        PRIMARY KEY (Numero, Renglon)
       );
       `,
       null,
