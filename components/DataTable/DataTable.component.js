@@ -45,7 +45,7 @@ const DataTable = ({
             </thead>
             <tbody>
               {
-                data?.map((row) => <tr key={row?.id}>
+                data?.map((row, idx) => <tr key={row.id ? row.id : idx}>
                   {
                     columns.map((column) => <td key={column}>{row[column]}</td>)
                   }
