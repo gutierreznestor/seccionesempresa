@@ -2,9 +2,20 @@ import React from 'react';
 
 import { StyledButton } from './Button.styled';
 
-const Button = React.forwardRef(({ label = 'button', type = 'button', onClick = () => { } }, ref) => {
+/**
+ * @param {boolean} disabled
+ * @param {string} label
+ * @param {string} type
+ * @param {function} onClick
+ */
+const Button = React.forwardRef(({
+  disabled = false,
+  label = 'button',
+  type = 'button',
+  onClick = () => { },
+}, ref) => {
   return (
-    <StyledButton type={type} ref={ref} onClick={onClick}>
+    <StyledButton type={type} ref={ref} onClick={onClick} disabled={disabled}>
       {label}
     </StyledButton>
   )
