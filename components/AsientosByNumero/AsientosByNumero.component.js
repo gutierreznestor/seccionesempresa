@@ -1,5 +1,6 @@
 import React from 'react';
 import useAsientos from '../../customHooks/useAsientos';
+import useDiarioMayor from '../../customHooks/useDiarioMayor';
 import Button from '../Button/Button.component';
 import DataTable from '../DataTable/DataTable.component';
 import ListItem from '../ListItem';
@@ -9,11 +10,14 @@ const Asiento = ({ db }) => {
   const {
     data: { asientosNumero, diferencia },
   } = useAsientos({ db });
+  const {
+    data: { },
+    handlers: { registerAsiento }
+  } = useDiarioMayor({ db })
 
   const onRegister = () => {
-    console.log('register');
+    registerAsiento({ Numero: diferencia?.Numero });
   }
-
   return (
     <div>
       <DataTable data={asientosNumero} />
@@ -26,7 +30,7 @@ const Asiento = ({ db }) => {
         <div>
           <Button
             label="Registrar"
-            disabled={diferencia != 1}
+            disabled={diferencia?.Diferencia != 0}
             onClick={onRegister}
           />
         </div>
