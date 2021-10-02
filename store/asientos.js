@@ -9,6 +9,7 @@ export const asientosSlice = createSlice({
     loading: false,
     message: '',
     proximoAsiento: null,
+    diferencia: 0,
   },
   reducers: {
     deleteAsiento(state, action) {
@@ -63,6 +64,19 @@ export const asientosSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    getDebeHaber(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    getDebeHaberSuccess(state, { payload }) {
+      state.loading = false;
+      state.diferencia = payload;
+    },
+    getDebeHaberError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
     getProximoAsiento(state, action) {
       state.loading = true;
       state.message = '';
@@ -107,6 +121,9 @@ export const {
   getAsientos,
   getAsientosSuccess,
   getAsientosError,
+  getDebeHaber,
+  getDebeHaberSuccess,
+  getDebeHaberError,
   getProximoAsiento,
   getProximoAsientoSuccess,
   getProximoAsientoError,
@@ -116,3 +133,4 @@ export const {
 } = asientosSlice.actions;
 
 export default asientosSlice.reducer;
+

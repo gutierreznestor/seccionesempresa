@@ -20,7 +20,6 @@ export const StyledInputLabel = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10px 0px;
   min-width: 400px;
   position: relative;
 `;
