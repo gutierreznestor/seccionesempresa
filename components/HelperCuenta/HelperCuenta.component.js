@@ -7,7 +7,6 @@ import { HelperCuentaDiv } from './HelperCuenta.styled';
 
 const HelperCuenta = ({ db, user }) => {
   const { modal, setBody, toggle } = useModal(<h1>asdasd</h1>);
-  const [showList, setShowList] = React.useState(false);
   const {
     data: { planesCuentas },
     handlers: { fetchPlanCuentas },
@@ -24,7 +23,6 @@ const HelperCuenta = ({ db, user }) => {
   return (
     <HelperCuentaDiv>
       <Button label="Mostrar cuentas" onClick={toggle} />
-      {showList && planesCuentas.map(plan => (<div>{plan.Nombre}</div>))}
       {modal}
     </HelperCuentaDiv>
   )

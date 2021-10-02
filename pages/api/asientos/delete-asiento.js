@@ -17,7 +17,7 @@ const handler = async (req, res) => {
       db,
     )
 
-    return res.json(results)
+    return res.status(200).json(results)
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })
   }

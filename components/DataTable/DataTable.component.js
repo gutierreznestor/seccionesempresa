@@ -36,7 +36,7 @@ const DataTable = ({
   return (
     <>
       {data && data.length === 0 ?
-        <h3>No hay datos para mostrar.</h3> :
+        <h3>Todavía no hay datos para mostrar.</h3> :
         <>
           {allowPrint && <Button label="Imprimir" onClick={handlePrint} />}
           <TableContainer ref={componentRef}>
@@ -45,7 +45,7 @@ const DataTable = ({
             </thead>
             <tbody>
               {
-                data?.map((row) => <tr key={row?.id}>
+                data?.map((row, idx) => <tr key={row.id ? row.id : idx}>
                   {
                     columns.map((column) => <td key={column}>{row[column]}</td>)
                   }

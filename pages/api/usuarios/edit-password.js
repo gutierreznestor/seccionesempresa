@@ -18,7 +18,7 @@ const handler = async (req, res) => {
       [Password, id],
     )
 
-    return res.json(results)
+    return res.status(200).json(results)
   } catch (e) {
     res.status(400).json({ errorMessage: 'No se pudo editar el password.' })
   }

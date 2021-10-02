@@ -78,6 +78,26 @@ const handler = async (req, res) => {
       [3, 3],
       DB,
     );
+    await query(
+      `
+      INSERT INTO contabilidad(
+        NombreEmpresa,
+        AperturaEjercicio,
+        CierreEjercicio,
+        UltimaEmisionLibroDiario,
+        UltimoAsiento
+      ) 
+      VALUES (?, ?, ?, ?, ?);
+      `,
+      [
+        DB,
+        '2021-01-01',
+        '2021-12-31',
+        '2020-12-31',
+        1,
+      ],
+      DB,
+    );
 
     res.status(201).json({
       message: 'Datos agregados correctamente.'

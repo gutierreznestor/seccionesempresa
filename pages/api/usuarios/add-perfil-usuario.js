@@ -16,7 +16,7 @@ const handler = async (req, res) => {
       [idUsuario, idPerfil],
     );
 
-    return res.json(results)
+    return res.status(200).json(results)
   } catch (e) {
     res.status(400).json({ errorMessage: e.message })
   }

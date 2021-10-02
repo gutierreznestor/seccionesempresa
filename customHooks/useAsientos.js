@@ -6,17 +6,21 @@ import {
   newAsiento,
   getAsiento,
   getAsientos,
-  deleteAsiento as deleteA
+  deleteAsiento as deleteA,
+  getProximoAsiento as proximo,
 } from '../store/asientos';
 
 const useAsientos = ({ db, user }) => {
   const dispatch = useDispatch();
   const {
     asientos,
+    asientosNumero,
     currentAsiento,
+    diferencia,
     errorMessage,
     loading,
     message,
+    proximoAsiento,
   } = useSelectAsientos();
 
   const fetchAsientos = () => {
@@ -39,13 +43,20 @@ const useAsientos = ({ db, user }) => {
     dispatch(getAsiento({ db, Numero, Renglon }));
   }
 
+  const getProximoAsiento = ({ Numero }) => {
+    dispatch(proximo({ db, Numero }));
+  }
+
   return {
     data: {
       asientos,
+      asientosNumero,
       currentAsiento,
+      diferencia,
       errorMessage,
       loading,
       message,
+      proximoAsiento,
     },
     handlers: {
       createAsiento,
@@ -53,6 +64,7 @@ const useAsientos = ({ db, user }) => {
       editAsiento,
       fetchAsiento,
       fetchAsientos,
+      getProximoAsiento,
     },
   }
 };

@@ -14,9 +14,9 @@ const handler = async (req, res) => {
       [empresa, DB],
       'mainseccionesempresa',
     );
-    return await res.status(201).json(result)
+    return res.status(201).json(result)
   } catch (error) {
-    return await res.status(400).json({ errorMessage: error.message })
+    return res.status(400).json({ errorMessage: error.message })
   }
 };
 

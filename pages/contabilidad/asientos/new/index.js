@@ -7,6 +7,10 @@ import HelperCuenta from '../../../../components/HelperCuenta/HelperCuenta.compo
 import customServerSideHoc from '../../../../helpers/customServerSideProps';
 import useAsientos from '../../../../customHooks/useAsientos';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
+import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
+import useContabilidad from '../../../../customHooks/useContabilidad';
+import Contabilidad from '../../../../components/Contabilidad';
+import useScroll from '../../../../customHooks/useScroll';
 
 
 const NuevoAsientoForm = [
@@ -29,7 +33,7 @@ const NuevoAsientoForm = [
     min: 0,
   },
   {
-    label: 'Tipo asiento (1/5/9)',
+    label: 'Tipo asiento (1 apertura / 5 normal / 9 cierre)',
     type: 'number',
     name: 'TipoAsiento',
     placeholder: '1',
@@ -104,34 +108,60 @@ const NuevoAsientoForm = [
 
 const NuevoAsiento = ({ user, db }) => {
 
+  const [ref, setRef] = useScroll();
+
   const {
-    data: { errorMessage },
+    data: { errorMessage, proximoAsiento },
     handlers: { createAsiento }
   } = useAsientos({ db, user });
 
   const {
-    data: { currentPlanCuenta },
+    handlers: { fetchContabilidad },
+  } = useContabilidad({ db });
+
+  React.useEffect(() => {
+    fetchContabilidad();
+  }, []);
+
+  const {
+    data: { errorMessage: errorPlanCuenta, currentPlanCuenta },
     handlers: { fetchPlanCuenta }
   } = usePlanCuentas({ db, user });
+
+  const { Fecha, Leyenda, Numero, Renglon, TipoAsiento } = useGetAsientoParam();
 
   const onSubmit = (data) => {
     createAsiento(data);
   }
 
   const watchingPlanCuenta = (value) => {
-    fetchPlanCuenta(value);
+    if (value) {
+      fetchPlanCuenta(value);
+    }
   }
 
+  React.useEffect(() => {
+    if (errorMessage) setRef();
+  }, [errorMessage]);
   return (
     <Layout title='Nuevo asiento' user={user}>
-      {errorMessage && <ErrorMessage message={errorMessage} />}
+      <Contabilidad />
+      {errorMessage && <ErrorMessage message={errorMessage} ref={ref} />}
       <Form
         onFormSubmit={onSubmit}
         config={NuevoAsientoForm}
-        defaultValues={{ Fecha: new Date() }}
+        defaultValues={{
+          Fecha: Fecha ? Fecha : new Date(),
+          FechaOperacion: new Date(),
+          FechaVencimiento: new Date(),
+          Leyenda,
+          Numero: proximoAsiento?.Numero ? proximoAsiento.Numero : Numero,
+          Renglon: proximoAsiento?.Renglon ? proximoAsiento.Renglon : Renglon,
+          TipoAsiento,
+        }}
         watcher='idPlanCuenta'
         watching={watchingPlanCuenta}
-        watchValue={currentPlanCuenta?.Nombre}
+        watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}
         helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
       />
     </Layout>

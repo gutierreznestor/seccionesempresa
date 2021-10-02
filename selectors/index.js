@@ -1,5 +1,6 @@
 export { useSelectAsientos } from './useSelectAsientos';
 export { useSelectAuth } from './useSelectAuth';
+export { useSelectContabilidad } from './useSelectContabilidad';
 export { useSelectCopiasSeguridad } from './useSelectCopiasSeguridad';
 export { useSelectEmpleados } from './useSelectEmpleados';
 export { useSelectEmpresas } from './useSelectEmpresas';

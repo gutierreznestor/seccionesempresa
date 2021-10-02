@@ -9,5 +9,5 @@ export default (req, res) => {
   const dir = path.resolve('./backups', dirRelativeToPublicFolder);
 
   const dataSql = fs.readFileSync(dir, 'utf-8').toString().replace(/\r|\n/g, '');
-  res.json({ data: dataSql });
+  res.status(200).json({ data: dataSql });
 }

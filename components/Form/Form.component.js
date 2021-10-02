@@ -27,9 +27,9 @@ const Form = ({
 }) => {
   const {
     control,
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
     watch,
   } = useForm({ defaultValues: { ...defaultValues } });
 
@@ -61,8 +61,8 @@ const Form = ({
         textValidation,
         validations,
       }) => (
-        <FormFieldContainer>
-          <StyledInputLabel key={name}>
+        <FormFieldContainer key={name}>
+          <StyledInputLabel>
             <StyledLabel>{label}</StyledLabel>
             <InputHelperContainer>
               <InputErrorWatchContainer>

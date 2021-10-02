@@ -32,7 +32,7 @@ const handler = async (req, res) => {
       db,
     )
 
-    return res.json(results)
+    return res.status(201).json(results)
   } catch (e) {
     let message = '';
     switch (true) {
@@ -40,7 +40,7 @@ const handler = async (req, res) => {
         message = 'Ya existe el asiento con el número y renglón ingresado.';
         break;
       case e.message.includes('ER_NO_REFERENCED_ROW_2'):
-        message = 'El id de la sección de empresa no existe';
+        message = 'El id de la cuenta no existe';
         break;
       default:
         message = 'Ocurrió un error al intentar guardar el asiento.';

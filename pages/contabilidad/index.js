@@ -9,6 +9,7 @@ const Contabilidad = ({ user }) => {
     <Layout title='Contabilidad' user={user}>
       <AppLink href='/contabilidad/plan-cuentas' title="Plan de cuentas" />
       <AppLink href='/contabilidad/asientos' title="Asientos" />
+      <AppLink href='/contabilidad/datos' title="Datos contabilidad" />
     </Layout>
   )
 }

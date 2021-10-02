@@ -6,6 +6,10 @@ import ErrorMessage from '../../../../components/ErrorMessage/ErrorMessage.compo
 import customServerSideHoc from '../../../../helpers/customServerSideProps';
 import useAsientos from '../../../../customHooks/useAsientos';
 import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
+import { getNextAsientoRef } from '../../../../helpers/getNextAsientoRef';
+import AppLink from '../../../../components/AppLink/AppLink.component';
+import { isAllowed } from '../../../../hocs/auth';
+import Asiento from '../../../../components/AsientosByNumero/AsientosByNumero.component';
 
 
 const EditarAsientoForm = [
@@ -28,7 +32,7 @@ const EditarAsientoForm = [
     min: 0,
   },
   {
-    label: 'Tipo asiento (1/5/9)',
+    label: 'Tipo asiento (1 apertura / 5 normal / 9 cierre)',
     type: 'number',
     name: 'TipoAsiento',
     placeholder: '1',
@@ -117,9 +121,18 @@ const EditarAsiento = ({ user, db }) => {
     fetchAsiento({ Numero, Renglon });
   }, []);
 
+  const nuevoAsientoRef = getNextAsientoRef({
+    Fecha: currentAsiento?.Fecha,
+    Leyenda: currentAsiento?.Leyenda,
+    Numero,
+    Renglon,
+    TipoAsiento: currentAsiento?.TipoAsiento,
+  });
+
   return (
     <Layout title='Asiento' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
+      <Asiento db={db} />
       {currentAsiento ?
         <Form
           onFormSubmit={onSubmit}
@@ -129,6 +142,10 @@ const EditarAsiento = ({ user, db }) => {
         /> :
         'loading...'
       }
+      <AppLink
+        enabled={!isAllowed(['auditor'], user?.Perfiles)}
+        href={nuevoAsientoRef}
+        title='Nuevo renglón' />
     </Layout>
   )
 }

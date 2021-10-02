@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 export const StyledDeleteButton = styled.button(
   ({ disabled }) => css`
-    background-color: #f40b45;
+    background-color: #b13453;
     color: #f2f2f2;
     font-size: 0.7rem;
     &:hover {

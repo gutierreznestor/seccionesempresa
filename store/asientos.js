@@ -3,11 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export const asientosSlice = createSlice({
   name: 'asientos',
   initialState: {
+    asientosNumero: [],
+    currentAsiento: null,
+    errorMessage: '',
     list: [],
     loading: false,
     message: '',
-    errorMessage: '',
-    currentAsiento: null,
+    proximoAsiento: null,
+    diferencia: 0,
   },
   reducers: {
     deleteAsiento(state, action) {
@@ -49,6 +52,19 @@ export const asientosSlice = createSlice({
       state.loading = false;
       state.errorMessage = payload;
     },
+    getAsientoByNumero(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    getAsientoByNumeroSuccess(state, { payload }) {
+      state.loading = false;
+      state.asientosNumero = payload;
+    },
+    getAsientoByNumeroError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
     getAsientos(state, action) {
       state.loading = true;
       state.message = '';
@@ -61,6 +77,33 @@ export const asientosSlice = createSlice({
     getAsientosError(state, { payload }) {
       state.loading = false;
       state.errorMessage = payload;
+    },
+    getDebeHaber(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    getDebeHaberSuccess(state, { payload }) {
+      state.loading = false;
+      state.diferencia = payload;
+    },
+    getDebeHaberError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
+    getProximoAsiento(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    getProximoAsientoSuccess(state, { payload }) {
+      state.loading = false;
+      state.proximoAsiento = payload;
+    },
+    getProximoAsientoError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+      state.proximoAsiento = null;
     },
     newAsiento(state, action) {
       state.loading = true;
@@ -89,12 +132,22 @@ export const {
   getAsiento,
   getAsientoSuccess,
   getAsientoError,
+  getAsientoByNumero,
+  getAsientoByNumeroSuccess,
+  getAsientoByNumeroError,
   getAsientos,
   getAsientosSuccess,
   getAsientosError,
+  getDebeHaber,
+  getDebeHaberSuccess,
+  getDebeHaberError,
+  getProximoAsiento,
+  getProximoAsientoSuccess,
+  getProximoAsientoError,
   newAsiento,
   newAsientoSuccess,
   newAsientoError,
 } = asientosSlice.actions;
 
 export default asientosSlice.reducer;
+
