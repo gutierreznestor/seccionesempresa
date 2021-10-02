@@ -1,10 +1,8 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
 import {
-  getAsiento,
-  getAsientoSuccess,
-  getAsientoError,
-  getDebeHaber,
   getAsientoByNumero,
+  getAsientoByNumeroSuccess,
+  getAsientoByNumeroError,
 } from '../../store/asientos';
 
 function asientoToUiModel(data) {
@@ -18,22 +16,20 @@ function asientoToUiModel(data) {
 
 function* getA({ payload }) {
   const { db, Numero, Renglon } = payload;
-  const res = yield fetch(`http://localhost:3000/api/asientos/get-asiento?db=${db}&Numero=${Numero}&Renglon=${Renglon}`, {
+  const res = yield fetch(`http://localhost:3000/api/asientos/get-asientos-by-numero?db=${db}&Numero=${Numero}`, {
     method: 'GET',
   });
   const data = yield res.json();
   if (data.errorMessage) {
-    yield put(getAsientoError(data.errorMessage));
+    yield put(getAsientoByNumeroError(data.errorMessage));
   } else {
-    yield put(getAsientoSuccess(data.length ? asientoToUiModel(data[0]) : {}));
-    yield put(getDebeHaber({ db, Numero }));
-    yield put(getAsientoByNumero({ db, Numero }));
+    yield put(getAsientoByNumeroSuccess(data));
   }
 };
 
 function* rootSaga() {
   yield all([
-    takeLatest(getAsiento.type, getA),
+    takeLatest(getAsientoByNumero.type, getA),
   ]);
 };
 

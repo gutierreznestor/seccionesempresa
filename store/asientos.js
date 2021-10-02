@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const asientosSlice = createSlice({
   name: 'asientos',
   initialState: {
+    asientosNumero: [],
     currentAsiento: null,
     errorMessage: '',
     list: [],
@@ -48,6 +49,19 @@ export const asientosSlice = createSlice({
       state.currentAsiento = payload;
     },
     getAsientoError(state, { payload }) {
+      state.loading = false;
+      state.errorMessage = payload;
+    },
+    getAsientoByNumero(state, action) {
+      state.loading = true;
+      state.message = '';
+      state.errorMessage = '';
+    },
+    getAsientoByNumeroSuccess(state, { payload }) {
+      state.loading = false;
+      state.asientosNumero = payload;
+    },
+    getAsientoByNumeroError(state, { payload }) {
       state.loading = false;
       state.errorMessage = payload;
     },
@@ -118,6 +132,9 @@ export const {
   getAsiento,
   getAsientoSuccess,
   getAsientoError,
+  getAsientoByNumero,
+  getAsientoByNumeroSuccess,
+  getAsientoByNumeroError,
   getAsientos,
   getAsientosSuccess,
   getAsientosError,

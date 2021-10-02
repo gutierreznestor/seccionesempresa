@@ -9,6 +9,7 @@ import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
 import { getNextAsientoRef } from '../../../../helpers/getNextAsientoRef';
 import AppLink from '../../../../components/AppLink/AppLink.component';
 import { isAllowed } from '../../../../hocs/auth';
+import Asiento from '../../../../components/AsientosByNumero/AsientosByNumero.component';
 
 
 const EditarAsientoForm = [
@@ -131,6 +132,7 @@ const EditarAsiento = ({ user, db }) => {
   return (
     <Layout title='Asiento' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
+      <Asiento db={db} />
       {currentAsiento ?
         <Form
           onFormSubmit={onSubmit}
