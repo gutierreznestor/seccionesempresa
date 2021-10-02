@@ -120,7 +120,13 @@ const EditarAsiento = ({ user, db }) => {
     fetchAsiento({ Numero, Renglon });
   }, []);
 
-  const nuevoAsientoRef = getNextAsientoRef({ Numero, Renglon });
+  const nuevoAsientoRef = getNextAsientoRef({
+    Fecha: currentAsiento?.Fecha,
+    Leyenda: currentAsiento?.Leyenda,
+    Numero,
+    Renglon,
+    TipoAsiento: currentAsiento?.TipoAsiento,
+  });
 
   return (
     <Layout title='Asiento' user={user}>

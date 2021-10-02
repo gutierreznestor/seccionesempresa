@@ -128,7 +128,7 @@ const NuevoAsiento = ({ user, db }) => {
     handlers: { fetchPlanCuenta }
   } = usePlanCuentas({ db, user });
 
-  const { Numero, Renglon } = useGetAsientoParam();
+  const { Fecha, Leyenda, Numero, Renglon, TipoAsiento } = useGetAsientoParam();
 
   const onSubmit = (data) => {
     createAsiento(data);
@@ -143,7 +143,6 @@ const NuevoAsiento = ({ user, db }) => {
   React.useEffect(() => {
     if (errorMessage) setRef();
   }, [errorMessage]);
-
   return (
     <Layout title='Nuevo asiento' user={user}>
       <Contabilidad />
@@ -152,11 +151,13 @@ const NuevoAsiento = ({ user, db }) => {
         onFormSubmit={onSubmit}
         config={NuevoAsientoForm}
         defaultValues={{
-          Fecha: new Date(),
+          Fecha: Fecha ? Fecha : new Date(),
           FechaOperacion: new Date(),
           FechaVencimiento: new Date(),
+          Leyenda,
           Numero: proximoAsiento?.Numero ? proximoAsiento.Numero : Numero,
           Renglon: proximoAsiento?.Renglon ? proximoAsiento.Renglon : Renglon,
+          TipoAsiento,
         }}
         watcher='idPlanCuenta'
         watching={watchingPlanCuenta}

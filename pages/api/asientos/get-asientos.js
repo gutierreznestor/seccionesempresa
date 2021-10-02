@@ -6,15 +6,14 @@ const handler = async (req, res) => {
     const results = await query(`
       SELECT DISTINCT 
         asientos.Numero, 
-        asientos.Renglon, 
+        asientos.Renglon,
+        asientos.Leyenda,
         plan_cuentas.Nombre AS Plan, 
         DATE_FORMAT(asientos.Fecha, '%d-%m-%Y') AS Fecha, 
         DATE_FORMAT(asientos.FechaVencimiento, '%d-%m-%Y') AS FechaV, 
         DATE_FORMAT(asientos.FechaOperacion, '%d-%m-%Y') AS FechaOp, 
-        IF (asientos.DebeHaber = 0, asientos.importe, '') AS Débitos,
-        IF (asientos.DebeHaber = 1, asientos.importe, '') AS Créditos, 
-        asientos.OkCarga, 
-        asientos.Registrado
+        IF (asientos.DebeHaber = 0, asientos.importe, '') AS Deb,
+        IF (asientos.DebeHaber = 1, asientos.importe, '') AS Cred
       FROM asientos
       INNER JOIN plan_cuentas ON asientos.idPlanCuenta = plan_cuentas.idPlanCuenta
       ORDER BY Numero ASC, Renglon ASC, Plan ASC
