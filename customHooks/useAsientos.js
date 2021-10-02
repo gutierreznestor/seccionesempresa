@@ -14,7 +14,9 @@ const useAsientos = ({ db, user }) => {
   const dispatch = useDispatch();
   const {
     asientos,
+    asientosNumero,
     currentAsiento,
+    diferencia,
     errorMessage,
     loading,
     message,
@@ -48,7 +50,9 @@ const useAsientos = ({ db, user }) => {
   return {
     data: {
       asientos,
+      asientosNumero,
       currentAsiento,
+      diferencia,
       errorMessage,
       loading,
       message,
