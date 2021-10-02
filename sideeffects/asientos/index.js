@@ -3,6 +3,7 @@ import { all, fork } from 'redux-saga/effects';
 import deleteAsiento from './delete';
 import editAsiento from './edit';
 import getAsientos from './get';
+import getDebeHaber from './getDebeHaber';
 import getAsiento from './getOne';
 import newAsiento from './new';
 import getProximoAsiento from './getProximoAsiento';
@@ -13,6 +14,7 @@ function* rootSaga() {
     fork(editAsiento),
     fork(getAsiento),
     fork(getAsientos),
+    fork(getDebeHaber),
     fork(getProximoAsiento),
     fork(newAsiento),
   ]);

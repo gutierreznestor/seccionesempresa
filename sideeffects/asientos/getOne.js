@@ -3,6 +3,7 @@ import {
   getAsiento,
   getAsientoSuccess,
   getAsientoError,
+  getDebeHaber,
 } from '../../store/asientos';
 
 function asientoToUiModel(data) {
@@ -24,6 +25,7 @@ function* getA({ payload }) {
     yield put(getAsientoError(data.errorMessage));
   } else {
     yield put(getAsientoSuccess(data.length ? asientoToUiModel(data[0]) : {}));
+    yield put(getDebeHaber({ db, Numero }));
   }
 };
 
