@@ -7,6 +7,7 @@ import copiasSeguridadSaga from './copiasSeguridad';
 import diarioMayorSaga from './diarioMayor';
 import empleadosSaga from './empleados';
 import empresaSaga from './empresas';
+import libroDiarioSaga from './libroDiario';
 import logsEmpleadosSaga from './logsEmpleados';
 import logsSeccionesEmpresaSaga from './logsSeccionesEmpresa';
 import logsUsuariosSaga from './logsUsuarios';
@@ -23,6 +24,7 @@ function* rootSaga() {
     fork(diarioMayorSaga),
     fork(empleadosSaga),
     fork(empresaSaga),
+    fork(libroDiarioSaga),
     fork(logsEmpleadosSaga),
     fork(logsSeccionesEmpresaSaga),
     fork(logsUsuariosSaga),

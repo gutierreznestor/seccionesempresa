@@ -4,7 +4,7 @@ export const libroDiarioSlice = createSlice({
   name: 'libroDiario',
   initialState: {
     errorMessage: '',
-    list: [],
+    libroDiario: [],
     loading: false,
     message: '',
   },
@@ -16,7 +16,7 @@ export const libroDiarioSlice = createSlice({
     },
     getLibroDiarioSuccess(state, { payload }) {
       state.loading = false;
-      state.list = payload;
+      state.libroDiario = payload;
     },
     getLibroDiarioError(state, { payload }) {
       state.loading = false;

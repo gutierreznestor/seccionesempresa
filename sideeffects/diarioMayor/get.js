@@ -26,7 +26,7 @@ const toSaldo = (prev, curr) => {
   return prev;
 }
 
-function* calcularBalance(data = []) {
+export function* calcularBalance(data = []) {
   const balance = data.reduce(toSaldo, []);
   return balance;
 }
