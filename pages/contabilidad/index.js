@@ -11,6 +11,7 @@ const Contabilidad = ({ user }) => {
       <AppLink href='/contabilidad/asientos' title="Asientos" />
       <AppLink href='/contabilidad/datos' title="Datos contabilidad" />
       <AppLink href='/contabilidad/diario-mayor' title="Diario mayor" />
+      <AppLink href='/contabilidad/libro-diario' title="Libro diario" />
     </Layout>
   )
 }
