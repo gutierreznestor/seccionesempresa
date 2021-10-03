@@ -6,10 +6,10 @@ const handler = async (req, res) => {
     const results = await query(`
       SELECT DISTINCT 
         plan_cuentas.Nombre AS Plan, 
+        DATE_FORMAT(diario_mayor.Fecha, '%d-%m-%Y') AS Fecha, 
         diario_mayor.Numero, 
         diario_mayor.Renglon,
         diario_mayor.Leyenda,
-        DATE_FORMAT(diario_mayor.Fecha, '%d-%m-%Y') AS Fecha, 
         IF (diario_mayor.DebeHaber = 0, diario_mayor.importe, '') AS Deb,
         IF (diario_mayor.DebeHaber = 1, diario_mayor.importe, '') AS Cred
       FROM diario_mayor
