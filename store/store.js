@@ -7,6 +7,7 @@ import asientosReducer from './asientos';
 import authReducer from './auth';
 import contabilidadReducer from './contabilidad';
 import copiasSeguridadReducer from './copiasSeguridad';
+import diarioMayorReducer from './diarioMayor';
 import empleadosReducer from './empleados';
 import empresasReducer from './empresas';
 import logsEmpleadosReducer from './logsEmpleados';
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   contabilidad: contabilidadReducer,
   copiasSeguridad: copiasSeguridadReducer,
+  diarioMayor: diarioMayorReducer,
   empleados: empleadosReducer,
   empresas: empresasReducer,
   logsEmpleados: logsEmpleadosReducer,

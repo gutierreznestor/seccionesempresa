@@ -10,6 +10,7 @@ const Contabilidad = ({ user }) => {
       <AppLink href='/contabilidad/plan-cuentas' title="Plan de cuentas" />
       <AppLink href='/contabilidad/asientos' title="Asientos" />
       <AppLink href='/contabilidad/datos' title="Datos contabilidad" />
+      <AppLink href='/contabilidad/diario-mayor' title="Diario mayor" />
     </Layout>
   )
 }
