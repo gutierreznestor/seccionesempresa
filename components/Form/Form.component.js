@@ -19,6 +19,7 @@ const Form = ({
   children,
   config = [],
   buttonLabel = 'Agregar',
+  buttonStyles = {},
   defaultValues = {},
   helpers = [],
   hideButton = false,
@@ -85,7 +86,7 @@ const Form = ({
         </FormFieldContainer>
       ))}
       {children}
-      {hideButton ? '' : <Button type="submit" label={buttonLabel} />}
+      {hideButton ? '' : <Button type="submit" label={buttonLabel} style={buttonStyles} />}
     </StyledForm>
   )
 }
