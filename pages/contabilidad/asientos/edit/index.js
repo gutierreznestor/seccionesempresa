@@ -139,13 +139,17 @@ const EditarAsiento = ({ user, db }) => {
           config={EditarAsientoForm}
           buttonLabel="Guardar"
           defaultValues={currentAsiento}
+          hideButton={currentAsiento?.Registrado}
         /> :
         'loading...'
       }
-      <AppLink
-        enabled={!isAllowed(['auditor'], user?.Perfiles)}
-        href={nuevoAsientoRef}
-        title='Nuevo renglón' />
+      {!currentAsiento?.Registrado ?
+        <AppLink
+          enabled={!isAllowed(['auditor'], user?.Perfiles)}
+          href={nuevoAsientoRef}
+          title='Nuevo renglón' /> :
+        null
+      }
     </Layout>
   )
 }
