@@ -13,6 +13,7 @@ const getAsientosByNumero = async ({ db, Numero }) => {
         asientos.FechaOperacion,
         asientos.TipoAsiento,
         asientos.DebeHaber,
+        asientos.Registrado,
         plan_cuentas.Nombre AS Plan,
         asientos.importe AS Importe
       FROM asientos

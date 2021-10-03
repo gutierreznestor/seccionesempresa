@@ -1,4 +1,5 @@
-import { query } from '../../../lib/db'
+import { query } from '../../../lib/db';
+import getAsientosByNumero from './helpers/getAsientosByNumero';
 
 const handler = async (req, res) => {
   const { Numero, Renglon, db } = req.body;
@@ -7,6 +8,15 @@ const handler = async (req, res) => {
       if (Renglon !== 0) return res
         .status(400)
         .json({ errorMessage: 'Se requiere el Número y Renglón de asiento.' })
+    }
+    const asientos = await getAsientosByNumero({ db, Numero });
+    if (asientos.length) {
+      const asiento = asientos[0];
+      if (asiento.Registrado) {
+        return res
+          .status(400)
+          .json({ errorMessage: 'No se puede eliminar un asiento registrado.' });
+      }
     }
     const results = await query(
       `
