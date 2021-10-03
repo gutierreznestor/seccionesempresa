@@ -8,7 +8,7 @@ import { AsientosByNumeroContainer } from './AsientosByNumero.styled';
 
 const Asiento = ({ db }) => {
   const {
-    data: { asientosNumero, diferencia },
+    data: { asientosNumero, currentAsiento, diferencia },
   } = useAsientos({ db });
   const {
     data: { },
@@ -28,11 +28,14 @@ const Asiento = ({ db }) => {
           <ListItem title="Diferencia" description={diferencia?.Diferencia} />
         </div>
         <div>
-          <Button
-            label="Registrar"
-            disabled={diferencia?.Diferencia != 0}
-            onClick={onRegister}
-          />
+          {currentAsiento?.Registrado ?
+            <strong>Registrado</strong> :
+            <Button
+              label="Registrar"
+              disabled={diferencia?.Diferencia != 0}
+              onClick={onRegister}
+            />
+          }
         </div>
       </AsientosByNumeroContainer>
     </div>
