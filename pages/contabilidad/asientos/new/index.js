@@ -133,7 +133,6 @@ const NuevoAsiento = ({ user, db }) => {
   const onSubmit = (data) => {
     createAsiento(data);
   }
-
   React.useEffect(() => {
     if (errorMessage) setRef();
   }, [errorMessage]);
