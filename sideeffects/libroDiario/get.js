@@ -5,9 +5,10 @@ import {
   getLibroDiarioError,
 } from '../../store/libroDiario';
 import { calcularBalance } from '../diarioMayor/get';
+import { formatDate } from '../../helpers/dates';
 
-function* getLibro({ payload: { db } }) {
-  const res = yield fetch(`http://localhost:3000/api/libroDiario/get-libro-diario?db=${db}`, {
+function* getLibro({ payload: { Fecha, db } }) {
+  const res = yield fetch(`http://localhost:3000/api/libroDiario/get-libro-diario?db=${db}&Fecha=${formatDate({ date: Fecha, formatString: 'yyyy-MM-dd' })}`, {
     method: 'GET',
   });
 
