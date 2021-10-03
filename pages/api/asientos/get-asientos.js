@@ -16,7 +16,7 @@ const handler = async (req, res) => {
         IF (asientos.DebeHaber = 1, asientos.importe, '') AS Cred
       FROM asientos
       INNER JOIN plan_cuentas ON asientos.idPlanCuenta = plan_cuentas.idPlanCuenta
-      ORDER BY Numero ASC, Renglon ASC, Plan ASC
+      ORDER BY Numero DESC, Renglon DESC, Plan ASC
     `, null, db);
 
     return res.status(200).json(results)

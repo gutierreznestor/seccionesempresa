@@ -1,7 +1,7 @@
 import { format, isSameDay } from 'date-fns'
 
 export const formatDate = ({ date, formatString = "dd/MM/yyyy" }) => {
-  if (!date) return '';
+  if (!date) return format(new Date(), formatString);
   return format(new Date(date), formatString)
 };
 

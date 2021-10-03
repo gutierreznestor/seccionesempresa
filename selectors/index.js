@@ -2,6 +2,7 @@ export { useSelectAsientos } from './useSelectAsientos';
 export { useSelectAuth } from './useSelectAuth';
 export { useSelectContabilidad } from './useSelectContabilidad';
 export { useSelectCopiasSeguridad } from './useSelectCopiasSeguridad';
+export { useSelectDiarioMayor } from './useSelectDiarioMayor';
 export { useSelectEmpleados } from './useSelectEmpleados';
 export { useSelectEmpresas } from './useSelectEmpresas';
 export { useSelectLogsEmpleados } from './useSelectLogsEmpleados';

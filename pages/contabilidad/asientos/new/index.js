@@ -133,13 +133,6 @@ const NuevoAsiento = ({ user, db }) => {
   const onSubmit = (data) => {
     createAsiento(data);
   }
-
-  const watchingPlanCuenta = (value) => {
-    if (value) {
-      fetchPlanCuenta(value);
-    }
-  }
-
   React.useEffect(() => {
     if (errorMessage) setRef();
   }, [errorMessage]);
@@ -152,15 +145,13 @@ const NuevoAsiento = ({ user, db }) => {
         config={NuevoAsientoForm}
         defaultValues={{
           Fecha: Fecha ? Fecha : new Date(),
-          FechaOperacion: new Date(),
-          FechaVencimiento: new Date(),
           Leyenda,
-          Numero: proximoAsiento?.Numero ? proximoAsiento.Numero : Numero,
-          Renglon: proximoAsiento?.Renglon ? proximoAsiento.Renglon : Renglon,
+          Numero: Numero ? Numero : null,
+          Renglon: Renglon ? Renglon : null,
           TipoAsiento,
         }}
         watcher='idPlanCuenta'
-        watching={watchingPlanCuenta}
+        watching={fetchPlanCuenta}
         watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}
         helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
       />

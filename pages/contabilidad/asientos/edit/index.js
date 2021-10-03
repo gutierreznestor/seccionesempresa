@@ -10,6 +10,8 @@ import { getNextAsientoRef } from '../../../../helpers/getNextAsientoRef';
 import AppLink from '../../../../components/AppLink/AppLink.component';
 import { isAllowed } from '../../../../hocs/auth';
 import Asiento from '../../../../components/AsientosByNumero/AsientosByNumero.component';
+import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
+import HelperCuenta from '../../../../components/HelperCuenta/HelperCuenta.component';
 
 
 const EditarAsientoForm = [
@@ -107,6 +109,10 @@ const EditarAsientoForm = [
 
 const EditarAsiento = ({ user, db }) => {
   const { Numero, Renglon } = useGetAsientoParam();
+  const {
+    data: { errorMessage: errorPlanCuenta, currentPlanCuenta },
+    handlers: { fetchPlanCuenta }
+  } = usePlanCuentas({ db, user });
 
   const {
     data: { currentAsiento, errorMessage },
@@ -139,13 +145,21 @@ const EditarAsiento = ({ user, db }) => {
           config={EditarAsientoForm}
           buttonLabel="Guardar"
           defaultValues={currentAsiento}
+          hideButton={currentAsiento?.Registrado}
+          watcher='idPlanCuenta'
+          watching={fetchPlanCuenta}
+          watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}
+          helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
         /> :
         'loading...'
       }
-      <AppLink
-        enabled={!isAllowed(['auditor'], user?.Perfiles)}
-        href={nuevoAsientoRef}
-        title='Nuevo renglón' />
+      {!currentAsiento?.Registrado ?
+        <AppLink
+          enabled={!isAllowed(['auditor'], user?.Perfiles)}
+          href={nuevoAsientoRef}
+          title='Nuevo renglón' /> :
+        null
+      }
     </Layout>
   )
 }

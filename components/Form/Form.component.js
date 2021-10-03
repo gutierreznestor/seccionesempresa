@@ -21,6 +21,7 @@ const Form = ({
   buttonLabel = 'Agregar',
   defaultValues = {},
   helpers = [],
+  hideButton = false,
   watcher = '',
   watching = () => { },
   watchValue = '',
@@ -84,7 +85,7 @@ const Form = ({
         </FormFieldContainer>
       ))}
       {children}
-      <Button type="submit" label={buttonLabel} />
+      {hideButton ? '' : <Button type="submit" label={buttonLabel} />}
     </StyledForm>
   )
 }

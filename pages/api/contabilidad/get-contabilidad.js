@@ -15,7 +15,10 @@ const handler = async (req, res) => {
     if (results.length === 0) {
       return res.status(404).send('No se encontraron datos.');
     }
-    return res.status(200).json(results[0])
+    const data = results[0];
+    const Proximo = data.UltimoAsiento + 1;
+    data.Proximo = Proximo;
+    return res.status(200).json(data)
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })
   }

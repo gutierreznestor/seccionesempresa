@@ -80,9 +80,10 @@ function* createAsiento({
       body: JSON.stringify({
         db,
         Numero,
+        Renglon,
       }),
     });
-    yield put(newAsientoSuccess("Asiento creado correctamente."));
+    yield put(newAsientoSuccess(data));
     yield put(getConta(db));
     yield put(replace('/contabilidad/asientos'));
   } catch (error) {
