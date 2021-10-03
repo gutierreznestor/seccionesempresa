@@ -80,6 +80,7 @@ function* createAsiento({
       body: JSON.stringify({
         db,
         Numero,
+        Renglon,
       }),
     });
     yield put(newAsientoSuccess("Asiento creado correctamente."));

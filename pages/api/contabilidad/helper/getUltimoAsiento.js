@@ -7,7 +7,7 @@ const getUltimoAsiento = async ({ db, id = 1 }) => {
     WHERE idContabilidad=?
   `, [id], db);
   if (results.length > 0) {
-    return results[0].UltimoAsiento;
+    return Number.parseInt(results[0].UltimoAsiento, 10);
   }
   return null;
 };

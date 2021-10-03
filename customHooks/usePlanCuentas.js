@@ -33,7 +33,9 @@ const usePlanCuentas = ({ db, user }) => {
   }
 
   const fetchPlanCuenta = (id) => {
-    dispatch(getPlanCuenta({ db, id }));
+    if (id) {
+      dispatch(getPlanCuenta({ db, id }));
+    }
   }
 
   const editPlanCuenta = ({ id, CodigoPlan, Nombre, Tipo }) => {
