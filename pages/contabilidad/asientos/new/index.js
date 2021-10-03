@@ -155,8 +155,8 @@ const NuevoAsiento = ({ user, db }) => {
           FechaOperacion: new Date(),
           FechaVencimiento: new Date(),
           Leyenda,
-          Numero: proximoAsiento?.Numero ? proximoAsiento.Numero : Numero,
-          Renglon: proximoAsiento?.Renglon ? proximoAsiento.Renglon : Renglon,
+          Numero: Numero ? Numero : null,
+          Renglon: Renglon ? Renglon : null,
           TipoAsiento,
         }}
         watcher='idPlanCuenta'

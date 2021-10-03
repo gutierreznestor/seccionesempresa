@@ -14,7 +14,6 @@ const Asientos = ({ user, db }) => {
     data: {
       errorMessage,
       asientos,
-      proximoAsiento,
     },
     handlers: {
       deleteAsiento,
@@ -23,6 +22,7 @@ const Asientos = ({ user, db }) => {
   } = useAsientos({ db, user });
 
   const {
+    data: { currentContabilidad },
     handlers: { fetchContabilidad },
   } = useContabilidad({ db });
 
@@ -45,7 +45,7 @@ const Asientos = ({ user, db }) => {
       <Contabilidad />
       <AppLink
         enabled={!isAllowed(['auditor'], user?.Perfiles)}
-        href={`/contabilidad/asientos/new?Numero=${proximoAsiento?.Numero}&Renglon=${proximoAsiento?.Renglon}`}
+        href={`/contabilidad/asientos/new?Numero=${currentContabilidad?.Proximo}&Renglon=1`}
         title='Nuevo asiento' />
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <DataTable
