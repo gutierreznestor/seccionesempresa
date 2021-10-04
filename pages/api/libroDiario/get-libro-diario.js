@@ -5,7 +5,7 @@ const handler = async (req, res) => {
     const { db, Fecha } = req.query;
     let whereClouse = '';
     if (Fecha) {
-      whereClouse = `WHERE Fecha < '${Fecha}'`;
+      whereClouse = `WHERE Fecha <= '${Fecha}'`;
     }
     const queryString = `
       SELECT DISTINCT 
