@@ -17,7 +17,7 @@ function* getLibro({ payload: { Fecha, db } }) {
     yield put(getLibroDiarioError(data.errorMessage));
   } else {
     const balance = yield calcularBalance(data);
-    const balanceWithId = balance.map((item, idx) => ({ id: idx + 1, ...item }));
+    const balanceWithId = balance.map((item, idx) => ({ Cant: idx + 1, ...item }));
     yield put(getLibroDiarioSuccess(balanceWithId))
   }
 }

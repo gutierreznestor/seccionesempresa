@@ -6,10 +6,12 @@ import customServerSideHoc from '../../../helpers/customServerSideProps';
 import { useSelectLibroDiario } from '../../../selectors/useSelectLibroDiario';
 import useLibroDiario from '../../../customHooks/useLibroDiario';
 import Form from '../../../components/Form/Form.component';
+import Button from '../../../components/Button/Button.component';
+import { formatDate } from '../../../helpers/dates';
 
 const LibroDiarioForm = [
   {
-    label: 'Fecha',
+    label: 'Hasta fecha',
     type: 'date',
     name: 'Fecha',
     placeholder: '01/01/2021',
@@ -22,13 +24,29 @@ const LibroDiario = ({ user, db }) => {
 
   const { errorMessage, libroDiario } = useSelectLibroDiario();
   const { fetchLibroDiario } = useLibroDiario({ db });
-
-  React.useEffect(() => {
-    fetchLibroDiario();
-  }, []);
+  const [Fecha, setFecha] = React.useState(new Date());
+  const [showButton, setShowButton] = React.useState(false);
+  const [title, setTitle] = React.useState('');
 
   const onSubmit = (data) => {
     fetchLibroDiario(data);
+    setFecha(data.Fecha);
+    setShowButton(true);
+    setTitle(`Libro Diario ${formatDate({
+      date: data.Fecha.toLocaleDateString(),
+      formatString: 'dd/MM/yyyy',
+    })}`);
+  }
+
+  const registerLibroDiario = () => {
+    const message = `¿Generar libro diario con fecha ${formatDate({
+      date: Fecha.toLocaleDateString(),
+      formatString: 'dd/MM/yyyy',
+    })} y modificar los registros?`;
+    const ok = confirm(message);
+    if (ok) {
+
+    }
   }
 
   return (
@@ -37,17 +55,19 @@ const LibroDiario = ({ user, db }) => {
       <Form
         onFormSubmit={onSubmit}
         config={LibroDiarioForm}
-        defaultValues={{}}
-        buttonLabel="Generar libro diario"
+        defaultValues={{ Fecha }}
+        buttonLabel="Mostrar libro diario"
         buttonStyles={{ marginTop: '1rem' }}
       />
+      {showButton && <Button label="Registrar libro diario" onClick={registerLibroDiario} style={{ marginBottom: '1rem' }} />}
       <DataTable
-        allowDelete
+        allowPrint
         data={libroDiario}
         user={user}
         path='asientos'
         readonly
         showViewButton
+        title={title}
       />
     </Layout>
   )
