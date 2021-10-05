@@ -17,7 +17,7 @@ const useDiarioMayor = ({ db, user }) => {
   } = useSelectDiarioMayor();
 
   const fetchDiarioMayor = () => {
-    dispatch(getRegistros(db));
+    dispatch(getRegistros({ db, FechaHasta: '' }));
   }
 
   const registerAsiento = (data) => {

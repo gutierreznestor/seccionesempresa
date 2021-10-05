@@ -37,7 +37,7 @@ const SeleccionarEmpresa = ({ db }) => {
   }
   return (
     <Layout title='Seleccionar empresa' hideNavbar>
-      <AppLink href='nueva-empresa' title='Crear nueva empresa' bgColor="#168ae9" />
+      <AppLink href='nueva-empresa' title='Crear nueva empresa' />
       <Select options={empresasDropdown} onSelect={onSelect} selected={currentDB} />
       <AppLink href='login' title='Continuar' enabled={db || currentDB} />
     </Layout>

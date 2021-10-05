@@ -12,6 +12,7 @@ import { isAllowed } from '../../../../hocs/auth';
 import Asiento from '../../../../components/AsientosByNumero/AsientosByNumero.component';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 import HelperCuenta from '../../../../components/HelperCuenta/HelperCuenta.component';
+import { useSelectAsientos } from '../../../../selectors';
 
 
 const EditarAsientoForm = [
@@ -115,7 +116,11 @@ const EditarAsiento = ({ user, db }) => {
   } = usePlanCuentas({ db, user });
 
   const {
-    data: { currentAsiento, errorMessage },
+    currentAsiento,
+    errorMessage,
+  } = useSelectAsientos();
+
+  const {
     handlers: { editAsiento, fetchAsiento }
   } = useAsientos({ db, user });
 
