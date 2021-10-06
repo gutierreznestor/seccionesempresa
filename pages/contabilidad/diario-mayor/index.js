@@ -5,6 +5,7 @@ import DataTable from '../../../components/DataTable/DataTable.component';
 import { isAllowed } from '../../../hocs/auth';
 import useDiarioMayor from '../../../customHooks/useDiarioMayor';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
+import MayorCuenta from '../../../components/MayorCuenta/MayorCuenta.component';
 
 const DiarioMayor = ({ user, db }) => {
   const {
@@ -25,14 +26,9 @@ const DiarioMayor = ({ user, db }) => {
   return (
     <Layout title='Diario mayor' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
-      <DataTable
-        allowDelete
-        data={diarioMayorList}
-        user={user}
-        path='asientos'
-        readonly
-        showViewButton
-      />
+      {diarioMayorList.length ? diarioMayorList.map((diarioMayor) => (
+        <MayorCuenta user={user} registros={diarioMayor} key={diarioMayor[0]?.idPlanCuenta} />
+      )) : <h3>Todavía no hay registros</h3>}
     </Layout>
   )
 }
