@@ -27,27 +27,33 @@ const toSaldo = (prev, curr) => {
 }
 
 export function* calcularBalance(data = []) {
-  const balance = data.reduce(toSaldo, []);
+  const balance = [];
+  data.forEach((cuenta) => {
+    balance.push(cuenta.reduce(toSaldo, []))
+  });
   return balance;
 }
 
-function* getA({ payload: { db, FechaHasta } }) {
-  const Fecha = FechaHasta ? FechaHasta : '';
-  const res = yield fetch(`http://localhost:3000/api/diarioMayor/get-mayor-cuentas?db=${db}&Fecha=${Fecha}`, {
+function* getMayor({ payload: { db, FechaHasta, idPlanCuenta } }) {
+  let url = `http://localhost:3000/api/diarioMayor/get-mayor-cuentas?db=${db}&idPlanCuenta=${idPlanCuenta}`;
+  if (FechaHasta) {
+    url += `&FechaHasta=${FechaHasta}`;
+  }
+  const res = yield fetch(url, {
     method: 'GET',
   });
   const data = yield res.json();
   if (data.errorMessage) {
     yield put(getRegistrosError(data.errorMessage));
   } else {
-    const balance = yield calcularBalance(data);
-    yield put(getRegistrosSuccess(balance))
+    const balanceCuentas = yield calcularBalance(data);
+    yield put(getRegistrosSuccess(balanceCuentas))
   }
 };
 
 function* rootSaga() {
   yield all([
-    takeLatest(getRegistros.type, getA),
+    takeLatest(getRegistros.type, getMayor),
   ]);
 };
 

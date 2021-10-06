@@ -17,7 +17,6 @@ const handler = async (req, res) => {
       });
     }
     const mayorCuentas = await Promise.all(mayorCuentasPromises);
-    console.log('mayorCuentas: ', mayorCuentas);
     return res.status(200).json(mayorCuentas)
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })
