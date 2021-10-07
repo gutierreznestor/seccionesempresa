@@ -20,6 +20,7 @@ const pathAsiento = ({ path, row, columns }) => {
  * Render a list of data
  * @param {boolean} allowPrint
  * @param {boolean} allowDelete
+ * @param {object} columnStyles
  * @param {array} data
  * @param {array} notAllowed
  * @param {function} onDelete
@@ -31,6 +32,7 @@ const pathAsiento = ({ path, row, columns }) => {
 const DataTable = ({
   allowPrint,
   allowDelete,
+  columnStyles = {},
   data,
   notAllowed = [],
   onDelete,
@@ -56,13 +58,13 @@ const DataTable = ({
             {title && <h3>{title}</h3>}
             <TableContainer ref={componentRef}>
               <thead>
-                <tr>{data[0] && columns.map((heading) => <th key={heading}>{heading}</th>)}</tr>
+                <tr>{data[0] && columns.map((heading, idx) => <th key={heading} style={columnStyles[idx]}>{heading}</th>)}</tr>
               </thead>
               <tbody>
                 {
                   data?.map((row, idx) => <tr key={row.id ? row.id : idx}>
                     {
-                      columns.map((column) => <td key={column}>{row[column]}</td>)
+                      columns.map((column, idx) => <td key={column} style={columnStyles[idx]}>{row[column]}</td>)
                     }
                     {!readonly && (
                       <>
