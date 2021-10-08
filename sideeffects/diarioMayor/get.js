@@ -29,7 +29,10 @@ const toSaldo = (prev, curr) => {
 export function* calcularBalance(data = []) {
   const balance = [];
   data.forEach((cuenta) => {
-    balance.push(cuenta.reduce(toSaldo, []))
+    balance.push({
+      cuenta: cuenta.cuenta,
+      asientos: cuenta.asientos.reduce(toSaldo, []),
+    })
   });
   return balance;
 }
