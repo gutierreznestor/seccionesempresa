@@ -27,6 +27,7 @@ const pathAsiento = ({ path, row, columns }) => {
  * @param {string} path
  * @param {boolean} readonly
  * @param {boolean} showViewButton
+ * @param {object} tableStyle
  * @param {object} user
  */
 const DataTable = ({
@@ -40,6 +41,7 @@ const DataTable = ({
   readonly,
   showViewButton,
   user,
+  tableStyle = {},
   title,
 }) => {
   const columns = data[0] && Object.keys(data[0]);
@@ -56,7 +58,7 @@ const DataTable = ({
           {allowPrint && <Button label="Imprimir" onClick={handlePrint} />}
           <div ref={componentRef}>
             {title && <h3>{title}</h3>}
-            <TableContainer ref={componentRef}>
+            <TableContainer ref={componentRef} tableStyle={tableStyle}>
               <thead>
                 <tr>{data[0] && columns.map((heading, idx) => <th key={heading} style={columnStyles[idx]}>{heading}</th>)}</tr>
               </thead>

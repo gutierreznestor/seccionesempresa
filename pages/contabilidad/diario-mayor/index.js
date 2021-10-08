@@ -27,7 +27,12 @@ const DiarioMayor = ({ user, db }) => {
     <Layout title='Diario mayor' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       {diarioMayorList.length ? diarioMayorList.map((diarioMayor) => (
-        <MayorCuenta user={user} registros={diarioMayor} key={diarioMayor[0]?.idPlanCuenta} />
+        <MayorCuenta
+          cuenta={diarioMayor.cuenta}
+          key={diarioMayor[0]?.idPlanCuenta}
+          registros={diarioMayor.asientos}
+          user={user}
+        />
       )) : <h3>Todavía no hay registros</h3>}
     </Layout>
   )
