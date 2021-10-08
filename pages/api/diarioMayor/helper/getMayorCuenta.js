@@ -1,6 +1,31 @@
 import { query } from '../../../../lib/db';
 import getPlanCuenta from '../../plan-cuentas/helpers/getPlanCuenta';
 
+const toSaldo = (prev, curr) => {
+  let Debe = Number.parseInt(curr.Deb ? curr.Deb : 0);
+  let Haber = Number.parseInt(curr.Cred ? curr.Cred : 0);
+  let newSaldo = 0;
+  if (prev.length === 0) {
+    newSaldo = Debe - Haber;
+    prev.push({
+      ...curr,
+      Saldo: newSaldo,
+    });
+  } else {
+    const last = prev[prev.length - 1];
+    newSaldo = last.Saldo + Debe - Haber;
+    prev.push({
+      ...curr,
+      Saldo: newSaldo,
+    });
+  }
+  return prev;
+}
+
+export function calcularBalance(asientos = []) {
+  return asientos.reduce(toSaldo, []);
+}
+
 const getMayorCuenta = async ({ db, idPlanCuenta, FechaHasta }) => {
   let whereClouse = `WHERE diario_mayor.idPlanCuenta = '${idPlanCuenta}'`;
   if (FechaHasta) {
@@ -27,10 +52,16 @@ const getMayorCuenta = async ({ db, idPlanCuenta, FechaHasta }) => {
         diario_mayor.DebeHaber,
         diario_mayor.Renglon
     `;
-  const asientos = await query(queryString, null, db);
+  const registros = await query(queryString, null, db);
+  const asientos = calcularBalance(registros);
+  let saldo = 0;
+  if (asientos.length) {
+    saldo = asientos[asientos.length - 1].Saldo;
+  }
   return {
     cuenta,
     asientos,
+    saldo,
   }
 };
 

@@ -5,38 +5,6 @@ import {
   getRegistrosError,
 } from '../../store/diarioMayor';
 
-const toSaldo = (prev, curr) => {
-  let Debe = Number.parseInt(curr.Deb ? curr.Deb : 0);
-  let Haber = Number.parseInt(curr.Cred ? curr.Cred : 0);
-  let newSaldo = 0;
-  if (prev.length === 0) {
-    newSaldo = Debe - Haber;
-    prev.push({
-      ...curr,
-      Saldo: newSaldo,
-    });
-  } else {
-    const last = prev[prev.length - 1];
-    newSaldo = last.Saldo + Debe - Haber;
-    prev.push({
-      ...curr,
-      Saldo: newSaldo,
-    });
-  }
-  return prev;
-}
-
-export function* calcularBalance(data = []) {
-  const balance = [];
-  data.forEach((cuenta) => {
-    balance.push({
-      cuenta: cuenta.cuenta,
-      asientos: cuenta.asientos.reduce(toSaldo, []),
-    })
-  });
-  return balance;
-}
-
 function* getMayor({ payload: { db, FechaHasta, idPlanCuenta } }) {
   let url = `http://localhost:3000/api/diarioMayor/get-mayor-cuentas?db=${db}&idPlanCuenta=${idPlanCuenta}`;
   if (FechaHasta) {
@@ -49,8 +17,7 @@ function* getMayor({ payload: { db, FechaHasta, idPlanCuenta } }) {
   if (data.errorMessage) {
     yield put(getRegistrosError(data.errorMessage));
   } else {
-    const balanceCuentas = yield calcularBalance(data);
-    yield put(getRegistrosSuccess(balanceCuentas))
+    yield put(getRegistrosSuccess(data))
   }
 };
 

@@ -6,6 +6,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 30px;
+  outline: 1px solid #919191;
 `;
 
 export const CuentaDiv = styled.div`
