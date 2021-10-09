@@ -8,7 +8,7 @@ const columnStyles = {
   '1': { width: '60px', textAlign: 'right' },
   '2': { width: '100px', textAlign: 'right' },
   '3': { width: '100px', textAlign: 'right' },
-  '4': { width: '150px', textAlign: 'left' },
+  '4': { width: '100px', textAlign: 'left' },
   '5': { width: '250px', textAlign: 'left' },
   '6': { width: '100px', textAlign: 'right' },
   '7': { width: '100px', textAlign: 'right' },
