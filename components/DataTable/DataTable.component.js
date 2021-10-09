@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
-import { useReactToPrint } from 'react-to-print';
 
 
 import { isAllowed } from '../../hocs/auth';
 import Button from '../Button/Button.component';
 import ButtonTable from '../ButtonTable/ButtonTable.component';
 import { TableContainer } from './DataTable.styled';
+import usePrinter from '../../customHooks/usePrinter';
 
 const pathId = ({ path, row, columns }) => {
   return `${path}/${row[columns[0]]}`;
@@ -45,10 +45,7 @@ const DataTable = ({
   title,
 }) => {
   const columns = data[0] && Object.keys(data[0]);
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+  const { ref, handlePrint } = usePrinter();
 
   return (
     <>
@@ -56,9 +53,9 @@ const DataTable = ({
         <h3>Todavía no hay datos para mostrar.</h3> :
         <>
           {allowPrint && <Button label="Imprimir" onClick={handlePrint} />}
-          <div ref={componentRef}>
+          <div ref={ref}>
             {title && <h3>{title}</h3>}
-            <TableContainer ref={componentRef} tableStyle={tableStyle}>
+            <TableContainer tableStyle={tableStyle}>
               <thead>
                 <tr>{data[0] && columns.map((heading, idx) => <th key={heading} style={columnStyles[idx]}>{heading}</th>)}</tr>
               </thead>
