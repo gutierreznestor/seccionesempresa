@@ -10,6 +10,12 @@ import { DesdeHastaDiv, DiarioMayorDiv } from './DiarioMayor.styled';
 import Heading from '../../../components/Heading/Heading.component';
 import ListItem from '../../../components/ListItem';
 import usePrinter from '../../../customHooks/usePrinter';
+import { formatDate } from '../../../helpers/dates';
+
+const format = (date) => {
+  if (!date) return '';
+  return formatDate({ date, formatString: 'dd/MM/yyyy' });
+}
 
 const MayorCuentaForm = [
   {
@@ -39,9 +45,11 @@ const DiarioMayor = ({ user, db }) => {
     },
   } = useDiarioMayor({ db, user });
   const { ref, PrintButton } = usePrinter({ documentTitle: 'Mayor de cuentas' });
+  const [values, setValues] = React.useState({});
 
   const onSubmit = (data) => {
     fetchDiarioMayor(data);
+    setValues(data);
   }
 
   return (
@@ -60,8 +68,8 @@ const DiarioMayor = ({ user, db }) => {
       <DiarioMayorDiv ref={ref}>
         <Heading level={1}>Mayores de cuentas</Heading>
         <DesdeHastaDiv>
-          <ListItem title="Desde" description="01/01/2021" />
-          <ListItem title="Hasta" description="31/01/2021" />
+          <ListItem title="Desde" description={values && format(values['FechaDesde'])} />
+          <ListItem title="Hasta" description={values && format(values['FechaHasta'])} />
         </DesdeHastaDiv>
         {diarioMayorList.length ? diarioMayorList.map((diarioMayor) => (
           <MayorCuenta
