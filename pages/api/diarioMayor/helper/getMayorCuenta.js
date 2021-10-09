@@ -78,6 +78,18 @@ const getMayorCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo 
   if (asientos.length) {
     saldo = asientos[asientos.length - 1].Saldo;
   }
+  if (asientos.length === 1) {
+    asientos.push({
+      Asiento: '',
+      Renglón: '',
+      Fecha: '',
+      FechaV: '',
+      Comprobante: '',
+      Leyenda: 'SIN MOVIMIENTOS',
+      Deb: '',
+      Cred: '',
+    });
+  }
   return {
     cuenta,
     asientos,
