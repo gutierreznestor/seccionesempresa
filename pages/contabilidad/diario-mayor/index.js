@@ -6,6 +6,10 @@ import useDiarioMayor from '../../../customHooks/useDiarioMayor';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
 import MayorCuenta from '../../../components/MayorCuenta/MayorCuenta.component';
 import Form from '../../../components/Form/Form.component';
+import { DesdeHastaDiv, DiarioMayorDiv } from './DiarioMayor.styled';
+import Heading from '../../../components/Heading/Heading.component';
+import ListItem from '../../../components/ListItem';
+import usePrinter from '../../../customHooks/usePrinter';
 
 const MayorCuentaForm = [
   {
@@ -34,14 +38,11 @@ const DiarioMayor = ({ user, db }) => {
       fetchDiarioMayor,
     },
   } = useDiarioMayor({ db, user });
+  const { ref, PrintButton } = usePrinter({ documentTitle: 'Mayor de cuentas' });
 
   const onSubmit = (data) => {
     fetchDiarioMayor(data);
   }
-
-  React.useEffect(() => {
-    // fetchDiarioMayor({});
-  }, []);
 
   return (
     <Layout title='Diario mayor' user={user}>
@@ -50,18 +51,27 @@ const DiarioMayor = ({ user, db }) => {
         onFormSubmit={onSubmit}
         config={MayorCuentaForm}
         defaultValues={{
-          FechaDesde: new Date(),
+          //FechaDesde: new Date(),
         }}
         buttonStyles={{ marginTop: '10px' }}
+        buttonLabel='Mostrar'
       />
-      {diarioMayorList.length ? diarioMayorList.map((diarioMayor) => (
-        <MayorCuenta
-          cuenta={diarioMayor.cuenta}
-          key={diarioMayor[0]?.idPlanCuenta}
-          registros={diarioMayor.asientos}
-          user={user}
-        />
-      )) : <h3>Todavía no hay registros</h3>}
+      {PrintButton}
+      <DiarioMayorDiv ref={ref}>
+        <Heading level={1}>Mayores de cuentas</Heading>
+        <DesdeHastaDiv>
+          <ListItem title="Desde" description="01/01/2021" />
+          <ListItem title="Hasta" description="31/01/2021" />
+        </DesdeHastaDiv>
+        {diarioMayorList.length ? diarioMayorList.map((diarioMayor) => (
+          <MayorCuenta
+            cuenta={diarioMayor.cuenta}
+            key={diarioMayor[0]?.idPlanCuenta}
+            registros={diarioMayor.asientos}
+            user={user}
+          />
+        )) : <h3>Todavía no hay registros</h3>}
+      </DiarioMayorDiv>
     </Layout>
   )
 }

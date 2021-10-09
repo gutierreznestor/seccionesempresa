@@ -45,14 +45,14 @@ const DataTable = ({
   title,
 }) => {
   const columns = data[0] && Object.keys(data[0]);
-  const { ref, handlePrint } = usePrinter();
+  const { ref, PrintButton } = usePrinter();
 
   return (
     <>
       {data && data.length === 0 ?
         <h3>Todavía no hay datos para mostrar.</h3> :
         <>
-          {allowPrint && <Button label="Imprimir" onClick={handlePrint} />}
+          {allowPrint && PrintButton}
           <div ref={ref}>
             {title && <h3>{title}</h3>}
             <TableContainer tableStyle={tableStyle}>
