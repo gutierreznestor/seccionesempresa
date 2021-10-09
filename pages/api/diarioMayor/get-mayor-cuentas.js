@@ -1,19 +1,29 @@
 import { query } from '../../../lib/db'
 import getCuentas from './helper/getCuentas';
 import getMayorCuenta from './helper/getMayorCuenta';
+import getMayorCuentaDesde from './helper/getMayorCuentaDesde';
 
 const handler = async (req, res) => {
   try {
-    const { db, FechaHasta } = req.query;
-    let whereClouse = '';
-    if (FechaHasta) {
-      whereClouse = `WHERE Fecha <= '${FechaHasta}'`;
-    }
+    const { db, FechaDesde, FechaHasta } = req.query;
     const cuentas = await getCuentas({ db });
     const mayorCuentasPromises = [];
     if (cuentas.length) {
       cuentas.forEach(cuenta => {
-        mayorCuentasPromises.push(getMayorCuenta({ idPlanCuenta: cuenta.idPlanCuenta, db, FechaHasta }));
+        if (FechaDesde) {
+          mayorCuentasPromises.push(getMayorCuentaDesde({
+            idPlanCuenta: cuenta.idPlanCuenta,
+            db,
+            FechaDesde,
+            FechaHasta,
+          }));
+        } else {
+          mayorCuentasPromises.push(getMayorCuenta({
+            idPlanCuenta: cuenta.idPlanCuenta,
+            db,
+            FechaHasta
+          }));
+        }
       });
     }
     const mayorCuentas = await Promise.all(mayorCuentasPromises);

@@ -6,7 +6,11 @@ const toSaldo = (prev, curr) => {
   let Haber = Number.parseInt(curr.Cred ? curr.Cred : 0);
   let newSaldo = 0;
   if (prev.length === 0) {
-    newSaldo = Debe - Haber;
+    let PrevSaldo = 0;
+    if (curr.Saldo) {
+      PrevSaldo = Number.parseInt(curr.Saldo);
+    }
+    newSaldo = PrevSaldo + Debe - Haber;
     prev.push({
       ...curr,
       Saldo: newSaldo,
@@ -26,10 +30,13 @@ export function calcularBalance(asientos = []) {
   return asientos.reduce(toSaldo, []);
 }
 
-const getMayorCuenta = async ({ db, idPlanCuenta, FechaHasta }) => {
+const getMayorCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo = 0 }) => {
   let whereClouse = `WHERE diario_mayor.idPlanCuenta = '${idPlanCuenta}'`;
   if (FechaHasta) {
-    whereClouse += `AND Fecha <= '${FechaHasta}'`;
+    whereClouse += ` AND Fecha <= '${FechaHasta}'`;
+  }
+  if (FechaDesde) {
+    whereClouse += ` AND Fecha >= '${FechaDesde}'`;
   }
   const cuenta = await getPlanCuenta({ db, id: idPlanCuenta });
   const queryString = `
@@ -52,7 +59,20 @@ const getMayorCuenta = async ({ db, idPlanCuenta, FechaHasta }) => {
         diario_mayor.DebeHaber,
         diario_mayor.Renglon
     `;
-  const registros = await query(queryString, null, db);
+  let registros = await query(queryString, null, db);
+  if (Saldo) {
+    registros.unshift({
+      Asiento: '',
+      Renglón: '',
+      Fecha: '',
+      FechaV: '',
+      Comprobante: '',
+      Leyenda: 'SALDO ANTERIOR',
+      Deb: '',
+      Cred: '',
+      Saldo,
+    });
+  }
   const asientos = calcularBalance(registros);
   let saldo = 0;
   if (asientos.length) {
