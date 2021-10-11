@@ -9,7 +9,7 @@ import useAsientos from '../../../../customHooks/useAsientos';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
 import useContabilidad from '../../../../customHooks/useContabilidad';
-import Contabilidad from '../../../../components/Contabilidad';
+import Contabilidad from '../../../../components/Contabilidad/Contabilidad.component';
 import useScroll from '../../../../customHooks/useScroll';
 import DataTable from '../../../../components/DataTable/DataTable.component';
 
