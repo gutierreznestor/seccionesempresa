@@ -7,7 +7,7 @@ export const StyledInput = styled.input(
       margin: 5px 0;
       border-radius: 3px;
       border: none;
-      width: ${type === 'number' ? '50px' : ''}
+      width: ${type === 'number' || type === 'date' ? '50px' : ''}
     `
   },
 );
