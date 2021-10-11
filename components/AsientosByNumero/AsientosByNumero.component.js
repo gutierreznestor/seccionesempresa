@@ -28,8 +28,13 @@ const AsientosByNumero = ({ db }) => {
     registerAsiento({ Numero: diferencia?.Numero });
   }
   return (
-    <div style={{ margin: '10px 0' }}>
-      <DataTable columnStyles={columnStyles} data={asientosNumero} />
+    <>
+      <DataTable
+        columnStyles={columnStyles}
+        data={asientosNumero}
+        hideNoElementsMessage
+        tableStyle={{ margin: '10px 0' }}
+      />
       <AsientosByNumeroContainer>
         <div>
           <ListItem title="Total Debe" description={diferencia?.Debe} />
@@ -47,7 +52,7 @@ const AsientosByNumero = ({ db }) => {
           }
         </div>
       </AsientosByNumeroContainer>
-    </div>
+    </>
   )
 }
 

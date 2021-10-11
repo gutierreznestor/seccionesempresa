@@ -55,7 +55,7 @@ const DataTable = ({
         <h3>Todavía no hay datos para mostrar.</h3> :
         <>
           {allowPrint && PrintButton}
-          <div ref={ref}>
+          <div ref={ref} style={{ display: data.length === 0 && hideNoElementsMessage ? 'none' : '' }}>
             {title && <h3>{title}</h3>}
             <TableContainer tableStyle={tableStyle}>
               <thead>
