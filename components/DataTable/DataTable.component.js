@@ -22,6 +22,7 @@ const pathAsiento = ({ path, row, columns }) => {
  * @param {boolean} allowDelete
  * @param {object} columnStyles
  * @param {array} data
+ * @param {boolean} hideNoElementsMessage
  * @param {array} notAllowed
  * @param {function} onDelete
  * @param {string} path
@@ -35,6 +36,7 @@ const DataTable = ({
   allowDelete,
   columnStyles = {},
   data,
+  hideNoElementsMessage,
   notAllowed = [],
   onDelete,
   path = 'usuarios',
@@ -49,7 +51,7 @@ const DataTable = ({
 
   return (
     <>
-      {data && data.length === 0 ?
+      {data && data.length === 0 && !hideNoElementsMessage ?
         <h3>Todavía no hay datos para mostrar.</h3> :
         <>
           {allowPrint && PrintButton}
