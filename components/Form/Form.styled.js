@@ -3,11 +3,14 @@ import styled from 'styled-components';
 export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   background-color: #f2f2f2;
-  min-width: 400px;
   margin-bottom: 20px;
+  width: 1200px;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-wrap: wrap;
 `;
 
 export const ErrorField = styled.span`
@@ -20,8 +23,7 @@ export const StyledInputLabel = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 400px;
-  position: relative;
+  width: 200px;
 `;
 
 export const StyledLabel = styled.label`
@@ -37,7 +39,7 @@ export const WatchValueDiv = styled.div`
 
 export const InputHelperContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 export const InputErrorWatchContainer = styled.div`

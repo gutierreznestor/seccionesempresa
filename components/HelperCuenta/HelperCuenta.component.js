@@ -21,7 +21,7 @@ const HelperCuenta = ({ db, user }) => {
   }, [planesCuentas]);
 
   return (
-    <HelperCuentaDiv>
+    <HelperCuentaDiv data-testid='helper-cuenta-div'>
       <Button label="Mostrar cuentas" onClick={toggle} />
       {modal}
     </HelperCuentaDiv>

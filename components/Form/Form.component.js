@@ -81,8 +81,8 @@ const Form = ({
                 {errors[name] && <ErrorField>{textValidation}</ErrorField>}
               </InputErrorWatchContainer>
             </InputHelperContainer>
+            {getHelper(name)}
           </StyledInputLabel>
-          {getHelper(name)}
         </FormFieldContainer>
       ))}
       {children}
