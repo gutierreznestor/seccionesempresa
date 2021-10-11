@@ -136,10 +136,11 @@ const EditarAsiento = ({ user, db }) => {
   }, []);
 
   const nuevoAsientoRef = getNextAsientoRef({
+    AddRenglon: true,
     Fecha: currentAsiento?.Fecha,
     Leyenda: currentAsiento?.Leyenda,
     Numero,
-    Renglon,
+    Renglon: Renglon,
     TipoAsiento: currentAsiento?.TipoAsiento,
   });
 

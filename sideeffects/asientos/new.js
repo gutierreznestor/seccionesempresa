@@ -4,6 +4,7 @@ import { newAsiento, newAsientoSuccess, newAsientoError } from '../../store/asie
 import { getContabilidad as getConta } from '../../store/contabilidad';
 import { getContabilidad } from '../../selectors/useSelectContabilidad';
 import { isSameDate } from '../../helpers/dates';
+import { getNextAsientoRef } from '../../helpers/getNextAsientoRef';
 
 function* validateAsientoApertura({ TipoAsiento, Fecha }) {
   const { currentContabilidad } = yield select(getContabilidad);
@@ -83,9 +84,12 @@ function* createAsiento({
         Renglon,
       }),
     });
-    yield put(newAsientoSuccess(data));
+    yield put(newAsientoSuccess('Asiento agregado correctamente'));
     yield put(getConta(db));
-    yield put(replace('/contabilidad/asientos'));
+    let redirectUrl = getNextAsientoRef({
+      Fecha, Leyenda, Numero, Renglon, TipoAsiento, path: 'edit'
+    });
+    yield put(replace(redirectUrl));
   } catch (error) {
     yield put(newAsientoError(error.message));
   }

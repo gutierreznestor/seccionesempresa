@@ -111,9 +111,13 @@ const NuevoAsiento = ({ user, db }) => {
   const [ref, setRef] = useScroll();
 
   const {
-    data: { errorMessage, proximoAsiento },
+    data: { errorMessage },
     handlers: { createAsiento }
   } = useAsientos({ db, user });
+
+  const {
+    handlers: { clearCurrentPlanCuenta },
+  } = usePlanCuentas({ db, user });
 
   const {
     handlers: { fetchContabilidad },
@@ -121,6 +125,9 @@ const NuevoAsiento = ({ user, db }) => {
 
   React.useEffect(() => {
     fetchContabilidad();
+    return () => {
+      clearCurrentPlanCuenta();
+    }
   }, []);
 
   const {

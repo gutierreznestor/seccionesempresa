@@ -33,7 +33,7 @@ export const asientosSlice = createSlice({
     },
     editAsientoSuccess(state, { payload }) {
       state.loading = false;
-      state.currentAsiento = payload;
+      state.message = payload;
     },
     editAsientoError(state, { payload }) {
       state.loading = false;
@@ -112,7 +112,7 @@ export const asientosSlice = createSlice({
     },
     newAsientoSuccess(state, { payload }) {
       state.loading = false;
-      state.currentAsiento = payload;
+      state.message = payload;
     },
     newAsientoError(state, { payload }) {
       state.loading = false;
