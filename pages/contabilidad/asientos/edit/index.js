@@ -118,6 +118,7 @@ const EditarAsiento = ({ user, db }) => {
   const {
     currentAsiento,
     errorMessage,
+    loading,
   } = useSelectAsientos();
 
   const {
@@ -148,7 +149,7 @@ const EditarAsiento = ({ user, db }) => {
     <Layout title='Asiento' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Asiento db={db} />
-      {currentAsiento ?
+      {currentAsiento && !loading ?
         <Form
           onFormSubmit={onSubmit}
           config={EditarAsientoForm}

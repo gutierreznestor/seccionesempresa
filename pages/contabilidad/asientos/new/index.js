@@ -11,6 +11,7 @@ import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
 import useContabilidad from '../../../../customHooks/useContabilidad';
 import Contabilidad from '../../../../components/Contabilidad';
 import useScroll from '../../../../customHooks/useScroll';
+import DataTable from '../../../../components/DataTable/DataTable.component';
 
 
 const NuevoAsientoForm = [
@@ -111,8 +112,8 @@ const NuevoAsiento = ({ user, db }) => {
   const [ref, setRef] = useScroll();
 
   const {
-    data: { errorMessage },
-    handlers: { createAsiento }
+    data: { errorMessage, asientosNumero },
+    handlers: { createAsiento, getAsientoByNumero }
   } = useAsientos({ db, user });
 
   const {
@@ -123,19 +124,21 @@ const NuevoAsiento = ({ user, db }) => {
     handlers: { fetchContabilidad },
   } = useContabilidad({ db });
 
-  React.useEffect(() => {
-    fetchContabilidad();
-    return () => {
-      clearCurrentPlanCuenta();
-    }
-  }, []);
-
   const {
     data: { errorMessage: errorPlanCuenta, currentPlanCuenta },
     handlers: { fetchPlanCuenta }
   } = usePlanCuentas({ db, user });
 
   const { Fecha, Leyenda, Numero, Renglon, TipoAsiento } = useGetAsientoParam();
+
+  React.useEffect(() => {
+    fetchContabilidad();
+    getAsientoByNumero({ Numero })
+    return () => {
+      clearCurrentPlanCuenta();
+    }
+  }, []);
+
 
   const onSubmit = (data) => {
     createAsiento(data);
@@ -146,6 +149,9 @@ const NuevoAsiento = ({ user, db }) => {
   return (
     <Layout title='Nuevo asiento' user={user}>
       <Contabilidad />
+      <div style={{ margin: '10px 0' }}>
+        <DataTable data={asientosNumero} />
+      </div>
       {errorMessage && <ErrorMessage message={errorMessage} ref={ref} />}
       <Form
         onFormSubmit={onSubmit}
