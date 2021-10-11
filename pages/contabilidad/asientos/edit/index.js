@@ -112,7 +112,7 @@ const EditarAsiento = ({ user, db }) => {
   const { Numero, Renglon } = useGetAsientoParam();
   const {
     data: { errorMessage: errorPlanCuenta, currentPlanCuenta },
-    handlers: { fetchPlanCuenta }
+    handlers: { fetchPlanCuenta, clearCurrentPlanCuenta }
   } = usePlanCuentas({ db, user });
 
   const {
@@ -130,6 +130,9 @@ const EditarAsiento = ({ user, db }) => {
 
   React.useEffect(() => {
     fetchAsiento({ Numero, Renglon });
+    return () => {
+      clearCurrentPlanCuenta();
+    }
   }, []);
 
   const nuevoAsientoRef = getNextAsientoRef({

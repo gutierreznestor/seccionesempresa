@@ -15,6 +15,30 @@ import useScroll from '../../../../customHooks/useScroll';
 
 const NuevoAsientoForm = [
   {
+    label: 'Fecha',
+    type: 'date',
+    name: 'Fecha',
+    placeholder: '01/01/2021',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+  },
+  {
+    label: 'Fecha de operación',
+    type: 'date',
+    name: 'FechaOperacion',
+    placeholder: '01/01/2021',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+  },
+  {
+    label: 'Fecha de vencimiento',
+    type: 'date',
+    name: 'FechaVencimiento',
+    placeholder: '01/01/2021',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+  },
+  {
     label: 'Asiento',
     type: 'number',
     name: 'Numero',
@@ -48,30 +72,6 @@ const NuevoAsientoForm = [
     validations: { required: true },
     textValidation: 'Este campo es requerido.',
     min: 1,
-  },
-  {
-    label: 'Fecha',
-    type: 'date',
-    name: 'Fecha',
-    placeholder: '01/01/2021',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-  },
-  {
-    label: 'Fecha de operación',
-    type: 'date',
-    name: 'FechaOperacion',
-    placeholder: '01/01/2021',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-  },
-  {
-    label: 'Fecha de vencimiento',
-    type: 'date',
-    name: 'FechaVencimiento',
-    placeholder: '01/01/2021',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
   },
   {
     label: 'Comprobante',
@@ -145,6 +145,7 @@ const NuevoAsiento = ({ user, db }) => {
         config={NuevoAsientoForm}
         defaultValues={{
           Fecha: Fecha ? Fecha : new Date(),
+          idPlanCuenta: currentPlanCuenta?.idPlanCuenta,
           Leyenda,
           Numero: Numero ? Numero : null,
           Renglon: Renglon ? Renglon : null,
