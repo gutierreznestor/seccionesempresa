@@ -28,6 +28,7 @@ export const StyledInputLabel = styled.div`
 
 export const StyledLabel = styled.label`
   margin: 3px 0;
+  width: 100%;
 `;
 
 export const WatchValueDiv = styled.div`
@@ -40,6 +41,7 @@ export const WatchValueDiv = styled.div`
 export const InputHelperContainer = styled.div`
   display: flex;
   justify-content: flex-start;
+  width: 100%;
 `;
 
 export const InputErrorWatchContainer = styled.div`
@@ -52,5 +54,9 @@ export const FormFieldContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  position: relative;
+`;
+
+export const SubmitButtonContainer = styled(FormFieldContainer)`
+  width: 200px;
+  min-height: 60px;
 `;

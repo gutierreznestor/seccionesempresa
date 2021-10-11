@@ -11,6 +11,7 @@ import {
   StyledForm,
   StyledInputLabel,
   StyledLabel,
+  SubmitButtonContainer,
   WatchValueDiv,
 } from './Form.styled'
 
@@ -86,7 +87,11 @@ const Form = ({
         </FormFieldContainer>
       ))}
       {children}
-      {hideButton ? '' : <Button type="submit" label={buttonLabel} style={buttonStyles} />}
+      {hideButton ? '' : (
+        <SubmitButtonContainer>
+          <Button type="submit" label={buttonLabel} style={buttonStyles} />
+        </SubmitButtonContainer>
+      )}
     </StyledForm>
   )
 }
