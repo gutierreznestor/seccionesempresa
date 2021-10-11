@@ -145,7 +145,11 @@ const NuevoAsiento = ({ user, db }) => {
   return (
     <Layout title='Nuevo asiento' user={user}>
       <Contabilidad />
-      <DataTable data={asientosNumero} hideNoElementsMessage />
+      <DataTable
+        data={asientosNumero}
+        hideNoElementsMessage
+        tableStyle={{ margin: '20px 0' }}
+      />
       {errorMessage && <ErrorMessage message={errorMessage} ref={ref} />}
       <Form
         buttonLabel='Guardar asiento'

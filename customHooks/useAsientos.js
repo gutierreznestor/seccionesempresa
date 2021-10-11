@@ -49,7 +49,7 @@ const useAsientos = ({ db, user }) => {
   }
 
   const getAsientoByNumero = ({ Numero }) => {
-    if (Numero) getByNumero({ db, Numero });
+    if (Numero) dispatch(getByNumero({ db, Numero }));
   }
 
   return {
