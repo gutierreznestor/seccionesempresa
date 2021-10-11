@@ -1,4 +1,5 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
+import { minus, newDecimal, roundNumber } from '../../helpers/decimalNumbers';
 import {
   getDebeHaber,
   getDebeHaberSuccess,
@@ -15,9 +16,12 @@ function* getDH({ payload }) {
     yield put(getDebeHaberError(data.errorMessage));
   } else {
     if (data.length) {
-      const Debe = data[0].Debe;
-      const Haber = data[0].Haber;
-      const Diferencia = Debe - Haber;
+      const mappedData = data.map(elem => {
+        return { ...elem, Debe: roundNumber({ number: elem.Debe }), Haber: roundNumber({ number: elem.Haber }) }
+      });
+      const Debe = roundNumber({ number: mappedData[0].Debe });
+      const Haber = roundNumber({ number: mappedData[0].Haber });
+      const Diferencia = minus(Debe, Haber);
       yield put(getDebeHaberSuccess({ Numero, Debe, Haber, Diferencia }));
     }
   }

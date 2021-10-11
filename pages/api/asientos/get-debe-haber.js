@@ -5,8 +5,8 @@ const handler = async (req, res) => {
     const { db, Numero } = req.query;
     const results = await query(`
     SELECT 
-      SUM(IF(asientos.DebeHaber=0, asientos.importe, 0)) AS Debe,
-      SUM(IF(asientos.DebeHaber=1, asientos.importe, 0)) AS Haber
+      SUM(IF(asientos.DebeHaber=0, asientos.Importe, 0)) AS Debe,
+      SUM(IF(asientos.DebeHaber=1, asientos.Importe, 0)) AS Haber
       FROM asientos
     WHERE asientos.Numero=?
       `,
