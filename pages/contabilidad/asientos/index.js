@@ -7,7 +7,7 @@ import { isAllowed } from '../../../hocs/auth';
 import useAsientos from '../../../customHooks/useAsientos';
 import useContabilidad from '../../../customHooks/useContabilidad';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
-import Contabilidad from '../../../components/Contabilidad';
+import Contabilidad from '../../../components/Contabilidad/Contabilidad.component';
 
 const Asientos = ({ user, db }) => {
   const {
