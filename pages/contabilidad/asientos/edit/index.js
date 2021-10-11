@@ -151,15 +151,15 @@ const EditarAsiento = ({ user, db }) => {
       <Asiento db={db} />
       {currentAsiento && !loading ?
         <Form
-          onFormSubmit={onSubmit}
+          buttonLabel='Guardar asiento'
           config={EditarAsientoForm}
-          buttonLabel="Guardar"
           defaultValues={currentAsiento}
+          helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
           hideButton={currentAsiento?.Registrado}
+          onFormSubmit={onSubmit}
           watcher='idPlanCuenta'
           watching={fetchPlanCuenta}
           watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}
-          helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
         /> :
         'loading...'
       }

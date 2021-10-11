@@ -117,16 +117,12 @@ const NuevoAsiento = ({ user, db }) => {
   } = useAsientos({ db, user });
 
   const {
-    handlers: { clearCurrentPlanCuenta },
-  } = usePlanCuentas({ db, user });
-
-  const {
     handlers: { fetchContabilidad },
   } = useContabilidad({ db });
 
   const {
     data: { errorMessage: errorPlanCuenta, currentPlanCuenta },
-    handlers: { fetchPlanCuenta }
+    handlers: { clearCurrentPlanCuenta, fetchPlanCuenta }
   } = usePlanCuentas({ db, user });
 
   const { Fecha, Leyenda, Numero, Renglon, TipoAsiento } = useGetAsientoParam();
@@ -149,21 +145,20 @@ const NuevoAsiento = ({ user, db }) => {
   return (
     <Layout title='Nuevo asiento' user={user}>
       <Contabilidad />
-      <div style={{ margin: '10px 0' }}>
-        <DataTable data={asientosNumero} />
-      </div>
+      <DataTable data={asientosNumero} hideNoElementsMessage />
       {errorMessage && <ErrorMessage message={errorMessage} ref={ref} />}
       <Form
-        onFormSubmit={onSubmit}
+        buttonLabel='Guardar asiento'
         config={NuevoAsientoForm}
         defaultValues={{
-          Fecha: Fecha ? Fecha : new Date(),
+          Fecha: Fecha ? Fecha : null,
           idPlanCuenta: currentPlanCuenta?.idPlanCuenta,
           Leyenda,
           Numero: Numero ? Numero : null,
           Renglon: Renglon ? Renglon : null,
           TipoAsiento,
         }}
+        onFormSubmit={onSubmit}
         watcher='idPlanCuenta'
         watching={fetchPlanCuenta}
         watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}

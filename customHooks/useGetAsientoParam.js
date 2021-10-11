@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 
 const useGetAsientoParam = () => {
   const { query } = useRouter();
-  const Fecha = query.Fecha ? new Date(query.Fecha) : new Date();
+  const Fecha = query.Fecha ? new Date(query.Fecha) : '';
   const Leyenda = query.Leyenda;
   const Numero = query.Numero;
   const Renglon = query.Renglon;
