@@ -13,7 +13,6 @@ export const newDecimal = (number) => {
 }
 
 export const minus = (number1, number2) => {
-  console.log({ number1, number2 });
   return roundNumber({ number: new Decimal(number1).minus(roundNumber({ number: number2 })).toNumber() });
 }
 
