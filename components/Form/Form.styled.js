@@ -1,17 +1,20 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  background-color: #f2f2f2;
-  margin-bottom: 20px;
-  width: 1200px;
-  flex-direction: row;
-  flex-grow: 0;
-  flex-wrap: wrap;
-`;
+export const StyledForm = styled.form(
+  ({ formStyle }) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #f2f2f2;
+    margin-bottom: 20px;
+    width: 1200px;
+    flex-direction: row;
+    flex-grow: 0;
+    flex-wrap: wrap;
+    ${{ ...formStyle }}
+  `,
+);
 
 export const ErrorField = styled.span`
   color: #ef3210;

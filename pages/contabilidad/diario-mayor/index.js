@@ -56,13 +56,14 @@ const DiarioMayor = ({ user, db }) => {
     <Layout title='Diario mayor' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form
-        onFormSubmit={onSubmit}
+        buttonLabel='Mostrar'
+        buttonStyles={{ marginTop: '10px' }}
         config={MayorCuentaForm}
         defaultValues={{
           //FechaDesde: new Date(),
         }}
-        buttonStyles={{ marginTop: '10px' }}
-        buttonLabel='Mostrar'
+        formStyle={{ justifyContent: 'center' }}
+        onFormSubmit={onSubmit}
       />
       {PrintButton}
       <DiarioMayorDiv ref={ref}>

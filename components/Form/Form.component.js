@@ -16,14 +16,15 @@ import {
 } from './Form.styled'
 
 const Form = ({
-  onFormSubmit,
-  children,
-  config = [],
   buttonLabel = 'Agregar',
   buttonStyles = {},
+  children,
+  config = [],
   defaultValues = {},
+  formStyle = {},
   helpers = [],
   hideButton = false,
+  onFormSubmit,
   watcher = '',
   watching = () => { },
   watchValue = '',
@@ -52,7 +53,7 @@ const Form = ({
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)} formStyle={formStyle}>
       {config.map(({
         label,
         type,
