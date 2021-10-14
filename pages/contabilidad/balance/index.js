@@ -13,13 +13,16 @@ import usePrinter from '../../../customHooks/usePrinter';
 import { formatDate } from '../../../helpers/dates';
 import { useSelectBalance } from '../../../selectors/useSelectBalance';
 import DataTable from '../../../components/DataTable/DataTable.component';
+import useGetBalanceParam from '../../../customHooks/useGetBalanceParam';
+import { getBalanceRef } from '../../../helpers/getBalanceRef';
+import { useRouter } from 'next/router';
 
 const format = (date) => {
   if (!date) return '';
   return formatDate({ date, formatString: 'dd/MM/yyyy' });
 }
 
-const MayorCuentaForm = [
+const BalanceForm = [
   {
     label: 'Fecha desde',
     type: 'date',
@@ -37,12 +40,13 @@ const MayorCuentaForm = [
 ];
 
 const columnStyles = {
-  '0': { width: '60px', textAlign: 'right' },
-  '1': { width: '120px', textAlign: 'right' },
-  '2': { width: '150px', textAlign: 'left' },
-  '3': { width: '100px', textAlign: 'right' },
+  '0': { width: '60px', textAlign: 'left' },
+  '1': { width: '150px', textAlign: 'left' },
+  '2': { width: '300px', textAlign: 'left' },
+  '3': { width: '50px', textAlign: 'left' },
   '4': { width: '100px', textAlign: 'right' },
-  '5': { width: '120px', textAlign: 'right' },
+  '5': { width: '100px', textAlign: 'right' },
+  '6': { width: '100px', textAlign: 'right' },
 };
 
 const Balance = ({ user, db }) => {
@@ -51,12 +55,26 @@ const Balance = ({ user, db }) => {
   } = useBalance({ db, user });
   const { loading, errorMessage, balanceList } = useSelectBalance();
   const { ref, PrintButton } = usePrinter({ documentTitle: 'Balance' });
+  const { FechaDesde, FechaHasta } = useGetBalanceParam();
+  const Router = useRouter();
   const [values, setValues] = React.useState({});
 
   const onSubmit = (data) => {
+    const { FechaDesde, FechaHasta } = data;
+    const url = getBalanceRef({ FechaDesde, FechaHasta });
+    setValues(data);
+    Router.push(url);
+  }
+
+  React.useEffect(() => {
+    const data = { FechaDesde, FechaHasta };
     fetchBalance(data);
     setValues(data);
-  }
+  }, []);
+
+  const renderTable = balanceList.length ?
+    <DataTable columnStyles={columnStyles} data={balanceList} /> :
+    <h3>Todavía no hay registros</h3>;
 
   return (
     <Layout title='Balance' user={user}>
@@ -64,9 +82,10 @@ const Balance = ({ user, db }) => {
       <Form
         buttonLabel='Mostrar'
         buttonStyles={{ marginTop: '10px' }}
-        config={MayorCuentaForm}
+        config={BalanceForm}
         defaultValues={{
-          //FechaDesde: new Date(),
+          FechaDesde,
+          FechaHasta,
         }}
         formStyle={{ justifyContent: 'center' }}
         onFormSubmit={onSubmit}
@@ -75,10 +94,10 @@ const Balance = ({ user, db }) => {
       <DiarioMayorDiv ref={ref}>
         <Heading level={1}>Balance completo</Heading>
         <DesdeHastaDiv>
-          <ListItem title="Desde" description={values && format(values['FechaDesde'])} />
+          {/* <ListItem title="Desde" description={values && format(values['FechaDesde'])} /> */}
           <ListItem title="Hasta" description={values && format(values['FechaHasta'])} />
         </DesdeHastaDiv>
-        {balanceList.length ? <DataTable columnStyles={columnStyles} data={balanceList} /> : <h3>Todavía no hay registros</h3>}
+        {loading ? <h3>Cargando...</h3> : renderTable}
       </DiarioMayorDiv>
     </Layout>
   )

@@ -7,7 +7,10 @@ import {
 } from '../../store/balance';
 
 function* getB({ payload: { db, FechaDesde, FechaHasta, idPlanCuenta } }) {
-  let url = `http://localhost:3000/api/balance/get-balance?db=${db}&idPlanCuenta=${idPlanCuenta}`;
+  let url = `http://localhost:3000/api/balance/get-balance?db=${db}`;
+  if (idPlanCuenta) {
+    url += `&idPlanCuenta=${idPlanCuenta}`;
+  }
   if (FechaHasta) {
     url += `&FechaHasta=${formatDate({ date: FechaHasta, formatString: 'yyyy-MM-dd' })}`;
   }
