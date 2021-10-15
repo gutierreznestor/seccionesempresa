@@ -5,8 +5,7 @@ const getCuentasBalance = async ({ db }) => {
     SELECT 
       plan_cuentas.idPlanCuenta, 
       plan_cuentas.CodigoPlan, 
-      plan_cuentas.Nombre,
-      plan_cuentas.Tipo
+      plan_cuentas.Nombre
     FROM plan_cuentas
     ORDER BY plan_cuentas.CodigoPlan DESC
     `, null, db);

@@ -1,5 +1,6 @@
 import getCuentasBalance from './helper/getCuentasBalance';
 import getBalance from './helper/getBalance';
+import getSaldoInicial from './helper/getSaldoInicial';
 // import getBalanceDesde from './helper/getBalanceDesde';
 
 const convertToModel = (balanceObj) => {
@@ -21,11 +22,22 @@ const initializeBalanceHash = (list) => {
   list.forEach(item => {
     hash[item.CodigoPlan] = {
       ...item,
+      SaldoInicial: 0,
       Debitos: 0,
       Creditos: 0,
+      Acumulado: 0,
       SaldoCierre: 0,
     };
   });
+  return hash;
+}
+
+const saldoInicialCuentas = async ({ db, cuentas = [], balanceHash }) => {
+  let hash = balanceHash;
+  for (const cuenta of cuentas) {
+    const saldoHash = await getSaldoInicial({ db, idPlanCuenta: cuenta.idPlanCuenta, balanceHash: hash });
+    hash = { ...hash, ...saldoHash };
+  }
   return hash;
 }
 
@@ -34,7 +46,8 @@ const handler = async (req, res) => {
     const { db, FechaDesde, FechaHasta } = req.query;
     const cuentas = await getCuentasBalance({ db });
     let balanceHash = initializeBalanceHash(cuentas);
-    let hash = { ...balanceHash };
+    const hashSaldoInicial = await saldoInicialCuentas({ db, cuentas, balanceHash });
+    let hash = { ...hashSaldoInicial };
     if (cuentas.length) {
       for (const cuenta of cuentas) {
         const res = await getBalance({
@@ -42,6 +55,7 @@ const handler = async (req, res) => {
           db,
           FechaHasta,
           balanceHash: hash,
+          Saldo: hashSaldoInicial[cuenta.CodigoPlan].SaldoInicial,
         });
         hash = { ...hash, ...res };
       }
