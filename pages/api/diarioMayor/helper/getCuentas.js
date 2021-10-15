@@ -8,7 +8,7 @@ const getCuentas = async ({ db }) => {
       plan_cuentas.Nombre
     FROM diario_mayor
     INNER JOIN plan_cuentas ON (plan_cuentas.idPlanCuenta = diario_mayor.idPlanCuenta)
-    GROUP BY diario_mayor.idPlanCuenta
+    GROUP BY plan_cuentas.CodigoPlan
     `, null, db);
   return results;
 };
