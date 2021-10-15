@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-next-router';
-import { editAsiento, editAsientoSuccess, editAsientoError, getAsientoByNumero } from '../../store/asientos';
+import { editAsiento, editAsientoSuccess, editAsientoError, getAsientoByNumero, getAsiento } from '../../store/asientos';
 import { getNextAsientoRef } from '../../helpers/getNextAsientoRef';
 
 function* edit({
@@ -52,6 +52,7 @@ function* edit({
     });
     yield put(replace(redirectUrl));
     yield put(getAsientoByNumero({ Numero, db }));
+    yield put(getAsiento({ db, Numero, Renglon }));
   } catch (error) {
     yield put(editAsientoError(error.message))
   }

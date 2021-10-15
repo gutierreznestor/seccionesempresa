@@ -9,7 +9,7 @@ const getPlanCuenta = async ({ db, id }) => {
   if (results.length > 0) {
     return {
       ...results[0],
-      Acumulado: 0,
+      SaldoCierre: 0,
       Debitos: 0,
       Creditos: 0,
     };

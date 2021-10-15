@@ -21,9 +21,9 @@ const initializeBalanceHash = (list) => {
   list.forEach(item => {
     hash[item.CodigoPlan] = {
       ...item,
-      Creditos: 0,
       Debitos: 0,
-      Acumulado: 0,
+      Creditos: 0,
+      SaldoCierre: 0,
     };
   });
   return hash;

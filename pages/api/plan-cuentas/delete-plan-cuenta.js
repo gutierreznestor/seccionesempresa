@@ -22,7 +22,7 @@ const handler = async (req, res) => {
     if (!canEdit) {
       return res
         .status(400)
-        .json({ errorMessage: 'Primero elimine las subcuentas.' })
+        .json({ errorMessage: 'No se puede eliminar la cuenta. Primero elimine las subcuentas.' })
     }
     const results = await query(
       `

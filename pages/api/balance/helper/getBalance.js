@@ -48,7 +48,7 @@ const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Sald
         SUM(IF (diario_mayor.DebeHaber = 0, diario_mayor.importe, 0)) AS Debitos,
         SUM(IF (diario_mayor.DebeHaber = 1, diario_mayor.importe, 0)) AS Creditos,
         SUM(IF (diario_mayor.DebeHaber = 0, diario_mayor.importe, 0)) - 
-          SUM(IF (diario_mayor.DebeHaber = 1, diario_mayor.importe, 0)) AS Acumulado
+          SUM(IF (diario_mayor.DebeHaber = 1, diario_mayor.importe, 0)) AS SaldoCierre
           FROM plan_cuentas
       LEFT JOIN diario_mayor ON diario_mayor.idPlanCuenta = plan_cuentas.idPlanCuenta
       ${whereClouse}
@@ -57,8 +57,8 @@ const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Sald
   let registros = await query(queryString, null, db);
   if (registros.length) {
     registros.forEach(registro => {
-      const PrevAcc = balanceHash[cuenta.CodigoPlan]?.Acumulado;
-      balanceHash[cuenta.CodigoPlan].Acumulado = PrevAcc + registro.Acumulado;
+      const PrevAcc = balanceHash[cuenta.CodigoPlan]?.SaldoCierre;
+      balanceHash[cuenta.CodigoPlan].SaldoCierre = PrevAcc + registro.SaldoCierre;
       const PrevDebitos = balanceHash[cuenta.CodigoPlan]?.Debitos;
       balanceHash[cuenta.CodigoPlan].Debitos = PrevDebitos + registro.Debitos;
       const PrevCreditos = balanceHash[cuenta.CodigoPlan]?.Creditos;
@@ -83,16 +83,16 @@ const getBalance = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo = 0,
       let Debitos = 0;
       let Creditos = 0;
       if (hash[cuenta.CodigoPlan]) {
-        Acc = hash[cuenta.CodigoPlan].Acumulado;
+        Acc = hash[cuenta.CodigoPlan].SaldoCierre;
         Debitos = hash[cuenta.CodigoPlan].Debitos;
         Creditos = hash[cuenta.CodigoPlan].Creditos;
       }
       if (hash[ChildCodigoPlan]) {
-        Acc += hash[ChildCodigoPlan].Acumulado;
+        Acc += hash[ChildCodigoPlan].SaldoCierre;
         Debitos += hash[ChildCodigoPlan].Debitos;
         Creditos += hash[ChildCodigoPlan].Creditos;
       }
-      hash[cuenta.CodigoPlan].Acumulado = Acc;
+      hash[cuenta.CodigoPlan].SaldoCierre = Acc;
       hash[cuenta.CodigoPlan].Debitos = Debitos;
       hash[cuenta.CodigoPlan].Creditos = Creditos;
     });
