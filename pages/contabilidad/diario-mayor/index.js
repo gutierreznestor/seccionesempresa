@@ -1,7 +1,7 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import Layout from '../../../components/Layout'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
-import { isAllowed } from '../../../hocs/auth';
 import useDiarioMayor from '../../../customHooks/useDiarioMayor';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
 import MayorCuenta from '../../../components/MayorCuenta/MayorCuenta.component';
@@ -11,6 +11,8 @@ import Heading from '../../../components/Heading/Heading.component';
 import ListItem from '../../../components/ListItem';
 import usePrinter from '../../../customHooks/usePrinter';
 import { formatDate } from '../../../helpers/dates';
+import useGetBalanceParam from '../../../customHooks/useGetBalanceParam';
+import { getDiarioMayorRef } from '../../../helpers/getDiarioMayorRef';
 
 const format = (date) => {
   if (!date) return '';
@@ -46,11 +48,21 @@ const DiarioMayor = ({ user, db }) => {
   } = useDiarioMayor({ db, user });
   const { ref, PrintButton } = usePrinter({ documentTitle: 'Mayor de cuentas' });
   const [values, setValues] = React.useState({});
+  const { FechaDesde, FechaHasta } = useGetBalanceParam();
+  const Router = useRouter();
 
   const onSubmit = (data) => {
-    fetchDiarioMayor(data);
+    const { FechaDesde, FechaHasta } = data;
+    const url = getDiarioMayorRef({ FechaDesde, FechaHasta });
+    Router.push(url);
     setValues(data);
   }
+
+  React.useEffect(() => {
+    const data = { FechaDesde, FechaHasta };
+    fetchDiarioMayor(data);
+    setValues(data);
+  }, []);
 
   return (
     <Layout title='Diario mayor' user={user}>
@@ -60,7 +72,8 @@ const DiarioMayor = ({ user, db }) => {
         buttonStyles={{ marginTop: '10px' }}
         config={MayorCuentaForm}
         defaultValues={{
-          //FechaDesde: new Date(),
+          FechaDesde,
+          FechaHasta,
         }}
         formStyle={{ justifyContent: 'center' }}
         onFormSubmit={onSubmit}
