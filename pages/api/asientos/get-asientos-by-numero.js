@@ -12,6 +12,7 @@ const handler = async (req, res) => {
       SELECT DISTINCT 
         asientos.Numero, 
         asientos.Renglon,
+        asientos.DebeHaber,
         asientos.Leyenda,
         DATE_FORMAT(asientos.Fecha, '%d-%m-%Y') AS Fecha,
         plan_cuentas.Nombre AS Plan,
