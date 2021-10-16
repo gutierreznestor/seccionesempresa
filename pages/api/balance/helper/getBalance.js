@@ -58,14 +58,15 @@ const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Sald
   let registros = await query(queryString, null, db);
   if (registros.length) {
     registros.forEach(registro => {
-      const PrevCierre = balanceHash[cuenta.CodigoPlan].SaldoCierre;
-      balanceHash[cuenta.CodigoPlan].SaldoCierre = PrevCierre + registro.SaldoCierre;
+      balanceHash[cuenta.CodigoPlan].SaldoInicial = SaldoInicial;
       const PrevDebitos = balanceHash[cuenta.CodigoPlan].Debitos;
       balanceHash[cuenta.CodigoPlan].Debitos = PrevDebitos + registro.Debitos - SaldoInicial;
       const PrevCreditos = balanceHash[cuenta.CodigoPlan].Creditos;
       balanceHash[cuenta.CodigoPlan].Creditos = PrevCreditos + registro.Creditos;
       const Acumulado = balanceHash[cuenta.CodigoPlan].Debitos - balanceHash[cuenta.CodigoPlan].Creditos;
       balanceHash[cuenta.CodigoPlan].Acumulado = Acumulado;
+      const PrevCierre = balanceHash[cuenta.CodigoPlan].SaldoCierre;
+      balanceHash[cuenta.CodigoPlan].SaldoCierre = PrevCierre + registro.SaldoCierre;
     });
   }
   return balanceHash;
@@ -74,7 +75,6 @@ const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Sald
 const getBalance = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo = 0, balanceHash = {} }) => {
   const cuenta = await getPlanCuenta({ db, id: idPlanCuenta });
   let hash = { ...balanceHash };
-
   if (cuenta.Tipo == 1) {
     const response = await getBalanceCuenta({
       db,
@@ -92,23 +92,23 @@ const getBalance = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo = 0,
       let SaldoCierre = 0;
       let Debitos = 0;
       let Creditos = 0;
-      let SaldoInicial = 0;
+      let SInicial = 0;
       if (hash[cuenta.CodigoPlan]) {
         SaldoCierre = hash[cuenta.CodigoPlan].SaldoCierre;
         Debitos = hash[cuenta.CodigoPlan].Debitos;
         Creditos = hash[cuenta.CodigoPlan].Creditos;
-        SaldoInicial = hash[cuenta.CodigoPlan].SaldoInicial;
+        SInicial = hash[cuenta.CodigoPlan].SaldoInicial;
       }
       if (hash[ChildCodigoPlan]) {
         SaldoCierre += hash[ChildCodigoPlan].SaldoCierre;
         Debitos += hash[ChildCodigoPlan].Debitos;
         Creditos += hash[ChildCodigoPlan].Creditos;
-        SaldoInicial += hash[ChildCodigoPlan].SaldoInicial;
+        SInicial += hash[ChildCodigoPlan].SaldoInicial;
       }
       hash[cuenta.CodigoPlan].SaldoCierre = SaldoCierre;
       hash[cuenta.CodigoPlan].Debitos = Debitos;
       hash[cuenta.CodigoPlan].Creditos = Creditos;
-      hash[cuenta.CodigoPlan].SaldoInicial = SaldoInicial;
+      hash[cuenta.CodigoPlan].SaldoInicial = SInicial;
       hash[cuenta.CodigoPlan].Acumulado = Debitos - Creditos;
     });
     return hash;
