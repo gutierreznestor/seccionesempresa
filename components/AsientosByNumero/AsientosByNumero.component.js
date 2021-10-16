@@ -9,10 +9,11 @@ import { AsientosByNumeroContainer } from './AsientosByNumero.styled';
 const columnStyles = {
   '0': { width: '60px', textAlign: 'right' },
   '1': { width: '60px', textAlign: 'right' },
-  '2': { width: '250px', textAlign: 'left' },
-  '3': { width: '100px', textAlign: 'right' },
-  '4': { width: '200px', textAlign: 'left' },
-  '5': { width: '60px', textAlign: 'right' },
+  '2': { width: '60px', textAlign: 'right' },
+  '3': { width: '250px', textAlign: 'left' },
+  '4': { width: '100px', textAlign: 'right' },
+  '5': { width: '200px', textAlign: 'left' },
+  '6': { width: '60px', textAlign: 'right' },
 };
 
 const AsientosByNumero = ({ db }) => {
