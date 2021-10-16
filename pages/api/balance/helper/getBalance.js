@@ -60,7 +60,7 @@ const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Sald
     registros.forEach(registro => {
       balanceHash[cuenta.CodigoPlan].SaldoInicial = SaldoInicial;
       const PrevDebitos = balanceHash[cuenta.CodigoPlan].Debitos;
-      balanceHash[cuenta.CodigoPlan].Debitos = PrevDebitos + registro.Debitos - SaldoInicial;
+      balanceHash[cuenta.CodigoPlan].Debitos = PrevDebitos + registro.Debitos;
       const PrevCreditos = balanceHash[cuenta.CodigoPlan].Creditos;
       balanceHash[cuenta.CodigoPlan].Creditos = PrevCreditos + registro.Creditos;
       const Acumulado = balanceHash[cuenta.CodigoPlan].Debitos - balanceHash[cuenta.CodigoPlan].Creditos;
@@ -72,7 +72,7 @@ const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Sald
   return balanceHash;
 }
 
-const getBalance = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo = 0, balanceHash = {} }) => {
+const getBalance = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, SaldoInicial = 0, balanceHash = {} }) => {
   const cuenta = await getPlanCuenta({ db, id: idPlanCuenta });
   let hash = { ...balanceHash };
   if (cuenta.Tipo == 1) {
@@ -81,7 +81,7 @@ const getBalance = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo = 0,
       idPlanCuenta,
       FechaDesde,
       FechaHasta,
-      Saldo,
+      SaldoInicial,
       balanceHash,
     });
     hash[cuenta.CodigoPlan] = response[cuenta.CodigoPlan];
