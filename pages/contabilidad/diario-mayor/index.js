@@ -56,6 +56,7 @@ const DiarioMayor = ({ user, db }) => {
     const url = getDiarioMayorRef({ FechaDesde, FechaHasta });
     Router.push(url);
     setValues(data);
+    fetchDiarioMayor(data);
   }
 
   React.useEffect(() => {

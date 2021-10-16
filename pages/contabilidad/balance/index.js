@@ -40,13 +40,14 @@ const BalanceForm = [
 ];
 
 const columnStyles = {
-  '0': { width: '60px', textAlign: 'left' },
+  '0': { width: '60px', textAlign: 'right' },
   '1': { width: '150px', textAlign: 'left' },
   '2': { width: '300px', textAlign: 'left' },
-  '3': { width: '50px', textAlign: 'left' },
+  '3': { width: '50px', textAlign: 'right' },
   '4': { width: '100px', textAlign: 'right' },
   '5': { width: '100px', textAlign: 'right' },
   '6': { width: '100px', textAlign: 'right' },
+  '7': { width: '100px', textAlign: 'right' },
 };
 
 const Balance = ({ user, db }) => {
@@ -64,6 +65,7 @@ const Balance = ({ user, db }) => {
     const url = getBalanceRef({ FechaDesde, FechaHasta });
     setValues(data);
     Router.push(url);
+    fetchBalance(data);
   }
 
   React.useEffect(() => {
@@ -94,7 +96,8 @@ const Balance = ({ user, db }) => {
       <DiarioMayorDiv ref={ref}>
         <Heading level={1}>Balance completo</Heading>
         <DesdeHastaDiv>
-          {/* <ListItem title="Desde" description={values && format(values['FechaDesde'])} /> */}
+          {format(values['FechaDesde']) ?
+            <ListItem title="Desde" description={values && format(values['FechaDesde'])} /> : null}
           <ListItem title="Hasta" description={values && format(values['FechaHasta'])} />
         </DesdeHastaDiv>
         {loading ? <h3>Cargando...</h3> : renderTable}

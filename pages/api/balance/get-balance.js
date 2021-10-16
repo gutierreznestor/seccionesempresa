@@ -55,7 +55,7 @@ const handler = async (req, res) => {
           db,
           FechaHasta,
           balanceHash: hash,
-          Saldo: hashSaldoInicial[cuenta.CodigoPlan].SaldoInicial,
+          SaldoInicial: hashSaldoInicial[cuenta.CodigoPlan].SaldoInicial,
         });
         hash = { ...hash, ...res };
       }

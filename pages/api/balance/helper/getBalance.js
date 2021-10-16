@@ -31,7 +31,7 @@ export function calcularBalance(asientos = []) {
   return asientos.reduce(toSaldo, []);
 }
 
-const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo = 0, balanceHash = {} }) => {
+const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, SaldoInicial = 0, balanceHash = {} }) => {
   const cuenta = await getPlanCuenta({ db, id: idPlanCuenta });
   let whereClouse = `WHERE diario_mayor.idPlanCuenta = '${idPlanCuenta}'`;
   if (FechaHasta) {
@@ -45,8 +45,8 @@ const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Sald
         plan_cuentas.idPlanCuenta AS Cuenta,
         plan_cuentas.CodigoPlan AS CodigoPlan,
         plan_cuentas.Nombre AS Nombre,
-        SUM(IF (diario_mayor.DebeHaber = 0, diario_mayor.importe, 0)) AS Debitos,
-        SUM(IF (diario_mayor.DebeHaber = 1, diario_mayor.importe, 0)) AS Creditos,
+        SUM(IF (diario_mayor.TipoAsiento = 1, 0, IF (diario_mayor.DebeHaber = 0, diario_mayor.importe, 0))) AS Debitos,
+        SUM(IF (diario_mayor.TipoAsiento = 1, 0, IF (diario_mayor.DebeHaber = 1, diario_mayor.importe, 0))) AS Creditos,       
         SUM(IF (diario_mayor.DebeHaber = 0, diario_mayor.importe, 0)) - 
           SUM(IF (diario_mayor.DebeHaber = 1, diario_mayor.importe, 0)) AS SaldoCierre
           FROM plan_cuentas
@@ -54,13 +54,14 @@ const getBalanceCuenta = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Sald
       ${whereClouse}
       ORDER BY plan_cuentas.CodigoPlan ASC        
     `;
+
   let registros = await query(queryString, null, db);
   if (registros.length) {
     registros.forEach(registro => {
       const PrevCierre = balanceHash[cuenta.CodigoPlan].SaldoCierre;
       balanceHash[cuenta.CodigoPlan].SaldoCierre = PrevCierre + registro.SaldoCierre;
-      const PrevDebitos = balanceHash[cuenta.CodigoPlan].Debitos - Saldo;
-      balanceHash[cuenta.CodigoPlan].Debitos = PrevDebitos + registro.Debitos;
+      const PrevDebitos = balanceHash[cuenta.CodigoPlan].Debitos;
+      balanceHash[cuenta.CodigoPlan].Debitos = PrevDebitos + registro.Debitos - SaldoInicial;
       const PrevCreditos = balanceHash[cuenta.CodigoPlan].Creditos;
       balanceHash[cuenta.CodigoPlan].Creditos = PrevCreditos + registro.Creditos;
       const Acumulado = balanceHash[cuenta.CodigoPlan].Debitos - balanceHash[cuenta.CodigoPlan].Creditos;
@@ -88,22 +89,27 @@ const getBalance = async ({ db, idPlanCuenta, FechaDesde, FechaHasta, Saldo = 0,
   } else {
     const children = await getChildren({ db, CodigoPlan: cuenta.CodigoPlan });
     children.forEach(({ CodigoPlan: ChildCodigoPlan }) => {
-      let Acc = 0;
+      let SaldoCierre = 0;
       let Debitos = 0;
       let Creditos = 0;
+      let SaldoInicial = 0;
       if (hash[cuenta.CodigoPlan]) {
-        Acc = hash[cuenta.CodigoPlan].SaldoCierre;
+        SaldoCierre = hash[cuenta.CodigoPlan].SaldoCierre;
         Debitos = hash[cuenta.CodigoPlan].Debitos;
         Creditos = hash[cuenta.CodigoPlan].Creditos;
+        SaldoInicial = hash[cuenta.CodigoPlan].SaldoInicial;
       }
       if (hash[ChildCodigoPlan]) {
-        Acc += hash[ChildCodigoPlan].SaldoCierre;
+        SaldoCierre += hash[ChildCodigoPlan].SaldoCierre;
         Debitos += hash[ChildCodigoPlan].Debitos;
         Creditos += hash[ChildCodigoPlan].Creditos;
+        SaldoInicial += hash[ChildCodigoPlan].SaldoInicial;
       }
-      hash[cuenta.CodigoPlan].SaldoCierre = Acc;
+      hash[cuenta.CodigoPlan].SaldoCierre = SaldoCierre;
       hash[cuenta.CodigoPlan].Debitos = Debitos;
       hash[cuenta.CodigoPlan].Creditos = Creditos;
+      hash[cuenta.CodigoPlan].SaldoInicial = SaldoInicial;
+      hash[cuenta.CodigoPlan].Acumulado = Debitos - Creditos;
     });
     return hash;
   }
