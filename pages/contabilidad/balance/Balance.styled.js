@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 
-export const DiarioMayorDiv = styled.div`
+const BalanceDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
+
+export default BalanceDiv;
 
 export const DesdeHastaDiv = styled.div`
   display: flex;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TotalDebeHaberDiv = styled.div`
+const TotalDebeHaberDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -8,3 +8,5 @@ export const TotalDebeHaberDiv = styled.div`
   margin-top: 10px;
   font-size: 1.2rem;
 `;
+
+export default TotalDebeHaberDiv;

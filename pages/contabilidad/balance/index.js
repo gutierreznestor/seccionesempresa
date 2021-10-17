@@ -4,7 +4,7 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.componen
 import useBalance from '../../../customHooks/useBalance';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
 import Form from '../../../components/Form/Form.component';
-import { DesdeHastaDiv, DiarioMayorDiv } from './Balance.styled';
+import BalanceDiv, { DesdeHastaDiv } from './Balance.styled';
 import Heading from '../../../components/Heading/Heading.component';
 import ListItem from '../../../components/ListItem';
 import usePrinter from '../../../customHooks/usePrinter';
@@ -91,7 +91,7 @@ const Balance = ({ user, db }) => {
         onFormSubmit={onSubmit}
       />
       {PrintButton}
-      <DiarioMayorDiv ref={ref}>
+      <BalanceDiv ref={ref}>
         <Heading level={1}>Balance completo</Heading>
         <DesdeHastaDiv>
           {format(values['FechaDesde']) ?
@@ -99,7 +99,7 @@ const Balance = ({ user, db }) => {
           <ListItem title="Hasta" description={values && format(values['FechaHasta'])} />
         </DesdeHastaDiv>
         {loading ? <h3>Cargando...</h3> : renderTable}
-      </DiarioMayorDiv>
+      </BalanceDiv>
     </Layout>
   )
 }

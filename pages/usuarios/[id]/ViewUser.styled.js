@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const FieldContainer = styled.dl`
+const FieldContainer = styled.dl`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,3 +11,5 @@ export const FieldContainer = styled.dl`
     font-weight: 600;
   }
 `;
+
+export default FieldContainer;

@@ -1,7 +1,6 @@
 import React from 'react';
 import Layout from '../../../components/Layout'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
-import DataTable from '../../../components/DataTable/DataTable.component';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
 import { useSelectLibroDiario } from '../../../selectors/useSelectLibroDiario';
 import useLibroDiario from '../../../customHooks/useLibroDiario';
@@ -12,8 +11,8 @@ import AsientoLibroDiario from '../../../components/AsientoLibroDiario/AsientoLi
 import Contabilidad from '../../../components/Contabilidad/Contabilidad.component';
 import useContabilidad from '../../../customHooks/useContabilidad';
 import ListItem from '../../../components/ListItem';
-import { TotalDebeHaberDiv } from './LibroDiario.styled';
-import { DesdeHastaDiv, DiarioMayorDiv } from '../balance/Balance.styled';
+import TotalDebeHaberDiv from './LibroDiario.styled';
+import { DesdeHastaDiv, BalanceDiv } from '../balance/Balance.styled';
 import Heading from '../../../components/Heading/Heading.component';
 import { format } from '../balance';
 import usePrinter from '../../../customHooks/usePrinter';
@@ -87,13 +86,13 @@ const LibroDiario = ({ user, db }) => {
       {Fecha &&
         <>
           {PrintButton}
-          <DiarioMayorDiv ref={ref} >
+          <BalanceDiv ref={ref} >
             <Heading level={1}>Libro diario</Heading>
             <DesdeHastaDiv>
               <ListItem title="Hasta fecha" description={Fecha && format(Fecha)} />
             </DesdeHastaDiv>
             {loading ? <h3>Cargando...</h3> : renderTable}
-          </DiarioMayorDiv>
+          </BalanceDiv>
         </>
       }
 

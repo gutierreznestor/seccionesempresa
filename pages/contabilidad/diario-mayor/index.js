@@ -6,7 +6,7 @@ import useDiarioMayor from '../../../customHooks/useDiarioMayor';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
 import MayorCuenta from '../../../components/MayorCuenta/MayorCuenta.component';
 import Form from '../../../components/Form/Form.component';
-import { DesdeHastaDiv, DiarioMayorDiv } from './DiarioMayor.styled';
+import DiarioMayorDiv, { DesdeHastaDiv } from './DiarioMayor.styled';
 import Heading from '../../../components/Heading/Heading.component';
 import ListItem from '../../../components/ListItem';
 import usePrinter from '../../../customHooks/usePrinter';
