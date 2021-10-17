@@ -32,7 +32,7 @@ const LibroDiarioForm = [
 const LibroDiario = ({ user, db }) => {
 
   const { errorMessage, libroDiario } = useSelectLibroDiario();
-  const { fetchLibroDiario } = useLibroDiario({ db });
+  const { fetchLibroDiario, registrarLibroDiario } = useLibroDiario({ db });
   const { loading, TotalDebe, TotalHaber } = useSelectLibroDiario()
   const [Fecha, setFecha] = React.useState(null);
   const [showButton, setShowButton] = React.useState(false);
@@ -56,17 +56,19 @@ const LibroDiario = ({ user, db }) => {
     })} y modificar los registros?`;
     const ok = confirm(message);
     if (ok) {
-
+      registrarLibroDiario({ Fecha });
     }
   }
 
   const renderTable = <>
     {libroDiario &&
       libroDiario?.map((libro) => <AsientoLibroDiario key={libro.Numero} libro={libro} user={user} />)}
-    <TotalDebeHaberDiv>
-      <ListItem title="Total debe" description={TotalDebe} />
-      <ListItem title="Total haber" description={TotalHaber} />
-    </TotalDebeHaberDiv>
+    {Fecha &&
+      <TotalDebeHaberDiv>
+        <ListItem title="Total debe" description={TotalDebe} />
+        <ListItem title="Total haber" description={TotalHaber} />
+      </TotalDebeHaberDiv>
+    }
   </>
 
   return (
@@ -82,14 +84,18 @@ const LibroDiario = ({ user, db }) => {
         onFormSubmit={onSubmit}
       />
       {showButton && <Button label="Registrar libro diario" onClick={registerLibroDiario} style={{ marginBottom: '1rem' }} />}
-      {PrintButton}
-      <DiarioMayorDiv ref={ref} >
-        <Heading level={1}>Libro diario</Heading>
-        <DesdeHastaDiv>
-          <ListItem title="Hasta fecha" description={Fecha && format(Fecha)} />
-        </DesdeHastaDiv>
-        {loading ? <h3>Cargando...</h3> : renderTable}
-      </DiarioMayorDiv>
+      {Fecha &&
+        <>
+          {PrintButton}
+          <DiarioMayorDiv ref={ref} >
+            <Heading level={1}>Libro diario</Heading>
+            <DesdeHastaDiv>
+              <ListItem title="Hasta fecha" description={Fecha && format(Fecha)} />
+            </DesdeHastaDiv>
+            {loading ? <h3>Cargando...</h3> : renderTable}
+          </DiarioMayorDiv>
+        </>
+      }
 
     </Layout>
   )
