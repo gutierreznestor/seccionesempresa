@@ -12,7 +12,7 @@ import Contabilidad from '../../../components/Contabilidad/Contabilidad.componen
 import useContabilidad from '../../../customHooks/useContabilidad';
 import ListItem from '../../../components/ListItem';
 import TotalDebeHaberDiv from './LibroDiario.styled';
-import { DesdeHastaDiv, BalanceDiv } from '../balance/Balance.styled';
+import BalanceDiv, { DesdeHastaDiv } from '../balance/Balance.styled';
 import Heading from '../../../components/Heading/Heading.component';
 import { format } from '../balance';
 import usePrinter from '../../../customHooks/usePrinter';
