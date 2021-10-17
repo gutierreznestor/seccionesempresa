@@ -15,7 +15,7 @@ import useGetBalanceParam from '../../../customHooks/useGetBalanceParam';
 import { getBalanceRef } from '../../../helpers/getBalanceRef';
 import { useRouter } from 'next/router';
 
-const format = (date) => {
+export const format = (date) => {
   if (!date) return '';
   return formatDate({ date, formatString: 'dd/MM/yyyy' });
 }

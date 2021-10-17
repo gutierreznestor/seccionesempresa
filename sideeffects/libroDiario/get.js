@@ -8,7 +8,11 @@ import { calcularBalance } from '../diarioMayor/get';
 import { formatDate } from '../../helpers/dates';
 
 function* getLibro({ payload: { Fecha, db } }) {
-  const res = yield fetch(`http://localhost:3000/api/libroDiario/get-libro-diario?db=${db}&Fecha=${formatDate({ date: Fecha, formatString: 'yyyy-MM-dd' })}`, {
+  let url = `http://localhost:3000/api/libroDiario/get-libro-diario?db=${db}`;
+  if (Fecha) {
+    url += `&Fecha=${formatDate({ date: Fecha, formatString: 'yyyy-MM-dd' })}`;
+  }
+  const res = yield fetch(url, {
     method: 'GET',
   });
 
@@ -16,9 +20,7 @@ function* getLibro({ payload: { Fecha, db } }) {
   if (data.errorMessage) {
     yield put(getLibroDiarioError(data.errorMessage));
   } else {
-    const balance = yield calcularBalance(data);
-    const balanceWithId = balance.map((item, idx) => ({ Cant: idx + 1, ...item }));
-    yield put(getLibroDiarioSuccess(balanceWithId))
+    yield put(getLibroDiarioSuccess(data))
   }
 }
 

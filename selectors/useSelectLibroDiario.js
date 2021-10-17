@@ -3,9 +3,11 @@ import { useSelector } from "react-redux";
 export const useSelectLibroDiario = () => {
   const { libroDiario } = useSelector(state => state);
   return {
-    libroDiario: libroDiario?.libroDiario,
     errorMessage: libroDiario?.errorMessage,
+    libroDiario: libroDiario?.libroDiario.asientos,
     loading: libroDiario?.loading,
     message: libroDiario?.message,
+    TotalDebe: libroDiario?.libroDiario.TotalDebe,
+    TotalHaber: libroDiario?.libroDiario.TotalHaber
   };
 }

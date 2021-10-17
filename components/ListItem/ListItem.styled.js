@@ -9,7 +9,7 @@ export const FieldContainer = styled.dl`
     flex-basis: 100%;    
   }
   dd {
-    font-weight: 700;
+    font-weight: 600;
   }
   dt {
     text-align: right;
