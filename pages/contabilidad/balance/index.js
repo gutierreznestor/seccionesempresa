@@ -1,10 +1,8 @@
 import React from 'react';
 import Layout from '../../../components/Layout'
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
-import { isAllowed } from '../../../hocs/auth';
 import useBalance from '../../../customHooks/useBalance';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
-import MayorCuenta from '../../../components/MayorCuenta/MayorCuenta.component';
 import Form from '../../../components/Form/Form.component';
 import { DesdeHastaDiv, DiarioMayorDiv } from './Balance.styled';
 import Heading from '../../../components/Heading/Heading.component';
@@ -23,13 +21,13 @@ const format = (date) => {
 }
 
 const BalanceForm = [
-  {
-    label: 'Fecha desde',
-    type: 'date',
-    name: 'FechaDesde',
-    placeholder: '01/01/2021',
-    textValidation: 'Este campo es requerido.',
-  },
+  // {
+  //   label: 'Fecha desde',
+  //   type: 'date',
+  //   name: 'FechaDesde',
+  //   placeholder: '01/01/2021',
+  //   textValidation: 'Este campo es requerido.',
+  // },
   {
     label: 'Fecha hasta',
     type: 'date',
