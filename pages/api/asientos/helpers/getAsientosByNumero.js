@@ -15,7 +15,7 @@ const getAsientosByNumero = async ({ db, Numero }) => {
         asientos.DebeHaber,
         asientos.Registrado,
         plan_cuentas.Nombre AS Plan,
-        asientos.importe AS Importe
+        TRUNCATE(asientos.importe,2) AS Importe
       FROM asientos
       INNER JOIN plan_cuentas ON asientos.idPlanCuenta = plan_cuentas.idPlanCuenta
       WHERE asientos.Numero = ?

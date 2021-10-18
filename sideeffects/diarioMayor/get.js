@@ -1,10 +1,27 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
 import { formatDate } from '../../helpers/dates';
+import { newDecimal2 } from '../../helpers/decimalNumbers';
 import {
   getRegistros,
   getRegistrosSuccess,
   getRegistrosError,
 } from '../../store/diarioMayor';
+
+const convertDiarioMayorToUi = (list = []) => {
+  return list.map(item => {
+    return {
+      ...item,
+      asientos: item.asientos.map(asiento => {
+        return {
+          ...asiento,
+          Deb: newDecimal2(asiento.Deb),
+          Cred: newDecimal2(asiento.Cred),
+          Saldo: newDecimal2(asiento?.Saldo),
+        }
+      }),
+    }
+  });
+}
 
 function* getMayor({ payload: { db, FechaDesde, FechaHasta, idPlanCuenta } }) {
   let url = `http://localhost:3000/api/diarioMayor/get-mayor-cuentas?db=${db}&idPlanCuenta=${idPlanCuenta}`;
@@ -21,7 +38,7 @@ function* getMayor({ payload: { db, FechaDesde, FechaHasta, idPlanCuenta } }) {
   if (data.errorMessage) {
     yield put(getRegistrosError(data.errorMessage));
   } else {
-    yield put(getRegistrosSuccess(data))
+    yield put(getRegistrosSuccess(convertDiarioMayorToUi(data)))
   }
 };
 
