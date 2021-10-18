@@ -22,3 +22,10 @@ export const getPreviousDate = (date) => {
   const timeInBuenosAires = zonedTimeToUtc(date2, timeZone);
   return subDays(timeInBuenosAires, 1);
 };
+
+export const isBeforeOrEqualDate = (date1, date2) => {
+  if (!date1 || !date2) return false;
+  const date1Date = toDate(date1);
+  const date2Date = toDate(date2);
+  return date1Date <= date2Date;
+}

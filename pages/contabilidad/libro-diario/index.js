@@ -73,7 +73,7 @@ const LibroDiario = ({ user, db }) => {
   return (
     <Layout title='Libro diario' user={user}>
       <Contabilidad />
-      {errorMessage && <ErrorMessage message={'errorMessage'} />}
+      {errorMessage && <ErrorMessage message={errorMessage} />}
       <Form
         buttonLabel="Mostrar libro diario"
         buttonStyles={{ marginTop: '1rem' }}
