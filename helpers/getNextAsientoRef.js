@@ -3,6 +3,8 @@ import { formatDate } from '../helpers/dates';
 export const getNextAsientoRef = ({
   AddRenglon = false,
   Fecha,
+  FechaOperacion,
+  FechaVencimiento,
   Leyenda,
   Numero,
   Renglon,
@@ -15,6 +17,12 @@ export const getNextAsientoRef = ({
   }
   if (Fecha) {
     nuevoAsientoRef += `&Fecha=${formatDate({ date: Fecha, formatString: 'MM/dd/yyyy', })}`;
+  }
+  if (FechaOperacion) {
+    nuevoAsientoRef += `&FechaOperacion=${formatDate({ date: FechaOperacion, formatString: 'MM/dd/yyyy', })}`;
+  }
+  if (FechaVencimiento) {
+    nuevoAsientoRef += `&FechaVencimiento=${formatDate({ date: FechaVencimiento, formatString: 'MM/dd/yyyy', })}`;
   }
   if (Leyenda) {
     nuevoAsientoRef += `&Leyenda=${Leyenda}`;

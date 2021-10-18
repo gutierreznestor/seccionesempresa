@@ -125,7 +125,15 @@ const NuevoAsiento = ({ user, db }) => {
     handlers: { clearCurrentPlanCuenta, fetchPlanCuenta }
   } = usePlanCuentas({ db, user });
 
-  const { Fecha, Leyenda, Numero, Renglon, TipoAsiento } = useGetAsientoParam();
+  const {
+    Fecha,
+    FechaOperacion,
+    FechaVencimiento,
+    Leyenda,
+    Numero,
+    Renglon,
+    TipoAsiento,
+  } = useGetAsientoParam();
 
   React.useEffect(() => {
     fetchContabilidad();
@@ -156,6 +164,8 @@ const NuevoAsiento = ({ user, db }) => {
         config={NuevoAsientoForm}
         defaultValues={{
           Fecha: Fecha ? Fecha : null,
+          FechaOperacion: FechaOperacion ? FechaOperacion : null,
+          FechaVencimiento: FechaVencimiento ? FechaVencimiento : null,
           idPlanCuenta: currentPlanCuenta?.idPlanCuenta,
           Leyenda,
           Numero: Numero ? Numero : null,
