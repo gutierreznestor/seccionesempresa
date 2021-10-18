@@ -20,3 +20,8 @@ export const roundNumber = ({ number, precision = 2 }) => {
   if (!number) return 0;
   return new Decimal(number).todp(precision, 0).toNumber();
 }
+
+export const newDecimal2 = (number) => {
+  if (!number) return 0;
+  return new Decimal(number).toFixed(2);
+}
