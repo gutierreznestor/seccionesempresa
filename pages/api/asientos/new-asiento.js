@@ -1,4 +1,5 @@
 import { query } from '../../../lib/db'
+import isCuenta from './helpers/isCuenta';
 
 const handler = async (req, res) => {
   const {
@@ -21,18 +22,20 @@ const handler = async (req, res) => {
         .status(400)
         .json({ errorMessage: 'Complete todos los campos.' })
     }
-    const results = await query(
-      `
-      INSERT INTO asientos (Comprobante, DebeHaber, Fecha, FechaOperacion, FechaVencimiento, 
-        idPlanCuenta, Importe, Leyenda, Numero, TipoAsiento, OkCarga, Registrado, Renglon)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-      `,
-      [Comprobante, DebeHaber, Fecha, FechaOperacion, FechaVencimiento, idPlanCuenta, Importe, Leyenda,
-        Numero, TipoAsiento, 0, 0, Renglon],
-      db,
-    )
-
-    return res.status(201).json(results)
+    if (await isCuenta({ db, Numero })) {
+      const results = await query(
+        `
+        INSERT INTO asientos (Comprobante, DebeHaber, Fecha, FechaOperacion, FechaVencimiento, 
+          idPlanCuenta, Importe, Leyenda, Numero, TipoAsiento, OkCarga, Registrado, Renglon)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        `,
+        [Comprobante, DebeHaber, Fecha, FechaOperacion, FechaVencimiento, idPlanCuenta, Importe, Leyenda,
+          Numero, TipoAsiento, 0, 0, Renglon],
+        db,
+      )
+      return res.status(201).json(results)
+    }
+    res.status(400).json({ errorMessage: 'No se puede agregar un asiento a un título.' })
   } catch (e) {
     let message = '';
     switch (true) {
