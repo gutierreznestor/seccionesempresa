@@ -61,7 +61,13 @@ const LibroDiario = ({ user, db }) => {
 
   const renderTable = <>
     {libroDiario &&
-      libroDiario?.map((libro) => <AsientoLibroDiario key={libro.Numero} libro={libro} user={user} />)}
+      libroDiario?.map((libro, idx) =>
+        <AsientoLibroDiario
+          key={libro.Numero}
+          libro={libro}
+          nroAsiento={idx + 1}
+          user={user}
+        />)}
     {Fecha &&
       <TotalDebeHaberDiv>
         <ListItem title="Total debe" description={TotalDebe} />

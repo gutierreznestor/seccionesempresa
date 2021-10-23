@@ -17,14 +17,20 @@ const columnStyles = {
 /**
  * 
  * @param {object} libro
+ * @param {number} nroAsiento
  * @param {object} user
  */
-const AsientoLibroDiario = ({ libro, user }) => {
+const AsientoLibroDiario = ({
+  libro,
+  nroAsiento,
+  user,
+}) => {
   return (
     <Container>
       <CuentaDiv>
         <ListItem title='Fecha' description={libro.Fecha} />
-        <ListItem title='Nro. Asiento' description={libro.Numero} />
+        <ListItem title='Nro. Asiento' description={nroAsiento} />
+        <ListItem title='Nro. Control' description={libro.Numero} />
       </CuentaDiv>
       <DataTable
         allowDelete

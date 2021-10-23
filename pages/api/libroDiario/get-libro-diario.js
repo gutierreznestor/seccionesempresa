@@ -23,7 +23,8 @@ const converToUi = (results) => {
   const libro = keys.map((key) => {
     return hash[key];
   });
-  return libro;
+  const order = libro.sort((a, b) => new Date(a.Fecha) - new Date(b.Fecha));
+  return order;
 }
 
 const handler = async (req, res) => {
