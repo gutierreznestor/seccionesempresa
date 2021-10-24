@@ -21,13 +21,13 @@ export const format = (date) => {
 }
 
 const BalanceForm = [
-  // {
-  //   label: 'Fecha desde',
-  //   type: 'date',
-  //   name: 'FechaDesde',
-  //   placeholder: '01/01/2021',
-  //   textValidation: 'Este campo es requerido.',
-  // },
+  {
+    label: 'Fecha desde',
+    type: 'date',
+    name: 'FechaDesde',
+    placeholder: '01/01/2021',
+    textValidation: 'Este campo es requerido.',
+  },
   {
     label: 'Fecha hasta',
     type: 'date',
@@ -67,9 +67,11 @@ const Balance = ({ user, db }) => {
   }
 
   React.useEffect(() => {
-    const data = { FechaDesde, FechaHasta };
-    fetchBalance(data);
-    setValues(data);
+    if (FechaHasta) {
+      const data = { FechaDesde, FechaHasta };
+      fetchBalance(data);
+      setValues(data);
+    }
   }, []);
 
   const renderTable = balanceList.length ?

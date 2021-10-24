@@ -1,7 +1,7 @@
-import getCuentasBalance from './helper/getCuentasBalance';
-import getBalance from './helper/getBalance';
-import getSaldoInicial from './helper/getSaldoInicial';
-// import getBalanceDesde from './helper/getBalanceDesde';
+import getPlanesCuenta from './helper/getPlanesCuenta';
+import getBalanceHasta from './helper/getBalanceHasta';
+import { formatDate, getPreviousDate } from '../../../helpers/dates';
+import getBalanceCierreHasta from './helper/getBalanceCierreHasta';
 
 const convertToModel = (balanceObj) => {
   const keys = Object.keys(balanceObj);
@@ -9,59 +9,42 @@ const convertToModel = (balanceObj) => {
     return a.localeCompare(b);
   });
   const list = sorted.map(key => {
-    const obj = {};
-    obj.CodigoPlan = key;
-    obj.balance = balanceObj[key];
+    delete balanceObj[key].Tipo;
     return balanceObj[key];
   });
   return list;
 }
 
-const initializeBalanceHash = (list) => {
-  const hash = {};
-  list.forEach(item => {
-    hash[item.CodigoPlan] = {
-      ...item,
-      SaldoInicial: 0,
-      Debitos: 0,
-      Creditos: 0,
-      Acumulado: 0,
-      SaldoCierre: 0,
-    };
-  });
-  return hash;
-}
-
-const saldoInicialCuentas = async ({ db, cuentas = [], balanceHash }) => {
-  let hash = balanceHash;
-  for (const cuenta of cuentas) {
-    const saldoHash = await getSaldoInicial({ db, idPlanCuenta: cuenta.idPlanCuenta, balanceHash: hash });
-    hash = { ...hash, ...saldoHash };
-  }
-  return hash;
-}
-
 const handler = async (req, res) => {
   try {
     const { db, FechaDesde, FechaHasta } = req.query;
-    const cuentas = await getCuentasBalance({ db });
-    let balanceHash = initializeBalanceHash(cuentas);
-    const hashSaldoInicial = await saldoInicialCuentas({ db, cuentas, balanceHash });
-    let hash = { ...hashSaldoInicial };
-    if (cuentas.length) {
-      for (const cuenta of cuentas) {
-        const res = await getBalance({
-          idPlanCuenta: cuenta.idPlanCuenta,
-          db,
-          FechaHasta,
-          balanceHash: hash,
-          SaldoInicial: hashSaldoInicial[cuenta.CodigoPlan].SaldoInicial,
-        });
-        hash = { ...hash, ...res };
-      }
+    const planes = await getPlanesCuenta({ db });
+    let balanceHash = {};
+    if (FechaDesde) {
+      const previoudDay = getPreviousDate(FechaDesde);
+      const hashSaldoCierre = await getBalanceCierreHasta({
+        planes,
+        db,
+        FechaHasta: formatDate({ date: previoudDay, formatString: 'yyyy-MM-dd' }),
+        SaldoInicial: 0,
+      });
+      const hashBD = await getBalanceHasta({
+        planes,
+        db,
+        FechaDesde,
+        FechaHasta,
+        hashSaldoInicial: hashSaldoCierre,
+      });
+      balanceHash = convertToModel(hashBD);
+    } else {
+      const hashBH = await getBalanceHasta({
+        planes,
+        db,
+        FechaHasta,
+      });
+      balanceHash = convertToModel(hashBH);
     }
-    const balance = convertToModel(hash);
-    return res.status(200).json(balance)
+    return res.status(200).json(balanceHash);
   } catch (e) {
     res.status(500).json({ errorMessage: e.message })
   }
