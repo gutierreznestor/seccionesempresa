@@ -22,10 +22,12 @@ const Form = ({
   config = [],
   defaultValues = {},
   formStyle = {},
+  handleWatcherFecha = () => { },
   helpers = [],
   hideButton = false,
   onFormSubmit,
   watcher = '',
+  watcherFecha = 'Fecha',
   watching = () => { },
   watchValue = '',
 }) => {
@@ -34,14 +36,27 @@ const Form = ({
     formState: { errors },
     handleSubmit,
     register,
+    setValue,
     watch,
   } = useForm({ defaultValues: { ...defaultValues } });
-
   const onSubmit = data => {
     onFormSubmit(data);
   }
 
   const field = watch(watcher);
+
+  const fechaAsiento = watch(watcherFecha);
+
+  useEffect(() => {
+    setValue('FechaOperacion', defaultValues.FechaOperacion);
+    setValue('FechaVencimiento', defaultValues.FechaVencimiento);
+  }, [defaultValues.FechaOperacion]);
+
+  useEffect(() => {
+    if (fechaAsiento) {
+      handleWatcherFecha(fechaAsiento);
+    }
+  }, [fechaAsiento]);
 
   useEffect(() => {
     watching(field)

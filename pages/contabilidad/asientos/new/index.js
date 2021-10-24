@@ -135,6 +135,9 @@ const NuevoAsiento = ({ user, db }) => {
     TipoAsiento,
   } = useGetAsientoParam();
 
+  const [FechaO, setFechaO] = React.useState();
+  const [FechaV, setFechaV] = React.useState();
+
   React.useEffect(() => {
     fetchContabilidad();
     getAsientoByNumero({ Numero })
@@ -143,6 +146,10 @@ const NuevoAsiento = ({ user, db }) => {
     }
   }, []);
 
+  React.useEffect(() => {
+    setFechaO(FechaOperacion);
+    setFechaV(FechaVencimiento);
+  }, []);
 
   const onSubmit = (data) => {
     createAsiento(data);
@@ -150,6 +157,12 @@ const NuevoAsiento = ({ user, db }) => {
   React.useEffect(() => {
     if (errorMessage) setRef();
   }, [errorMessage]);
+
+  const handleWatcherFecha = (value) => {
+    setFechaO(value);
+    setFechaV(value);
+  }
+
   return (
     <Layout title='Nuevo asiento' user={user}>
       <Contabilidad />
@@ -164,19 +177,20 @@ const NuevoAsiento = ({ user, db }) => {
         config={NuevoAsientoForm}
         defaultValues={{
           Fecha: Fecha ? Fecha : null,
-          FechaOperacion: FechaOperacion ? FechaOperacion : null,
-          FechaVencimiento: FechaVencimiento ? FechaVencimiento : null,
+          FechaOperacion: FechaO ? FechaO : null,
+          FechaVencimiento: FechaV ? FechaV : null,
           idPlanCuenta: currentPlanCuenta?.idPlanCuenta,
           Leyenda,
           Numero: Numero ? Numero : null,
           Renglon: Renglon ? Renglon : null,
           TipoAsiento,
         }}
+        handleWatcherFecha={handleWatcherFecha}
+        helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
         onFormSubmit={onSubmit}
         watcher='idPlanCuenta'
         watching={fetchPlanCuenta}
         watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}
-        helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
       />
     </Layout>
   )
