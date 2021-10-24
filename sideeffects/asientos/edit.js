@@ -2,6 +2,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-next-router';
 import { editAsiento, editAsientoSuccess, editAsientoError, getAsientoByNumero, getAsiento } from '../../store/asientos';
 import { getNextAsientoRef } from '../../helpers/getNextAsientoRef';
+import { newDecimal2 } from '../../helpers/decimalNumbers';
 
 function* edit({
   payload: {
@@ -35,7 +36,7 @@ function* edit({
         FechaOperacion,
         FechaVencimiento,
         idPlanCuenta,
-        Importe,
+        Importe: newDecimal2(Importe),
         Leyenda,
         Numero,
         TipoAsiento,
