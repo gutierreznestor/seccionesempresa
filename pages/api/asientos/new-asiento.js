@@ -22,7 +22,7 @@ const handler = async (req, res) => {
         .status(400)
         .json({ errorMessage: 'Complete todos los campos.' })
     }
-    if (await isCuenta({ db, Numero })) {
+    if (await isCuenta({ db, idPlanCuenta })) {
       const results = await query(
         `
         INSERT INTO asientos (Comprobante, DebeHaber, Fecha, FechaOperacion, FechaVencimiento, 
