@@ -1,14 +1,15 @@
 import { query } from '../../../../lib/db';
 import getPlanCuenta from '../../plan-cuentas/helpers/getPlanCuenta';
+import { newDecimal } from '../../../../helpers/decimalNumbers';
 
 const toSaldo = (prev, curr) => {
-  let Debe = Number.parseInt(curr.Deb ? curr.Deb : 0);
-  let Haber = Number.parseInt(curr.Cred ? curr.Cred : 0);
+  let Debe = newDecimal(curr.Deb ? curr.Deb : 0);
+  let Haber = newDecimal(curr.Cred ? curr.Cred : 0);
   let newSaldo = 0;
   if (prev.length === 0) {
     let PrevSaldo = 0;
     if (curr.Saldo) {
-      PrevSaldo = Number.parseInt(curr.Saldo);
+      PrevSaldo = newDecimal(curr.Saldo);
     }
     newSaldo = PrevSaldo + Debe - Haber;
     prev.push({
@@ -17,7 +18,7 @@ const toSaldo = (prev, curr) => {
     });
   } else {
     const last = prev[prev.length - 1];
-    newSaldo = last.Saldo + Debe - Haber;
+    newSaldo = newDecimal(last.Saldo + Debe - Haber);
     prev.push({
       ...curr,
       Saldo: newSaldo,
