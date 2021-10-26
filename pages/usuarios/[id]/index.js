@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 import Layout from '../../../components/Layout';
-import { FieldContainer } from './ViewUser.styled';
+import FieldContainer from './ViewUser.styled';
 import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage.component';
 import AppLink from '../../../components/AppLink/AppLink.component';
 import { isAllowed } from '../../../hocs/auth';

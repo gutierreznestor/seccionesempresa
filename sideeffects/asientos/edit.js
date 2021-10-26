@@ -1,6 +1,8 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { replace } from 'connected-next-router';
-import { editAsiento, editAsientoSuccess, editAsientoError } from '../../store/asientos';
+import { editAsiento, editAsientoSuccess, editAsientoError, getAsientoByNumero, getAsiento } from '../../store/asientos';
+import { getNextAsientoRef } from '../../helpers/getNextAsientoRef';
+import { newDecimal2 } from '../../helpers/decimalNumbers';
 
 function* edit({
   payload: {
@@ -34,7 +36,7 @@ function* edit({
         FechaOperacion,
         FechaVencimiento,
         idPlanCuenta,
-        Importe,
+        Importe: newDecimal2(Importe),
         Leyenda,
         Numero,
         TipoAsiento,
@@ -46,7 +48,12 @@ function* edit({
       return yield put(editAsientoError(data.errorMessage))
     }
     yield put(editAsientoSuccess("Asiento editado correctamente."));
-    yield put(replace('/contabilidad/asientos'));
+    let redirectUrl = getNextAsientoRef({
+      Numero, Renglon, path: 'edit'
+    });
+    yield put(replace(redirectUrl));
+    yield put(getAsientoByNumero({ Numero, db }));
+    yield put(getAsiento({ db, Numero, Renglon }));
   } catch (error) {
     yield put(editAsientoError(error.message))
   }

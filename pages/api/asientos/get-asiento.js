@@ -14,7 +14,7 @@ const handler = async (req, res) => {
         asientos.FechaOperacion, 
         asientos.Comprobante, 
         asientos.DebeHaber,
-        asientos.Importe, 
+        TRUNCATE(asientos.Importe, 2) AS Importe, 
         asientos.Leyenda, 
         asientos.OkCarga AS Carga, 
         asientos.Registrado, 

@@ -11,7 +11,10 @@ export const planCuentasSlice = createSlice({
     nextPlanCuenta: null,
   },
   reducers: {
-    deletePlanCuenta(state, action) {
+    clearPlanCuenta(state) {
+      state.currentPlanCuenta = null;
+    },
+    deletePlanCuenta(state) {
       state.loading = true;
       state.message = '';
       state.errorMessage = '';
@@ -96,6 +99,7 @@ export const planCuentasSlice = createSlice({
 });
 
 export const {
+  clearPlanCuenta,
   deletePlanCuenta,
   deletePlanCuentaSuccess,
   deletePlanCuentaError,

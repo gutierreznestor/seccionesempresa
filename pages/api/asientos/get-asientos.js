@@ -12,8 +12,9 @@ const handler = async (req, res) => {
         DATE_FORMAT(asientos.Fecha, '%d-%m-%Y') AS Fecha, 
         DATE_FORMAT(asientos.FechaVencimiento, '%d-%m-%Y') AS FechaV, 
         DATE_FORMAT(asientos.FechaOperacion, '%d-%m-%Y') AS FechaOp, 
-        IF (asientos.DebeHaber = 0, asientos.importe, '') AS Deb,
-        IF (asientos.DebeHaber = 1, asientos.importe, '') AS Cred
+        IF (asientos.DebeHaber = 0, TRUNCATE(asientos.importe,2), '') AS Deb,
+        IF (asientos.DebeHaber = 1, TRUNCATE(asientos.importe,2), '') AS Cred,
+        asientos.Registrado
       FROM asientos
       INNER JOIN plan_cuentas ON asientos.idPlanCuenta = plan_cuentas.idPlanCuenta
       ORDER BY Numero DESC, Renglon DESC, Plan ASC

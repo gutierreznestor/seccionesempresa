@@ -7,7 +7,20 @@ import { isAllowed } from '../../../hocs/auth';
 import useAsientos from '../../../customHooks/useAsientos';
 import useContabilidad from '../../../customHooks/useContabilidad';
 import customServerSideHoc from '../../../helpers/customServerSideProps';
-import Contabilidad from '../../../components/Contabilidad';
+import Contabilidad from '../../../components/Contabilidad/Contabilidad.component';
+
+const columnStyles = {
+  '0': { width: '60px', textAlign: 'right' },
+  '1': { width: '60px', textAlign: 'right' },
+  '2': { width: '250px', textAlign: 'left' },
+  '3': { width: '250px', textAlign: 'left' },
+  '4': { width: '100px', textAlign: 'right' },
+  '5': { width: '100px', textAlign: 'right' },
+  '6': { width: '100px', textAlign: 'right' },
+  '7': { width: '80px', textAlign: 'right' },
+  '8': { width: '80px', textAlign: 'right' },
+  '9': { width: '60px', textAlign: 'right' },
+}
 
 const Asientos = ({ user, db }) => {
   const {
@@ -50,6 +63,7 @@ const Asientos = ({ user, db }) => {
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <DataTable
         allowDelete
+        columnStyles={columnStyles}
         data={asientos}
         user={user}
         notAllowed={['auditor']}

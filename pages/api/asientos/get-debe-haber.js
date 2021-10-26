@@ -3,13 +3,14 @@ import { query } from '../../../lib/db'
 const handler = async (req, res) => {
   try {
     const { db, Numero } = req.query;
-    const results = await query(`
-    SELECT 
-      SUM(IF(asientos.DebeHaber=0, asientos.importe, 0)) AS Debe,
-      SUM(IF(asientos.DebeHaber=1, asientos.importe, 0)) AS Haber
-      FROM asientos
-    WHERE asientos.Numero=?
-      `,
+    const queryString = `
+      SELECT 
+        SUM(IF(asientos.DebeHaber=0, TRUNCATE(asientos.Importe,2), 0)) AS Debe,
+        SUM(IF(asientos.DebeHaber=1, TRUNCATE(asientos.Importe,2), 0)) AS Haber
+        FROM asientos
+      WHERE asientos.Numero=?`;
+    const results = await query(
+      queryString,
       [Numero],
       db,
     );

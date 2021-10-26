@@ -7,7 +7,12 @@ const getPlanCuenta = async ({ db, id }) => {
     WHERE plan_cuentas.idPlanCuenta = ${id}
   `, null, db);
   if (results.length > 0) {
-    return results[0];
+    return {
+      ...results[0],
+      SaldoCierre: 0,
+      Debitos: 0,
+      Creditos: 0,
+    };
   }
   return null;
 };

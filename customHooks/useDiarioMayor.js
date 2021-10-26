@@ -16,8 +16,8 @@ const useDiarioMayor = ({ db, user }) => {
     message,
   } = useSelectDiarioMayor();
 
-  const fetchDiarioMayor = () => {
-    dispatch(getRegistros(db));
+  const fetchDiarioMayor = ({ FechaDesde, FechaHasta }) => {
+    dispatch(getRegistros({ db, FechaDesde, FechaHasta }));
   }
 
   const registerAsiento = (data) => {

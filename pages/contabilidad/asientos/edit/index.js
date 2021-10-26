@@ -12,44 +12,10 @@ import { isAllowed } from '../../../../hocs/auth';
 import Asiento from '../../../../components/AsientosByNumero/AsientosByNumero.component';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 import HelperCuenta from '../../../../components/HelperCuenta/HelperCuenta.component';
+import { useSelectAsientos } from '../../../../selectors';
 
 
 const EditarAsientoForm = [
-  {
-    label: 'Número de asiento',
-    type: 'number',
-    name: 'Numero',
-    placeholder: '99',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-    min: 1,
-  },
-  {
-    label: 'Renglón',
-    type: 'number',
-    name: 'Renglon',
-    placeholder: '99',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-    min: 0,
-  },
-  {
-    label: 'Tipo asiento (1 apertura / 5 normal / 9 cierre)',
-    type: 'number',
-    name: 'TipoAsiento',
-    placeholder: '1',
-    validations: { required: true, min: 0, max: 9 },
-    textValidation: '1 apertura; 5 normal; 9 cierre',
-  },
-  {
-    label: 'Número de cuenta',
-    type: 'number',
-    name: 'idPlanCuenta',
-    placeholder: '99',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-    min: 1,
-  },
   {
     label: 'Fecha',
     type: 'date',
@@ -73,6 +39,41 @@ const EditarAsientoForm = [
     placeholder: '01/01/2021',
     validations: { required: true },
     textValidation: 'Este campo es requerido.',
+  },
+  {
+    label: 'Número de asiento',
+    type: 'number',
+    name: 'Numero',
+    placeholder: '99',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+    min: 1,
+  },
+  {
+    label: 'Renglón',
+    type: 'number',
+    name: 'Renglon',
+    placeholder: '99',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+    min: 0,
+  },
+  {
+    label: 'Tipo asiento (1/5/9)',
+    type: 'number',
+    name: 'TipoAsiento',
+    placeholder: '1',
+    validations: { required: true, min: 0, max: 9 },
+    textValidation: '1 apertura; 5 normal; 9 cierre',
+  },
+  {
+    label: 'Número de cuenta',
+    type: 'number',
+    name: 'idPlanCuenta',
+    placeholder: '99',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+    min: 1,
   },
   {
     label: 'Comprobante',
@@ -111,11 +112,16 @@ const EditarAsiento = ({ user, db }) => {
   const { Numero, Renglon } = useGetAsientoParam();
   const {
     data: { errorMessage: errorPlanCuenta, currentPlanCuenta },
-    handlers: { fetchPlanCuenta }
+    handlers: { fetchPlanCuenta, clearCurrentPlanCuenta }
   } = usePlanCuentas({ db, user });
 
   const {
-    data: { currentAsiento, errorMessage },
+    currentAsiento,
+    errorMessage,
+    loading,
+  } = useSelectAsientos();
+
+  const {
     handlers: { editAsiento, fetchAsiento }
   } = useAsientos({ db, user });
 
@@ -125,13 +131,19 @@ const EditarAsiento = ({ user, db }) => {
 
   React.useEffect(() => {
     fetchAsiento({ Numero, Renglon });
+    return () => {
+      clearCurrentPlanCuenta();
+    }
   }, []);
 
   const nuevoAsientoRef = getNextAsientoRef({
+    AddRenglon: true,
     Fecha: currentAsiento?.Fecha,
+    FechaOperacion: currentAsiento?.FechaOperacion,
+    FechaVencimiento: currentAsiento?.FechaVencimiento,
     Leyenda: currentAsiento?.Leyenda,
     Numero,
-    Renglon,
+    Renglon: Renglon,
     TipoAsiento: currentAsiento?.TipoAsiento,
   });
 
@@ -139,17 +151,17 @@ const EditarAsiento = ({ user, db }) => {
     <Layout title='Asiento' user={user}>
       {errorMessage && <ErrorMessage message={errorMessage} />}
       <Asiento db={db} />
-      {currentAsiento ?
+      {currentAsiento && !loading ?
         <Form
-          onFormSubmit={onSubmit}
+          buttonLabel='Guardar asiento'
           config={EditarAsientoForm}
-          buttonLabel="Guardar"
           defaultValues={currentAsiento}
+          helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
           hideButton={currentAsiento?.Registrado}
+          onFormSubmit={onSubmit}
           watcher='idPlanCuenta'
           watching={fetchPlanCuenta}
           watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}
-          helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
         /> :
         'loading...'
       }

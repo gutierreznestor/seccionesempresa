@@ -14,7 +14,6 @@ const handler = async (req, res) => {
     const asientosPromises = [];
     const registerAsientoPromises = [];
     results.forEach(asiento => {
-      console.log('asiento: ', asiento);
       asientosPromises.push(newRegistro({ db, ...asiento }));
       registerAsientoPromises.push(editRegisterAsiento({
         db,

@@ -9,46 +9,12 @@ import useAsientos from '../../../../customHooks/useAsientos';
 import usePlanCuentas from '../../../../customHooks/usePlanCuentas';
 import useGetAsientoParam from '../../../../customHooks/useGetAsientoParam';
 import useContabilidad from '../../../../customHooks/useContabilidad';
-import Contabilidad from '../../../../components/Contabilidad';
+import Contabilidad from '../../../../components/Contabilidad/Contabilidad.component';
 import useScroll from '../../../../customHooks/useScroll';
+import DataTable from '../../../../components/DataTable/DataTable.component';
 
 
 const NuevoAsientoForm = [
-  {
-    label: 'Asiento',
-    type: 'number',
-    name: 'Numero',
-    placeholder: '99',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-    min: 1,
-  },
-  {
-    label: 'Renglón',
-    type: 'number',
-    name: 'Renglon',
-    placeholder: '99',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-    min: 0,
-  },
-  {
-    label: 'Tipo asiento (1 apertura / 5 normal / 9 cierre)',
-    type: 'number',
-    name: 'TipoAsiento',
-    placeholder: '1',
-    validations: { required: true, min: 0, max: 9 },
-    textValidation: '1 apertura; 5 normal; 9 cierre',
-  },
-  {
-    label: 'Cuenta',
-    type: 'number',
-    name: 'idPlanCuenta',
-    placeholder: '99',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-    min: 1,
-  },
   {
     label: 'Fecha',
     type: 'date',
@@ -72,6 +38,41 @@ const NuevoAsientoForm = [
     placeholder: '01/01/2021',
     validations: { required: true },
     textValidation: 'Este campo es requerido.',
+  },
+  {
+    label: 'Asiento',
+    type: 'number',
+    name: 'Numero',
+    placeholder: '99',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+    min: 1,
+  },
+  {
+    label: 'Renglón',
+    type: 'number',
+    name: 'Renglon',
+    placeholder: '99',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+    min: 0,
+  },
+  {
+    label: 'Tipo asiento (1/5/9)',
+    type: 'number',
+    name: 'TipoAsiento',
+    placeholder: '1',
+    validations: { required: true, min: 0, max: 9 },
+    textValidation: '1 apertura; 5 normal; 9 cierre',
+  },
+  {
+    label: 'Cuenta',
+    type: 'number',
+    name: 'idPlanCuenta',
+    placeholder: '99',
+    validations: { required: true },
+    textValidation: 'Este campo es requerido.',
+    min: 1,
   },
   {
     label: 'Comprobante',
@@ -111,24 +112,44 @@ const NuevoAsiento = ({ user, db }) => {
   const [ref, setRef] = useScroll();
 
   const {
-    data: { errorMessage, proximoAsiento },
-    handlers: { createAsiento }
+    data: { errorMessage, asientosNumero },
+    handlers: { createAsiento, getAsientoByNumero }
   } = useAsientos({ db, user });
 
   const {
     handlers: { fetchContabilidad },
   } = useContabilidad({ db });
 
-  React.useEffect(() => {
-    fetchContabilidad();
-  }, []);
-
   const {
     data: { errorMessage: errorPlanCuenta, currentPlanCuenta },
-    handlers: { fetchPlanCuenta }
+    handlers: { clearCurrentPlanCuenta, fetchPlanCuenta }
   } = usePlanCuentas({ db, user });
 
-  const { Fecha, Leyenda, Numero, Renglon, TipoAsiento } = useGetAsientoParam();
+  const {
+    Fecha,
+    FechaOperacion,
+    FechaVencimiento,
+    Leyenda,
+    Numero,
+    Renglon,
+    TipoAsiento,
+  } = useGetAsientoParam();
+
+  const [FechaO, setFechaO] = React.useState();
+  const [FechaV, setFechaV] = React.useState();
+
+  React.useEffect(() => {
+    fetchContabilidad();
+    getAsientoByNumero({ Numero })
+    return () => {
+      clearCurrentPlanCuenta();
+    }
+  }, []);
+
+  React.useEffect(() => {
+    setFechaO(FechaOperacion);
+    setFechaV(FechaVencimiento);
+  }, []);
 
   const onSubmit = (data) => {
     createAsiento(data);
@@ -136,24 +157,40 @@ const NuevoAsiento = ({ user, db }) => {
   React.useEffect(() => {
     if (errorMessage) setRef();
   }, [errorMessage]);
+
+  const handleWatcherFecha = (value) => {
+    setFechaO(value);
+    setFechaV(value);
+  }
+
   return (
     <Layout title='Nuevo asiento' user={user}>
       <Contabilidad />
+      <DataTable
+        data={asientosNumero}
+        hideNoElementsMessage
+        tableStyle={{ margin: '20px 0' }}
+      />
       {errorMessage && <ErrorMessage message={errorMessage} ref={ref} />}
       <Form
-        onFormSubmit={onSubmit}
+        buttonLabel='Guardar asiento'
         config={NuevoAsientoForm}
         defaultValues={{
-          Fecha: Fecha ? Fecha : new Date(),
+          Fecha: Fecha ? Fecha : null,
+          FechaOperacion: FechaO ? FechaO : null,
+          FechaVencimiento: FechaV ? FechaV : null,
+          idPlanCuenta: currentPlanCuenta?.idPlanCuenta,
           Leyenda,
           Numero: Numero ? Numero : null,
           Renglon: Renglon ? Renglon : null,
           TipoAsiento,
         }}
+        handleWatcherFecha={handleWatcherFecha}
+        helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
+        onFormSubmit={onSubmit}
         watcher='idPlanCuenta'
         watching={fetchPlanCuenta}
         watchValue={errorPlanCuenta ? errorPlanCuenta : currentPlanCuenta?.Nombre}
-        helpers={[{ name: 'idPlanCuenta', component: <HelperCuenta user={user} db={db} /> }]}
       />
     </Layout>
   )

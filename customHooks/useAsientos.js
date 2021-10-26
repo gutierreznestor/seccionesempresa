@@ -5,6 +5,7 @@ import {
   editAsiento as editA,
   newAsiento,
   getAsiento,
+  getAsientoByNumero as getByNumero,
   getAsientos,
   deleteAsiento as deleteA,
   getProximoAsiento as proximo,
@@ -47,6 +48,10 @@ const useAsientos = ({ db, user }) => {
     dispatch(proximo({ db, Numero }));
   }
 
+  const getAsientoByNumero = ({ Numero }) => {
+    if (Numero) dispatch(getByNumero({ db, Numero }));
+  }
+
   return {
     data: {
       asientos,
@@ -64,6 +69,7 @@ const useAsientos = ({ db, user }) => {
       editAsiento,
       fetchAsiento,
       fetchAsientos,
+      getAsientoByNumero,
       getProximoAsiento,
     },
   }

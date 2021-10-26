@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useSelectPlanCuentas } from '../selectors';
 import {
+  clearPlanCuenta,
   getPlanCuenta,
   getPlanesCuentas,
   deletePlanCuenta as deletePC,
@@ -46,6 +47,10 @@ const usePlanCuentas = ({ db, user }) => {
     dispatch(getNexPC({ db, id }));
   }
 
+  const clearCurrentPlanCuenta = () => {
+    dispatch(clearPlanCuenta());
+  }
+
   return {
     data: {
       currentPlanCuenta,
@@ -56,6 +61,7 @@ const usePlanCuentas = ({ db, user }) => {
       planesCuentasDropdown,
     },
     handlers: {
+      clearCurrentPlanCuenta,
       createPlanCuenta,
       deletePlanCuenta,
       editPlanCuenta,

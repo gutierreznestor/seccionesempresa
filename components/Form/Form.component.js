@@ -11,18 +11,23 @@ import {
   StyledForm,
   StyledInputLabel,
   StyledLabel,
+  SubmitButtonContainer,
   WatchValueDiv,
 } from './Form.styled'
 
 const Form = ({
-  onFormSubmit,
+  buttonLabel = 'Agregar',
+  buttonStyles = {},
   children,
   config = [],
-  buttonLabel = 'Agregar',
   defaultValues = {},
+  formStyle = {},
+  handleWatcherFecha = () => { },
   helpers = [],
   hideButton = false,
+  onFormSubmit,
   watcher = '',
+  watcherFecha = 'Fecha',
   watching = () => { },
   watchValue = '',
 }) => {
@@ -31,14 +36,27 @@ const Form = ({
     formState: { errors },
     handleSubmit,
     register,
+    setValue,
     watch,
   } = useForm({ defaultValues: { ...defaultValues } });
-
   const onSubmit = data => {
     onFormSubmit(data);
   }
 
   const field = watch(watcher);
+
+  const fechaAsiento = watch(watcherFecha);
+
+  useEffect(() => {
+    setValue('FechaOperacion', defaultValues.FechaOperacion);
+    setValue('FechaVencimiento', defaultValues.FechaVencimiento);
+  }, [defaultValues.FechaOperacion]);
+
+  useEffect(() => {
+    if (fechaAsiento) {
+      handleWatcherFecha(fechaAsiento);
+    }
+  }, [fechaAsiento]);
 
   useEffect(() => {
     watching(field)
@@ -50,7 +68,7 @@ const Form = ({
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)} formStyle={formStyle}>
       {config.map(({
         label,
         type,
@@ -80,12 +98,16 @@ const Form = ({
                 {errors[name] && <ErrorField>{textValidation}</ErrorField>}
               </InputErrorWatchContainer>
             </InputHelperContainer>
+            {getHelper(name)}
           </StyledInputLabel>
-          {getHelper(name)}
         </FormFieldContainer>
       ))}
       {children}
-      {hideButton ? '' : <Button type="submit" label={buttonLabel} />}
+      {hideButton ? '' : (
+        <SubmitButtonContainer>
+          <Button type="submit" label={buttonLabel} style={buttonStyles} />
+        </SubmitButtonContainer>
+      )}
     </StyledForm>
   )
 }

@@ -1,52 +1,50 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
+import { formatDate } from '../../helpers/dates';
+import { newDecimal2 } from '../../helpers/decimalNumbers';
 import {
   getRegistros,
   getRegistrosSuccess,
   getRegistrosError,
 } from '../../store/diarioMayor';
 
-const toSaldo = (prev, curr) => {
-  let Debe = Number.parseInt(curr.Deb ? curr.Deb : 0);
-  let Haber = Number.parseInt(curr.Cred ? curr.Cred : 0);
-  let newSaldo = 0;
-  if (prev.length === 0) {
-    newSaldo = Debe - Haber;
-    prev.push({
-      ...curr,
-      Saldo: newSaldo,
-    });
-  } else {
-    const last = prev[prev.length - 1];
-    newSaldo = last.Saldo + Debe - Haber;
-    prev.push({
-      ...curr,
-      Saldo: newSaldo,
-    });
+const convertDiarioMayorToUi = (list = []) => {
+  return list.map(item => {
+    return {
+      ...item,
+      asientos: item.asientos.map(asiento => {
+        return {
+          ...asiento,
+          Deb: newDecimal2(asiento.Deb),
+          Cred: newDecimal2(asiento.Cred),
+          Saldo: newDecimal2(asiento?.Saldo),
+        }
+      }),
+    }
+  });
+}
+
+function* getMayor({ payload: { db, FechaDesde, FechaHasta, idPlanCuenta } }) {
+  let url = `http://localhost:3000/api/diarioMayor/get-mayor-cuentas?db=${db}&idPlanCuenta=${idPlanCuenta}`;
+  if (FechaHasta) {
+    url += `&FechaHasta=${formatDate({ date: FechaHasta, formatString: 'yyyy-MM-dd' })}`;
   }
-  return prev;
-}
-
-function* calcularBalance(data = []) {
-  const balance = data.reduce(toSaldo, []);
-  return balance;
-}
-
-function* getA({ payload }) {
-  const res = yield fetch(`http://localhost:3000/api/diarioMayor/get-registros?db=${payload}`, {
+  if (FechaDesde) {
+    url += `&FechaDesde=${formatDate({ date: FechaDesde, formatString: 'yyyy-MM-dd' })}`;
+  }
+  const res = yield fetch(url, {
     method: 'GET',
   });
   const data = yield res.json();
   if (data.errorMessage) {
     yield put(getRegistrosError(data.errorMessage));
   } else {
-    const balance = yield calcularBalance(data);
-    yield put(getRegistrosSuccess(balance))
+    yield put(getRegistrosSuccess(convertDiarioMayorToUi(data)))
   }
 };
 
 function* rootSaga() {
   yield all([
-    takeLatest(getRegistros.type, getA),
+    takeLatest(getRegistros.type, getMayor),
   ]);
 };
 

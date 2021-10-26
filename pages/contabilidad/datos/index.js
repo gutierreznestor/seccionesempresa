@@ -39,16 +39,6 @@ const ContabilidadForm = [
     validations: { required: true },
     textValidation: 'Este campo es requerido.',
   },
-  {
-    label: 'Último asiento',
-    type: 'number',
-    name: 'UltimoAsiento',
-    placeholder: '0',
-    validations: { required: true },
-    textValidation: 'Este campo es requerido.',
-    min: 0,
-    max: 1,
-  },
 ];
 
 const DatosContabilidad = ({ user, db }) => {

@@ -6,7 +6,17 @@ import DataTable from '../DataTable/DataTable.component';
 import ListItem from '../ListItem';
 import { AsientosByNumeroContainer } from './AsientosByNumero.styled';
 
-const Asiento = ({ db }) => {
+const columnStyles = {
+  '0': { width: '60px', textAlign: 'right' },
+  '1': { width: '60px', textAlign: 'right' },
+  '2': { width: '60px', textAlign: 'right' },
+  '3': { width: '250px', textAlign: 'left' },
+  '4': { width: '100px', textAlign: 'right' },
+  '5': { width: '200px', textAlign: 'left' },
+  '6': { width: '60px', textAlign: 'right' },
+};
+
+const AsientosByNumero = ({ db }) => {
   const {
     data: { asientosNumero, currentAsiento, diferencia },
   } = useAsientos({ db });
@@ -19,8 +29,13 @@ const Asiento = ({ db }) => {
     registerAsiento({ Numero: diferencia?.Numero });
   }
   return (
-    <div>
-      <DataTable data={asientosNumero} />
+    <>
+      <DataTable
+        columnStyles={columnStyles}
+        data={asientosNumero}
+        hideNoElementsMessage
+        tableStyle={{ margin: '10px 0' }}
+      />
       <AsientosByNumeroContainer>
         <div>
           <ListItem title="Total Debe" description={diferencia?.Debe} />
@@ -38,8 +53,8 @@ const Asiento = ({ db }) => {
           }
         </div>
       </AsientosByNumeroContainer>
-    </div>
+    </>
   )
 }
 
-export default Asiento;
+export default AsientosByNumero;
